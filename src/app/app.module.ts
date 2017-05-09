@@ -1,33 +1,44 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import { LnDetailsPage } from '../pages/ln-details-page/ln-details-page';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { NovelsService } from '../providers/novels-service';
+import { LnDetailsTabs } from '../pages/ln-details-tabs/ln-details-tabs';
+
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    LnDetailsPage,
+    LnDetailsTabs
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    LnDetailsPage,
+    LnDetailsTabs
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    NovelsService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
