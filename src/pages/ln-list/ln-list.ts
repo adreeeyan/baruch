@@ -14,6 +14,7 @@ import { LnDetailsTabs } from '../ln-details-tabs/ln-details-tabs';
 @Component({
   selector: 'page-ln-list',
   templateUrl: 'ln-list.html',
+  styles: ['ln-list.scss']
 })
 export class LnList {
   novels: Array<Novel>;

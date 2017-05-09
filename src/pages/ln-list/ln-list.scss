@@ -1,3 +1,10 @@
 page-ln-list {
-
+    ion-item {
+        max-width: 100px;
+    }
+    @media (min-width: 576px) {
+        [col-sm] {
+            flex: 0 0 20%;
+        }
+    }
 }
