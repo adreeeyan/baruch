@@ -12,7 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NovelsService } from '../providers/novels-service';
 import { LnDetailsTabs } from '../pages/ln-details-tabs/ln-details-tabs';
-
+import { LnList } from '../pages/ln-list/ln-list';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,8 @@ import { LnDetailsTabs } from '../pages/ln-details-tabs/ln-details-tabs';
     HomePage,
     ListPage,
     LnDetailsPage,
-    LnDetailsTabs
+    LnDetailsTabs,
+    LnList
   ],
   imports: [
     BrowserModule,
@@ -33,7 +34,8 @@ import { LnDetailsTabs } from '../pages/ln-details-tabs/ln-details-tabs';
     HomePage,
     ListPage,
     LnDetailsPage,
-    LnDetailsTabs
+    LnDetailsTabs,
+    LnList
   ],
   providers: [
     StatusBar,

@@ -16,15 +16,23 @@ export class NovelsService {
     console.log('Hello Novels Service');
   }
 
-  getNovels() {
+  getNovels(): Observable<Array<Novel>> {
+    console.log("NovelsService::getNovels");
+    return this.http.get(`http://kddppc369:5050/api/novels/`)
+      .map((response: Response) => {
+        let data: Array<object> = <any>response.json() || {};
 
+        return data.map((d: Novel): Novel => {
+          return new Novel(d.id, d.title, d.cover, d.status, d.source, d.datePublished, d.lastUpdated, d.chaptersCount, d.synopsis, d.authors)
+        });
+      });
   }
+
   getNovel(id: string): Observable<Novel> {
     console.log("NovelsService::getNovel", id);
     return this.http.get(`http://kddppc369:5050/api/Novels/${id}`)
       .map((response: Response) => {
         let data = <any>response.json() || {};
-        data.cover = "https://placehold.it/350x150" //temporary
         return new Novel(data.id, data.title, data.cover, data.status, data.source, data.datePublished, data.lastUpdated, data.chaptersCount, data.synopsis, data.authors);
       })
   }
