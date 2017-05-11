@@ -14,31 +14,30 @@
 
 
 <ion-content>
-  <ion-card>
-    <img src="/assets/covers/thumbs/big/{{this.novel.cover}}" />
-    <ion-card-content>
-      <ion-card-title>
-        {{this.novel.title}}
-      </ion-card-title>
-      
-      <p>
-        Synopsis: <br> {{this.novel.synopsis}}
-      </p>
-    </ion-card-content>
+    <ion-list-header >
+      <button ion-button clear item-right icon-only>
+        <ion-icon name="heart-outline"></ion-icon>        
+      </button>
+      <h2>{{this.novel.title}}</h2>
+      <span >{{this.novel.getAuthors}} </span>
+    </ion-list-header>
+    <ion-row>
+      <img ion-col col-12 col-md-6 src="{{novel.cover}}" alt="Cover"/>     
+    </ion-row>
+    
     <ion-row>
       <ion-col>
-        <button ion-button>Read</button>
+        Summary
+        <p text-justify>
+           {{this.novel.synopsis}}
+        </p>
       </ion-col>
-      <ion-col>
-        <button ion-button icon-left clear small>
-
-      </button>
-      </ion-col>
-      <ion-col center text-center>
-        <ion-note >
-          last update 
-        </ion-note>
-      </ion-col>
+      
     </ion-row>
-  </ion-card>
+    <ion-row>
+      <ion-col>
+        <button ion-button clear>Read</button>
+      </ion-col>
+
+    </ion-row>
 </ion-content>

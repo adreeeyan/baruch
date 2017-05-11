@@ -12,6 +12,10 @@ export class Novel {
         public synopsis: string,
         public authors: Array<any>) {
     }
+
+    get getAuthors() {
+        return this.authors.map(author => author.name).join(",");
+    }
 }
 
 export class EmptyNovel extends Novel {
