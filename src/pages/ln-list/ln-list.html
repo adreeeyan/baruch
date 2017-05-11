@@ -18,7 +18,7 @@
   <ion-row class="list-row">
     <ion-col col-6 col-sm *ngFor="let novel of novels">
       <ion-card (click)="novelTapped($event, novel)">
-        <img src="/assets/covers/thumbs/big/{{novel.cover}}" alt="Cover">
+        <img [src]="'http://localhost:5050/api/covers/' + novel.cover" alt="Cover">
         <ion-item>
           <h5>{{novel.title}}</h5>
           <p>
