@@ -1,0 +1,7 @@
+<div class="pager pager-left" (click)="prevPage()"></div>
+<div class="pager pager-right" (click)="nextPage()"></div>
+<div [style.font-size]="fontSize + 'px'" #contentHolder>
+  <p *ngFor="let c of content">
+    {{c}}
+  </p>
+</div>

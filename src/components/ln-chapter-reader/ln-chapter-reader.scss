@@ -1,0 +1,16 @@
+ln-chapter-reader {
+    .pager {
+        position: fixed;
+        width: 30%;
+        height: 100%;
+        top: 0;
+    }
+
+    .pager-left {
+        left: 0;
+    }
+
+    .pager-right {
+        right: 0;
+    }
+}

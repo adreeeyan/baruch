@@ -11,13 +11,17 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { NovelsService } from '../providers/novels-service';
 import { LnDetailsTabs } from '../pages/ln-details-tabs/ln-details-tabs';
 import { LnList } from '../pages/ln-list/ln-list';
+import { LnChapterReader } from "../components/ln-chapter-reader/ln-chapter-reader";
+import { LnChapterPage } from "../pages/ln-chapter-page/ln-chapter-page";
 
 @NgModule({
   declarations: [
     MyApp,
     LnDetailsPage,
     LnDetailsTabs,
-    LnList
+    LnList,
+    LnChapterPage,
+    LnChapterReader
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,9 @@ import { LnList } from '../pages/ln-list/ln-list';
     MyApp,
     LnDetailsPage,
     LnDetailsTabs,
-    LnList
+    LnList,
+    LnChapterPage,
+    LnChapterReader
   ],
   providers: [
     StatusBar,
