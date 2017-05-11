@@ -18,7 +18,7 @@ export class NovelsService {
 
   getNovels(start: number, count: number): Observable<Array<Novel>> {
     console.log("NovelsService::getNovels");
-    return this.http.get(`http://kddppc369:5050/api/novels?start=${start}&count=${count}`)
+    return this.http.get(`http://localhost:5050/api/novels?start=${start}&count=${count}`)
       .map((response: Response) => {
         let data: Array<object> = <any>response.json() || {};
 
@@ -30,7 +30,7 @@ export class NovelsService {
 
   getNovel(id: string): Observable<Novel> {
     console.log("NovelsService::getNovel", id);
-    return this.http.get(`http://kddppc369:5050/api/novels/${id}`)
+    return this.http.get(`http://localhost:5050/api/novels/${id}`)
       .map((response: Response) => {
         let data = <any>response.json() || {};
         return new Novel(data.id, data.title, data.cover, data.status, data.source, data.datePublished, data.lastUpdated, data.chaptersCount, data.synopsis, data.authors);
