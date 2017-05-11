@@ -31,4 +31,8 @@
     </ion-col>
   </ion-row>
 
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(updateNovelList())">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
