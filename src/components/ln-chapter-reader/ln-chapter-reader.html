@@ -1,7 +1,13 @@
-<div class="pager pager-left" (click)="prevPage()"></div>
+<!--<div class="pager pager-left" (click)="prevPage()"></div>
 <div class="pager pager-right" (click)="nextPage()"></div>
 <div [style.font-size]="fontSize + 'px'" #contentHolder>
   <p *ngFor="let c of content">
     {{c}}
   </p>
-</div>
+</div>-->
+<ion-slides>
+  <ion-slide *ngFor="let content of contents">
+    {{ content }}
+  </ion-slide>
+</ion-slides>
+<div id="paginatedText"></div>
