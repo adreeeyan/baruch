@@ -14,11 +14,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LnChapterPage {
 
+  navDisplay: string = "none";
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LnChapterPage');
+  }
+
+  toggleNavBar() {
+    this.navDisplay = this.navDisplay == "none" ? "flex" : "none";
   }
 
 }

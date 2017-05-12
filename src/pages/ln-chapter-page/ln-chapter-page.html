@@ -6,13 +6,13 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar [style.display]="navDisplay">
     <ion-title>ln-chapter-page</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding id="chapter-page">
+<ion-content padding id="chapter-page" (click)="toggleNavBar()">
   <ln-chapter-reader></ln-chapter-reader>
 </ion-content>

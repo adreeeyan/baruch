@@ -1,28 +1,15 @@
 ln-chapter-reader {
-    .pager {
-        position: fixed;
-        width: 30%;
-        height: 100%;
-        top: 0;
-    }
-    .pager-left {
-        left: 0;
-    }
-    .pager-right {
-        right: 0;
-    }
-    #paginatedText {
-        width: 300px;
-        height: 600px;
+    #contentHolder {
         background: #aaa;
+        visibility: hidden;
     }
     .page {
         padding: 0;
-        width: 298px;
-        height: 596px;
-        border: 1px solid #888;
     }
     & ion-slide {
-        font-size: 14px !important;
+        align-items: flex-start !important;
+        .slide-zoom {
+            text-align: start;
+        }
     }
 }
