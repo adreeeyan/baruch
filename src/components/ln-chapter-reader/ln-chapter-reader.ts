@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Input, OnChanges, EventEmitter, Output } from "@angular/core";
 import { Chapter } from "../../common/models/chapter";
 import { NovelsService } from "../../providers/novels-service";
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 /**
  * Generated class for the LnChapterReader component.
@@ -28,7 +29,7 @@ export class LnChapterReader implements OnInit, OnChanges {
   previousPage: number = 0; // used for keeping track pages
   isChangingChapter: boolean; // used as a lock so that goToChapter cannot execute simultaneously
 
-  constructor(public novelsService: NovelsService) {
+  constructor(public novelsService: NovelsService, private screenOrientation: ScreenOrientation) {
   }
 
   @Input()
@@ -50,6 +51,13 @@ export class LnChapterReader implements OnInit, OnChanges {
     this.pageHeight = this.slidesHolder._elementRef.nativeElement.offsetHeight - this.linePad;
     this.pageWidth = this.slidesHolder._elementRef.nativeElement.offsetWidth;
     this.contentHolder.nativeElement.style.fontSize = this.fontSize + "px";
+
+    // set the orientation handler
+    this.screenOrientation.onChange().subscribe(() => {
+      this.pageHeight = this.slidesHolder._elementRef.nativeElement.offsetHeight - this.linePad;
+      this.pageWidth = this.slidesHolder._elementRef.nativeElement.offsetWidth;
+      this.ngOnChanges();
+    });
   }
 
   ngOnChanges() {

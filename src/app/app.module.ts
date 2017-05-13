@@ -14,6 +14,7 @@ import { LnList } from '../pages/ln-list/ln-list';
 import { LnChapterReader } from "../components/ln-chapter-reader/ln-chapter-reader";
 import { LnChapterPage } from "../pages/ln-chapter-page/ln-chapter-page";
 import { LnChapterListPage } from "../pages/ln-chapter-list/ln-chapter-list";
+import { ScreenOrientation } from "@ionic-native/screen-orientation";
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { LnChapterListPage } from "../pages/ln-chapter-list/ln-chapter-list";
   providers: [
     StatusBar,
     SplashScreen,
+    ScreenOrientation,
     NovelsService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
