@@ -47,6 +47,7 @@ import { ScreenOrientation } from "@ionic-native/screen-orientation";
     StatusBar,
     SplashScreen,
     ScreenOrientation,
+    StatusBar,
     NovelsService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
