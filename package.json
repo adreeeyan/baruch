@@ -1,7 +1,7 @@
 {
-    "name": "ionic-hello-world",
-    "version": "0.0.0",
-    "author": "Ionic Framework",
+    "name": "ln-reader",
+    "version": "0.1.0",
+    "author": "Adrian Q. Dela Piedra",
     "homepage": "http://ionicframework.com/",
     "private": true,
     "scripts": {
