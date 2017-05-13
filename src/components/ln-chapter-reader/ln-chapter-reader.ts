@@ -52,11 +52,11 @@ export class LnChapterReader implements OnInit, OnChanges {
   }
 
   breakPages() {
-    var text = this.content; // gets the text, which should be displayed later on
-    var textArray = text.split(/\s/); // makes the text to an array of words
+    let text = this.content; // gets the text, which should be displayed later on
+    let textArray = text.split(/\s/); // makes the text to an array of words
     this.createPage(); // creates the first page
     textArray.forEach(textValue => { // loops through all the words
-      var success = this.appendToLastPage(textValue); // tries to fill the word in the last page
+      let success = this.appendToLastPage(textValue); // tries to fill the word in the last page
       if (!success) { // checks if word could not be filled in last page
         this.createPage(); // create new empty page
         textValue = textValue.replace(/^((<br>)|(&emsp;))+/g, "");// this will be the first word in the page, so ltrim it
@@ -65,9 +65,9 @@ export class LnChapterReader implements OnInit, OnChanges {
     });
 
     // get the values per page
-    var pagesContainer = this.contentHolder.nativeElement.getElementsByClassName("page");
-    var pagesValue = [];
-    for (var i = 0; i < pagesContainer.length; i++) {
+    let pagesContainer = this.contentHolder.nativeElement.getElementsByClassName("page");
+    let pagesValue = [];
+    for (let i = 0; i < pagesContainer.length; i++) {
       pagesValue.push(pagesContainer[i].innerHTML);
     }
     this.contents = pagesValue;
@@ -77,7 +77,7 @@ export class LnChapterReader implements OnInit, OnChanges {
   }
 
   createPage() {
-    var page = document.createElement("div"); // creates new html element
+    let page = document.createElement("div"); // creates new html element
     page.setAttribute("class", "page"); // appends the class "page" to the element
     page.style.width = this.pageWidth + "px"; // set the page width
     page.style.height = this.pageHeight + "px"; // set the page height
@@ -85,10 +85,10 @@ export class LnChapterReader implements OnInit, OnChanges {
   }
 
   appendToLastPage(word) {
-    var pagesContainer = this.contentHolder.nativeElement.getElementsByClassName("page");
-    var page: any = pagesContainer[pagesContainer.length - 1]; // gets the last page
-    var pageText: string = page.innerHTML; // gets the text from the last page
-    var trimmedWord = word.replace(/((<br>)|(&emsp;))+$/g, ""); // rtrim the word
+    let pagesContainer = this.contentHolder.nativeElement.getElementsByClassName("page");
+    let page: any = pagesContainer[pagesContainer.length - 1]; // gets the last page
+    let pageText: string = page.innerHTML; // gets the text from the last page
+    let trimmedWord = word.replace(/((<br>)|(&emsp;))+$/g, ""); // rtrim the word
     page.innerHTML += trimmedWord + " "; // saves the text of the last page
     if (page.offsetHeight + Math.ceil(this.fontSize * .33) < page.scrollHeight) { // checks if the page overflows (more words than space)
       pageText = pageText.replace(/^[(<br>)\s]+|[(<br>)\s]+$/g, ""); // trim the pageText
