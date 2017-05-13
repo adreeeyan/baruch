@@ -3,6 +3,7 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/observable';
 import { Novel } from '../common/models/novel';
+import { Chapter } from "../common/models/chapter";
 /*
   Generated class for the Novels provider.
 
@@ -35,5 +36,16 @@ export class NovelsService {
         let data = <any>response.json() || {};
         return new Novel(data.id, data.title, data.cover, data.status, data.source, data.datePublished, data.lastUpdated, data.chaptersCount, data.synopsis, data.authors);
       })
+  }
+
+  getNovelChapterList(id: string): Observable<Array<Chapter>> {
+    console.log("NovelsService::getNovelChapterList");
+    return this.http.get(`http://localhost:5050/api/novels/${id}/chapters`)
+      .map((response: Response) => {
+        let data: Array<object> = <any>response.json() || {};
+
+        return data.map((c: Chapter): Chapter => new Chapter(c.id, c.number, c.title, ""))
+                  .sort((a, b) => a.number - b.number);
+      });
   }
 }

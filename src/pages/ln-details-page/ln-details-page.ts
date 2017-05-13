@@ -28,5 +28,5 @@ export class LnDetailsPage {
       console.log("ionVIewDidLoad", novel);
       this.novel = novel;
     })
-  }  
+  }
 }

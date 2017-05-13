@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component } from "@angular/core";
+import { IonicPage, NavController, NavParams } from "ionic-angular";
 
 /**
  * Generated class for the LnChapterPage page.
@@ -9,18 +9,34 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  */
 @IonicPage()
 @Component({
-  selector: 'ln-chapter-page',
-  templateUrl: 'ln-chapter-page.html',
+  selector: "ln-chapter-page",
+  templateUrl: "ln-chapter-page.html",
 })
 export class LnChapterPage {
 
   navDisplay: string = "none";
+  chapterDetailsHeader: any;
+  tabBarElement: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.chapterDetailsHeader = document.querySelector("page-ln-details-tabs ion-header");
+    this.tabBarElement = document.querySelector(".tabbar.show-tabbar");
+  }
+
+  // hide the tabs and header
+  ionViewWillEnter() {
+    if (this.chapterDetailsHeader) this.chapterDetailsHeader.style.display = "none";
+    if (this.tabBarElement) this.tabBarElement.style.display = "none";
+  }
+
+  // show the tabs and header
+  ionViewWillLeave() {
+    if (this.chapterDetailsHeader) this.chapterDetailsHeader.style.display = "flex";
+    if (this.tabBarElement) this.tabBarElement.style.display = "flex";
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LnChapterPage');
+    console.log("ionViewDidLoad LnChapterPage");
   }
 
   toggleNavBar() {

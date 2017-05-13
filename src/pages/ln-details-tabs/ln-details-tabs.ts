@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LnDetailsPage } from '../ln-details-page/ln-details-page';
+import { LnChapterListPage } from "../ln-chapter-list/ln-chapter-list";
 
 
 /**
@@ -21,7 +22,7 @@ export class LnDetailsTabs {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.params = this.navParams.data;
     this.detailsTab = LnDetailsPage;
-    this.chaptersTab = LnDetailsPage;
+    this.chaptersTab = LnChapterListPage;
   }
 
   ionViewDidLoad() {

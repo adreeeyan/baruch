@@ -13,6 +13,7 @@ import { LnDetailsTabs } from '../pages/ln-details-tabs/ln-details-tabs';
 import { LnList } from '../pages/ln-list/ln-list';
 import { LnChapterReader } from "../components/ln-chapter-reader/ln-chapter-reader";
 import { LnChapterPage } from "../pages/ln-chapter-page/ln-chapter-page";
+import { LnChapterListPage } from "../pages/ln-chapter-list/ln-chapter-list";
 
 @NgModule({
   declarations: [
@@ -21,11 +22,14 @@ import { LnChapterPage } from "../pages/ln-chapter-page/ln-chapter-page";
     LnDetailsTabs,
     LnList,
     LnChapterPage,
+    LnChapterListPage,
     LnChapterReader
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      tabsPlacement: 'bottom'
+    }),
     HttpModule
   ],
   bootstrap: [IonicApp],
@@ -35,13 +39,14 @@ import { LnChapterPage } from "../pages/ln-chapter-page/ln-chapter-page";
     LnDetailsTabs,
     LnList,
     LnChapterPage,
+    LnChapterListPage,
     LnChapterReader
   ],
   providers: [
     StatusBar,
     SplashScreen,
     NovelsService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }

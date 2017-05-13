@@ -12,7 +12,7 @@ import { LnChapterPage } from "../pages/ln-chapter-page/ln-chapter-page";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = LnChapterPage;
+  rootPage: any = LnList;
 
   pages: Array<{ title: string, component: any }>;
 

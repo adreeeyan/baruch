@@ -1,0 +1,11 @@
+ln-chapter-list {
+    & ion-list {
+        & button {
+            padding: 0 !important;
+        }
+
+        & ion-label {
+            margin-left: 8px !important;
+        }
+    }
+}
