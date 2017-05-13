@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 
 /**
  * Generated class for the LnChapterReader component.
@@ -17,6 +17,7 @@ export class LnChapterReader implements OnInit {
   fontSize: number;
   pageWidth: number;
   pageHeight: number;
+  linePad: number; // extra vertical height around the fonts
   @ViewChild("slidesHolder") slidesHolder: any;
   @ViewChild("contentHolder") contentHolder: any;
 
@@ -27,8 +28,8 @@ export class LnChapterReader implements OnInit {
   ngOnInit() {
     // set the sizes
     this.fontSize = 18;
-    var linePad = this.fontSize + this.fontSize * .75; // extra vertical height around the fonts
-    this.pageHeight = this.slidesHolder._elementRef.nativeElement.offsetHeight - linePad;
+    this.linePad = this.fontSize + this.fontSize * .75; // extra vertical height around the fonts
+    this.pageHeight = this.slidesHolder._elementRef.nativeElement.offsetHeight - this.linePad;
     this.pageWidth = this.slidesHolder._elementRef.nativeElement.offsetWidth;
     this.contentHolder.nativeElement.style.fontSize = this.fontSize + "px";
 
@@ -42,18 +43,19 @@ export class LnChapterReader implements OnInit {
     // add an initial tab
     content = "&emsp;" + content;
     // replace the new lines with break plus tab
-    content = content.replace(/\n/g, "<br/>&emsp;");
+    content = content.replace(/\n/g, "<br>&emsp;");
     return content;
   }
 
   breakPages() {
     var text = this.content; // gets the text, which should be displayed later on
-    var textArray = text.split(" "); // makes the text to an array of words
+    var textArray = text.split(/\s/); // makes the text to an array of words
     this.createPage(); // creates the first page
     textArray.forEach(textValue => { // loops through all the words
       var success = this.appendToLastPage(textValue); // tries to fill the word in the last page
       if (!success) { // checks if word could not be filled in last page
         this.createPage(); // create new empty page
+        textValue = textValue.replace(/^((<br>)|(&emsp;))+/g,"");// this will be the first word in the page, so ltrim it
         this.appendToLastPage(textValue); // fill the word in the new last element
       }
     });
@@ -81,12 +83,15 @@ export class LnChapterReader implements OnInit {
   appendToLastPage(word) {
     var pagesContainer = this.contentHolder.nativeElement.getElementsByClassName("page");
     var page: any = pagesContainer[pagesContainer.length - 1]; // gets the last page
-    var pageText = page.innerHTML; // gets the text from the last page
-    page.innerHTML += word + " "; // saves the text of the last page
-    if (page.offsetHeight < page.scrollHeight) { // checks if the page overflows (more words than space)
+    var pageText: string = page.innerHTML; // gets the text from the last page
+    var trimmedWord = word.replace(/((<br>)|(&emsp;))+$/g,""); // rtrim the word
+    page.innerHTML += trimmedWord + " "; // saves the text of the last page
+    if (page.offsetHeight + Math.ceil(this.fontSize * .33) < page.scrollHeight) { // checks if the page overflows (more words than space)
+      pageText = pageText.replace(/^[(<br>)\s]+|[(<br>)\s]+$/g,""); // trim the pageText
       page.innerHTML = pageText; //resets the page-text
       return false; // returns false because page is full
     } else {
+      page.innerHTML = pageText + word + " ";
       return true; // returns true because word was successfully filled in the page
     }
   }
