@@ -19,7 +19,7 @@ export class NovelsService {
 
   getNovels(start: number, count: number): Observable<Array<Novel>> {
     console.log("NovelsService::getNovels");
-    return this.http.get(`http://localhost:5050/api/novels?start=${start}&count=${count}`)
+    return this.http.get(`/api/novels?start=${start}&count=${count}`)
       .map((response: Response) => {
         let data: Array<object> = <any>response.json() || {};
 
@@ -31,7 +31,7 @@ export class NovelsService {
 
   getNovel(id: string): Observable<Novel> {
     console.log("NovelsService::getNovel", id);
-    return this.http.get(`http://localhost:5050/api/novels/${id}`)
+    return this.http.get(`/api/novels/${id}`)
       .map((response: Response) => {
         let data = <any>response.json() || {};
         return new Novel(data.id, data.title, data.cover, data.status, data.source, data.datePublished, data.lastUpdated, data.chaptersCount, data.synopsis, data.authors);
@@ -40,7 +40,7 @@ export class NovelsService {
 
   getNovelChapterList(id: string): Observable<Array<Chapter>> {
     console.log("NovelsService::getNovelChapterList");
-    return this.http.get(`http://localhost:5050/api/novels/${id}/chapters`)
+    return this.http.get(`/api/novels/${id}/chapters`)
       .map((response: Response) => {
         let data: Array<object> = <any>response.json() || {};
 
@@ -51,7 +51,7 @@ export class NovelsService {
 
   getNovelChapter(novelId: string, chapterNumber: string): Observable<Chapter> {
     console.log("NovelsService::getNovelChapter");
-    return this.http.get(`http://localhost:5050/api/novels/${novelId}/chapters/${chapterNumber}`)
+    return this.http.get(`/api/novels/${novelId}/chapters/${chapterNumber}`)
               .map((response: Response) => {
                 let data = response.json() || {};
                 return new Chapter(data.id, data.number, data.title, data.content);
