@@ -48,4 +48,13 @@ export class NovelsService {
                   .sort((a, b) => a.number - b.number);
       });
   }
+
+  getNovelChapter(novelId: string, chapterNumber: string): Observable<Chapter> {
+    console.log("NovelsService::getNovelChapter");
+    return this.http.get(`http://localhost:5050/api/novels/${novelId}/chapters/${chapterNumber}`)
+              .map((response: Response) => {
+                let data = response.json() || {};
+                return new Chapter(data.id, data.number, data.title, data.content);
+              });
+  }
 }

@@ -1,5 +1,7 @@
 import { Component } from "@angular/core";
 import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { NovelsService } from "../../providers/novels-service";
+import { Chapter } from "../../common/models/chapter";
 
 /**
  * Generated class for the LnChapterPage page.
@@ -17,8 +19,9 @@ export class LnChapterPage {
   navDisplay: string = "none";
   chapterDetailsHeader: any;
   tabBarElement: any;
+  chapter: Chapter;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public novelsService: NovelsService) {
     this.chapterDetailsHeader = document.querySelector("page-ln-details-tabs ion-header");
     this.tabBarElement = document.querySelector(".tabbar.show-tabbar");
   }
@@ -37,6 +40,9 @@ export class LnChapterPage {
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad LnChapterPage");
+    let data = this.navParams.data;
+    this.novelsService.getNovelChapter(data.novelId, data.chapterNumber)
+        .subscribe((chapter: Chapter) => this.chapter = chapter);
   }
 
   toggleNavBar() {

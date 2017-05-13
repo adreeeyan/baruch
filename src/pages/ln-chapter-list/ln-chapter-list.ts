@@ -28,8 +28,11 @@ export class LnChapterListPage {
       .subscribe((chapters: Chapter[]) => this.chapters = chapters);
   }
 
-  openChapter(id) {
-    this.navCtrl.push(LnChapterPage, id);
+  openChapter(chapterNumber) {
+    this.navCtrl.push(LnChapterPage, {
+      novelId: this.navParams.data,
+      chapterNumber: chapterNumber
+    });
   }
 
 }

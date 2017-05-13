@@ -15,7 +15,7 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let chapter of chapters" (click)="openChapter(chapter.id)">
+    <button ion-item *ngFor="let chapter of chapters" (click)="openChapter(chapter.number)">
       Chapter {{ chapter.number }} - {{ chapter.title }}
     </button>
   </ion-list>
