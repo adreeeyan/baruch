@@ -1,4 +1,4 @@
-<ion-slides #slidesHolder pager paginationType="progress"
+<ion-slides #slidesHolder pager paginationType="progress" [hidden]="isRenderingChapter"
   spaceBetween="10"
   (ionSlideNextStart)="goToNextChapter()"
   (ionSlideDrag)="goToPreviousChapter($event)"
@@ -7,4 +7,5 @@
     <span [style.fontSize]="fontSize + 'px'" [innerHtml]="content"></span>
   </ion-slide>
 </ion-slides>
+<ln-loading [hidden]="!isRenderingChapter"></ln-loading>
 <div #contentHolder id="contentHolder"></div>

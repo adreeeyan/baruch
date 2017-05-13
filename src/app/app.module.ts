@@ -15,6 +15,7 @@ import { LnChapterReader } from "../components/ln-chapter-reader/ln-chapter-read
 import { LnChapterPage } from "../pages/ln-chapter-page/ln-chapter-page";
 import { LnChapterListPage } from "../pages/ln-chapter-list/ln-chapter-list";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
+import { LnLoading } from "../components/ln-loading/ln-loading";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ScreenOrientation } from "@ionic-native/screen-orientation";
     LnList,
     LnChapterPage,
     LnChapterListPage,
-    LnChapterReader
+    LnChapterReader,
+    LnLoading
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,8 @@ import { ScreenOrientation } from "@ionic-native/screen-orientation";
     LnList,
     LnChapterPage,
     LnChapterListPage,
-    LnChapterReader
+    LnChapterReader,
+    LnLoading
   ],
   providers: [
     StatusBar,
