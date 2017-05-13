@@ -54,16 +54,21 @@ export class LnChapterReader implements OnInit, OnChanges {
 
     // set the orientation handler
     this.screenOrientation.onChange().subscribe(() => {
+      this.contents = [];
       this.pageHeight = this.slidesHolder._elementRef.nativeElement.offsetHeight - this.linePad;
       this.pageWidth = this.slidesHolder._elementRef.nativeElement.offsetWidth;
-      this.ngOnChanges();
+      this.resetPages();
     });
   }
 
   ngOnChanges() {
+    this.resetPages();
+  }
+
+  resetPages(){
     if (!this.chapter) return;
     this.content = this.formatText(this.chapter.content);
-    this.breakPages();
+    setTimeout(() => this.breakPages(), 0);
   }
 
   formatText(content: string) {
@@ -82,29 +87,23 @@ export class LnChapterReader implements OnInit, OnChanges {
     // this is for reusing the component
     // empty the contentHolder
     this.contentHolder.nativeElement.innerHTML = "";
+    this.contents = [];
 
     let text = this.content; // gets the text, which should be displayed later on
     let textArray = text.split(/\s/); // makes the text to an array of words
-    this.createPage(); // creates the first page
+    var currentPage = this.createPage(); // creates the first page
     textArray.forEach(textValue => { // loops through all the words
       let success = this.appendToLastPage(textValue); // tries to fill the word in the last page
       if (!success) { // checks if word could not be filled in last page
-        this.createPage(); // create new empty page
+
+        // attach the current page to the slides before creating another page
+        this.contents.push(currentPage.innerHTML);
+
+        currentPage = this.createPage(); // create new empty page
         textValue = textValue.replace(/^((<br>)|(&emsp;))+/g, "");// this will be the first word in the page, so ltrim it
         this.appendToLastPage(textValue); // fill the word in the new last element
       }
     });
-
-    // get the values per page
-    let pagesContainer = this.contentHolder.nativeElement.getElementsByClassName("page");
-    let pagesValue = [];
-    for (let i = 0; i < pagesContainer.length; i++) {
-      pagesValue.push(pagesContainer[i].innerHTML);
-    }
-    this.contents = pagesValue;
-
-    // hide the content holder
-    this.contentHolder.nativeElement.style.visibility = "hidden";
   }
 
   createPage() {
@@ -113,6 +112,7 @@ export class LnChapterReader implements OnInit, OnChanges {
     page.style.width = this.pageWidth + "px"; // set the page width
     page.style.height = this.pageHeight + "px"; // set the page height
     this.contentHolder.nativeElement.appendChild(page); // appends the element to the container for all the pages
+    return page;
   }
 
   appendToLastPage(word) {
@@ -178,7 +178,7 @@ export class LnChapterReader implements OnInit, OnChanges {
         .subscribe((chapter: Chapter) => {
           this.chapter = chapter;
           // fire on change
-          this.ngOnChanges();
+          this.resetPages();
           // release lock
           this.isChangingChapter = false;
           resolve();
