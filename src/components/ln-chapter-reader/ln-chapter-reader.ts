@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, OnChanges } from "@angular/core";
+import { Component, OnInit, ViewChild, Input, OnChanges, EventEmitter, Output } from "@angular/core";
 import { Chapter } from "../../common/models/chapter";
 import { NovelsService } from "../../providers/novels-service";
 
@@ -22,14 +22,26 @@ export class LnChapterReader implements OnInit, OnChanges {
   linePad: number; // extra vertical height around the fonts
   @ViewChild("slidesHolder") slidesHolder: any;
   @ViewChild("contentHolder") contentHolder: any;
-  @Input("chapter") chapter: Chapter;
   @Input("novelId") novelId: number;
+  chapterValue: Chapter;
 
   previousPage: number = 0; // used for keeping track pages
   isChangingChapter: boolean; // used as a lock so that goToChapter cannot execute simultaneously
 
   constructor(public novelsService: NovelsService) {
   }
+
+  @Input()
+  get chapter() {
+    return this.chapterValue;
+  }
+
+  @Output() chapterChange = new EventEmitter();
+  set chapter(val) {
+    this.chapterValue = val;
+    this.chapterChange.emit(this.chapterValue);
+  }
+
 
   ngOnInit() {
     // set the sizes
@@ -53,6 +65,8 @@ export class LnChapterReader implements OnInit, OnChanges {
     content = "&emsp;" + content;
     // replace the new lines with break plus tab
     content = content.replace(/\n/g, "<br>&emsp;");
+    // add the title at the start of the page
+    content = `<center><b>Chapter&nbsp;${this.chapter.number}</b></center><br>` + content;
     return content;
   }
 
@@ -100,7 +114,7 @@ export class LnChapterReader implements OnInit, OnChanges {
     let trimmedWord = word.replace(/((<br>)|(&emsp;))+$/g, ""); // rtrim the word
     page.innerHTML += trimmedWord + " "; // saves the text of the last page
     if (page.offsetHeight + Math.ceil(this.fontSize * .33) < page.scrollHeight) { // checks if the page overflows (more words than space)
-      pageText = pageText.replace(/^[(<br>)\s]+|[(<br>)\s]+$/g, ""); // trim the pageText
+      pageText = pageText.replace(/^((<br>)\s)+|((<br>)\s)+$/g, ""); // trim the pageText
       page.innerHTML = pageText; //resets the page-text
       return false; // returns false because page is full
     } else {
