@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, Input, OnChanges } from "@angular/core";
 import { Chapter } from "../../common/models/chapter";
+import { NovelsService } from "../../providers/novels-service";
 
 /**
  * Generated class for the LnChapterReader component.
@@ -22,8 +23,12 @@ export class LnChapterReader implements OnInit, OnChanges {
   @ViewChild("slidesHolder") slidesHolder: any;
   @ViewChild("contentHolder") contentHolder: any;
   @Input("chapter") chapter: Chapter;
+  @Input("novelId") novelId: number;
 
-  constructor() {
+  previousPage: number = 0; // used for keeping track pages
+  isChangingChapter: boolean; // used as a lock so that goToChapter cannot execute simultaneously
+
+  constructor(public novelsService: NovelsService) {
   }
 
   ngOnInit() {
@@ -36,7 +41,7 @@ export class LnChapterReader implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if(!this.chapter) return;
+    if (!this.chapter) return;
     this.content = this.formatText(this.chapter.content);
     this.breakPages();
   }
@@ -52,6 +57,10 @@ export class LnChapterReader implements OnInit, OnChanges {
   }
 
   breakPages() {
+    // this is for reusing the component
+    // empty the contentHolder
+    this.contentHolder.nativeElement.innerHTML = "";
+
     let text = this.content; // gets the text, which should be displayed later on
     let textArray = text.split(/\s/); // makes the text to an array of words
     this.createPage(); // creates the first page
@@ -72,8 +81,8 @@ export class LnChapterReader implements OnInit, OnChanges {
     }
     this.contents = pagesValue;
 
-    // remove the content holder
-    this.contentHolder.nativeElement.remove();
+    // hide the content holder
+    this.contentHolder.nativeElement.style.visibility = "hidden";
   }
 
   createPage() {
@@ -98,5 +107,60 @@ export class LnChapterReader implements OnInit, OnChanges {
       page.innerHTML = pageText + word + " ";
       return true; // returns true because word was successfully filled in the page
     }
+  }
+
+  goToNextChapter() {
+    // ionic has no native way in checking if the user swipped more than the number of slides
+    // so for this we need to check if the previous page is the last page before executing this
+    if (this.slidesHolder.isEnd() && this.previousPage == this.slidesHolder.length() - 1 && !this.isChangingChapter) {
+      this.goToChapter(this.chapter.number + 1)
+        .then(() => {
+          // move to first slide
+          this.slidesHolder.slideTo(0);
+        });
+    }
+  }
+
+  goToPreviousChapter(evt) {
+    // ionic has no native way in checking if the user swipped more than the number of slides
+    // so for this we need to check if the previous page is the first page before executing this
+    // and also, ionSlidePrevStart doesn't fire when sliding at the beginning of the slide
+    // hence, we also need a workaround for this
+    // we need to get swiper-wrapper element and check how much translate3d on "x" it has
+    // if it exceeds 30 then we will fire this function
+    if (this.previousPage != 0 || evt.swipeDirection != "prev" || this.isChangingChapter) return;
+    let swiperWrapper: any = document.querySelector(".swiper-wrapper");
+    // sample transform3d "translate3d(0px, 0px, 0px)"
+    let transformX = parseInt(swiperWrapper.style.transform.substr(12).split(",")[0].replace("px", ""));
+    if (transformX > 30) {
+      this.isChangingChapter = true; // explicitly call here
+      // use setTimeout to wait for the content to go back to its position
+      setTimeout(() => {
+        this.goToChapter(this.chapter.number - 1)
+          .then(() => {
+            // move to first slide, last slide fires a bug when slided there
+            this.slidesHolder.slideTo(0);
+          });
+      }, 500);
+    }
+  }
+
+  savePageNumber() {
+    this.previousPage = this.slidesHolder.getActiveIndex();
+  }
+
+  goToChapter(number): Promise<any> {
+    return new Promise((resolve) => {
+      this.isChangingChapter = true;
+      this.novelsService.getNovelChapter(this.novelId.toString(), number)
+        .subscribe((chapter: Chapter) => {
+          this.chapter = chapter;
+          // fire on change
+          this.ngOnChanges();
+          // release lock
+          this.isChangingChapter = false;
+          resolve();
+        });
+    });
   }
 }

@@ -1,4 +1,8 @@
-<ion-slides #slidesHolder pager paginationType="progress">
+<ion-slides #slidesHolder pager paginationType="progress"
+  spaceBetween="10"
+  (ionSlideNextStart)="goToNextChapter()"
+  (ionSlideDrag)="goToPreviousChapter($event)"
+  (ionSlideDidChange)="savePageNumber()">
   <ion-slide *ngFor="let content of contents">
     <span [style.fontSize]="fontSize + 'px'" [innerHtml]="content"></span>
   </ion-slide>

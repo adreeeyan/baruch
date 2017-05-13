@@ -22,7 +22,7 @@
       <span >{{this.novel.getAuthors}} </span>
     </ion-list-header>
     <ion-row>
-      <img ion-col col-12 col-md-6 src="{{novel.cover}}"  alt="Cover"/>     
+      <img ion-col col-12 col-md-6 [src]="'http://localhost:5050/api/covers/' + novel.cover"  alt="Cover"/>     
     </ion-row>
     
     <ion-row>

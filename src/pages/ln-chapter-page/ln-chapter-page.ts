@@ -20,6 +20,7 @@ export class LnChapterPage {
   chapterDetailsHeader: any;
   tabBarElement: any;
   chapter: Chapter;
+  novelId: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public novelsService: NovelsService) {
     this.chapterDetailsHeader = document.querySelector("page-ln-details-tabs ion-header");
@@ -43,6 +44,7 @@ export class LnChapterPage {
     let data = this.navParams.data;
     this.novelsService.getNovelChapter(data.novelId, data.chapterNumber)
         .subscribe((chapter: Chapter) => this.chapter = chapter);
+    this.novelId = data.novelId;
   }
 
   toggleNavBar() {
