@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -14,22 +14,23 @@
 </ion-header>
 
 <ion-content padding>
-
-  <ion-row class="list-row">
-    <ion-col col-6 col-sm *ngFor="let novel of novels">
-      <ion-card (click)="novelTapped($event, novel)">
-        <img [src]="'/api/covers/' + novel.cover" alt="Cover">
-        <ion-item>
-          <h5>{{novel.title}}</h5>
-          <p>
-            <span *ngFor="let author of novel.authors">
+  <ion-grid>
+    <ion-row class="list-row" align-items-end justify-content-start>
+      <ion-col col-lg-3 col-md-4 col-6 *ngFor="let novel of novels">
+        <ion-card (click)="novelTapped($event, novel)">
+          <img [src]="'/api/covers/' + novel.cover" alt="Cover">
+          <ion-item color="secondary">
+            <h5>{{novel.title}}</h5>
+            <p>
+              <span *ngFor="let author of novel.authors">
               {{author.name}} ;
             </span>
-          </p>
-        </ion-item>
-      </ion-card>
-    </ion-col>
-  </ion-row>
+            </p>
+          </ion-item>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-infinite-scroll (ionInfinite)="$event.waitFor(updateNovelList())">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

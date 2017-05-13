@@ -1,26 +1,8 @@
 page-ln-list {
     ion-item {
-        max-width: 200px;
-        min-width: 100px;
         & h5 {
             overflow: hidden;
             text-overflow: ellipsis;
-        }
-    }
-    & img {
-        max-height: 173px;
-    }
-    & ion-card {
-        max-width: 160px;
-    }
-    @media (min-width: 576px) {
-        & ion-item {}
-        & img {
-            max-height: 282px;
-        }
-        & ion-card {
-            max-width: 240px;
-            min-width: 200px;
         }
     }
 }
