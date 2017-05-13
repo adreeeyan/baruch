@@ -12,4 +12,11 @@ ln-chapter-reader {
             text-align: start;
         }
     }
+
+    & ion-slides {
+        & .swiper-pagination{
+            top: auto !important;
+            bottom: 0;
+        }
+    }
 }
