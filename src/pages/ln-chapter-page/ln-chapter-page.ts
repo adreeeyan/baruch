@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { IonicPage, NavController, NavParams, Platform } from "ionic-angular";
 import { NovelsService } from "../../providers/novels-service";
 import { Chapter } from "../../common/models/chapter";
 import { StatusBar } from "@ionic-native/status-bar";
@@ -24,9 +24,10 @@ export class LnChapterPage {
   novelId: number;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public novelsService: NovelsService,
-              private statusBar: StatusBar) {
+    public navParams: NavParams,
+    public novelsService: NovelsService,
+    private platform: Platform,
+    private statusBar: StatusBar) {
     this.chapterDetailsHeader = document.querySelector("page-ln-details-tabs ion-header");
     this.tabBarElement = document.querySelector(".tabbar.show-tabbar");
   }
@@ -37,7 +38,7 @@ export class LnChapterPage {
     if (this.tabBarElement) this.tabBarElement.style.display = "none";
 
     // hide status bar
-    this.statusBar.hide();
+    this.toggleStatusBar(false);
   }
 
   ionViewWillLeave() {
@@ -46,20 +47,36 @@ export class LnChapterPage {
     if (this.tabBarElement) this.tabBarElement.style.display = "flex";
 
     // show status bar
-    this.statusBar.show();
+    this.toggleStatusBar(true);
   }
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad LnChapterPage");
     let data = this.navParams.data;
     this.novelsService.getNovelChapter(data.novelId, data.chapterNumber)
-        .subscribe((chapter: Chapter) => this.chapter = chapter);
+      .subscribe((chapter: Chapter) => this.chapter = chapter);
     this.novelId = data.novelId;
   }
 
   toggleNavBar() {
     this.navDisplay = this.navDisplay == "none" ? "flex" : "none";
-    this.statusBar.isVisible ? this.statusBar.hide() : this.statusBar.show();
+    this.toggleStatusBar();
+  }
+
+  toggleStatusBar(show = undefined) {
+    if (this.platform.is("mobile") ||
+      this.platform.is("mobileweb") ||
+      this.platform.is("phablet") ||
+      this.platform.is("tablet")
+    ) {
+      if(show === undefined){
+        this.statusBar.isVisible ? this.statusBar.hide() : this.statusBar.show();
+      }else if(show){
+        this.statusBar.show()
+      }else{
+        this.statusBar.hide()
+      }
+    }
   }
 
 }
