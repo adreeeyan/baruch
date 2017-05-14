@@ -61,22 +61,15 @@ export class LnChapterPage {
 
   toggleNavBar() {
     this.navDisplay = this.navDisplay == "none" ? "flex" : "none";
-    this.toggleStatusBar();
   }
 
-  toggleStatusBar(show = undefined) {
+  toggleStatusBar(show) {
     if (this.platform.is("mobile") ||
       this.platform.is("mobileweb") ||
       this.platform.is("phablet") ||
       this.platform.is("tablet")
     ) {
-      if (show === undefined) {
-        this.statusBar.isVisible ? this.statusBar.hide() : this.statusBar.show();
-      } else if (show) {
-        this.statusBar.show()
-      } else {
-        this.statusBar.hide()
-      }
+      show ? this.statusBar.show() : this.statusBar.hide();
     }
   }
 
