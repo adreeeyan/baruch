@@ -27,6 +27,7 @@ export class LnChapterReader implements OnInit, OnChanges {
   @Input() fontSize: number;
   @Input() horizontalScrolling: boolean;
   @Input() brightness: number;
+  @Input() invertColors: number;
   chapterValue: Chapter;
 
   previousPage: number = 0; // used for keeping track pages
@@ -84,22 +85,28 @@ export class LnChapterReader implements OnInit, OnChanges {
   resetPages() {
     if (!this.chapter) return;
     this.content = this.formatText(this.chapter.content);
+    var scrollContent: any = document.querySelector("ln-chapter-page ion-content .scroll-content");
     if (this.horizontalScrolling) {
       // update thingies for horizontal scrolling
       this.isRenderingChapter = true;
       setTimeout(() => {
         this.breakPages().then(() => this.isRenderingChapter = false);
       }, 0);
+      scrollContent.style.overflow = "hidden";
     } else {
       // update thingies for vertical scrolling
       this.verticalContent.nativeElement.style.fontSize = this.fontSize + "px";
+      scrollContent.style.overflow = "auto";
     }
 
     // settings here should apply both in vertical and horizontal scrolling
     // update the brightness
     // filter should be applied in the ion-content, i don't know it wont work on the verticalContent div
     var ionContent: any = document.querySelector("ln-chapter-page ion-content");
-    ionContent.style.filter = `brightness(${this.brightness}`;
+    ionContent.style.filter = `brightness(${this.brightness})`;    
+    if(this.invertColors){
+      ionContent.style.filter = `brightness(${this.brightness}) invert()`;      
+    }
   }
 
   formatText(content: string) {

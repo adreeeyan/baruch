@@ -27,11 +27,18 @@ export class LnReaderSettingsModal {
   }
 
   setBrightness(value) {
-    this.resultIonItem._elementRef.nativeElement.style.filter = `brightness(${value / 100}`;
+    this.resultIonItem._elementRef.nativeElement.style.filter = `brightness(${value / 100})`;
+    if(this.invertColors){
+      this.resultIonItem._elementRef.nativeElement.style.filter = `brightness(${this.brightness / 100}) invert()`;      
+    }
   }
 
   setFontSize(value) {
     this.result.nativeElement.style.fontSize = value + "px";
+  }
+
+  doInvertColors(value) {
+    this.setBrightness(this.brightness);
   }
 
   save() {
@@ -45,6 +52,6 @@ export class LnReaderSettingsModal {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss({});
+    this.viewCtrl.dismiss();
   }
 }
