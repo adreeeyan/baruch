@@ -103,9 +103,9 @@ export class LnChapterReader implements OnInit, OnChanges {
     // update the brightness
     // filter should be applied in the ion-content, i don't know it wont work on the verticalContent div
     var ionContent: any = document.querySelector("ln-chapter-page ion-content");
-    ionContent.style.filter = `brightness(${this.brightness})`;    
+    ionContent.style["-webkit-filter"] = `brightness(${this.brightness})`;    
     if(this.invertColors){
-      ionContent.style.filter = `brightness(${this.brightness}) invert()`;      
+      ionContent.style["-webkit-filter"] = `brightness(${this.brightness}) invert()`;      
     }
   }
 

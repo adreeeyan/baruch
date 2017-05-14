@@ -27,9 +27,9 @@ export class LnReaderSettingsModal {
   }
 
   setBrightness(value) {
-    this.resultIonItem._elementRef.nativeElement.style.filter = `brightness(${value / 100})`;
+    this.resultIonItem._elementRef.nativeElement.style["-webkit-filter"] = `brightness(${value / 100})`;
     if(this.invertColors){
-      this.resultIonItem._elementRef.nativeElement.style.filter = `brightness(${this.brightness / 100}) invert()`;      
+      this.resultIonItem._elementRef.nativeElement.style["-webkit-filter"] = `brightness(${this.brightness / 100}) invert()`;      
     }
   }
 
