@@ -22,12 +22,14 @@ export class LnChapterReader implements OnInit, OnChanges {
   slidesHolderHeight: number; // set the variable on init so that it wont change upon update
   @ViewChild("slidesHolder") slidesHolder: any;
   @ViewChild("contentHolder") contentHolder: any;
+  @ViewChild("verticalContent") verticalContent: any;
   @Input() novelId: number;
-  @Input() fontSize: number;  
+  @Input() fontSize: number;
+  @Input() horizontalScrolling: boolean;
   chapterValue: Chapter;
 
   previousPage: number = 0; // used for keeping track pages
-  isRenderingChapter: boolean = true; // used as a lock so that goToChapter cannot execute simultaneously
+  @Input() isRenderingChapter: boolean = true; // used as a lock so that goToChapter cannot execute simultaneously
 
   constructor(public novelsService: NovelsService, private screenOrientation: ScreenOrientation) {
   }
@@ -43,11 +45,11 @@ export class LnChapterReader implements OnInit, OnChanges {
     this.chapterChange.emit(this.chapterValue);
   }
 
-  get pageHeight(){
+  get pageHeight() {
     return this.slidesHolderHeight - this.linePad;
   }
 
-  get pageWidth(){
+  get pageWidth() {
     return this.slidesHolderWidth;
   }
 
@@ -59,27 +61,38 @@ export class LnChapterReader implements OnInit, OnChanges {
       this.contents = [];
       this.resetPages();
     });
+    if (!this.horizontalScrolling) {
+      this.isRenderingChapter = false;
+    }
   }
 
   ngOnChanges() {
-    if(this.fontSize == null ||
-        this.novelId == null ||
-        this.chapter == null){
+    if (this.fontSize == null ||
+      this.novelId == null ||
+      this.chapter == null) {
       return;
     }
-    // set the sizes
-    this.linePad = this.fontSize + this.fontSize * .75; // extra vertical height around the fonts
-    this.contentHolder.nativeElement.style.fontSize = this.fontSize + "px";
+    if (this.horizontalScrolling) {
+      // set the sizes
+      this.linePad = this.fontSize + this.fontSize * .75; // extra vertical height around the fonts
+      this.contentHolder.nativeElement.style.fontSize = this.fontSize + "px";
+    }
     this.resetPages();
   }
 
   resetPages() {
     if (!this.chapter) return;
-    this.isRenderingChapter = true;
     this.content = this.formatText(this.chapter.content);
-    setTimeout(() => {
-      this.breakPages().then(() => this.isRenderingChapter = false);
-    }, 0);
+    if (this.horizontalScrolling) {
+      // update thingies for horizontal scrolling
+      this.isRenderingChapter = true;
+      setTimeout(() => {
+        this.breakPages().then(() => this.isRenderingChapter = false);
+      }, 0);
+    }else{
+      // update thingies for vertical scrolling
+      this.verticalContent.nativeElement.style.fontSize = this.fontSize + "px";
+    }
   }
 
   formatText(content: string) {

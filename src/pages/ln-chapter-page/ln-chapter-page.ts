@@ -17,13 +17,13 @@ import { LnReaderSettingsModal } from "../ln-reader-settings-modal/ln-reader-set
   templateUrl: "ln-chapter-page.html",
 })
 export class LnChapterPage {
-
   navDisplay: string = "none";
   chapterDetailsHeader: any;
   tabBarElement: any;
   chapter: Chapter;
   novelId: number;
   settings: object;
+  isRenderingChapter: boolean;  
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -56,8 +56,7 @@ export class LnChapterPage {
   ionViewDidLoad() {
     console.log("ionViewDidLoad LnChapterPage");
     let data = this.navParams.data;
-    this.novelsService.getNovelChapter(data.novelId, data.chapterNumber)
-      .subscribe((chapter: Chapter) => this.chapter = chapter);
+    this.goToChapter(data.novelId, data.chapterNumber);
     this.novelId = data.novelId;
     this.settings = {
       fontSize: 14,
@@ -94,4 +93,20 @@ export class LnChapterPage {
     settingsModal.present();
   }
 
+  goToChapter(novelId, chapterNumber){
+    this.isRenderingChapter = true;
+    this.novelsService.getNovelChapter(novelId, chapterNumber)
+      .subscribe((chapter: Chapter) => {
+        this.chapter = chapter;
+        this.isRenderingChapter = false;
+      });
+  }
+
+  nextChapter(){
+    this.goToChapter(this.novelId, this.chapter.number + 1);
+  }
+
+  prevChapter(){
+    this.goToChapter(this.novelId, this.chapter.number - 1);
+  }
 }

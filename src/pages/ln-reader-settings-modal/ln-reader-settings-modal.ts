@@ -29,7 +29,7 @@ export class LnReaderSettingsModal implements OnInit {
     this.result.nativeElement.style.fontSize = value + "px";
   }
 
-  dismiss() {
+  save() {
     let data = {
       fontSize: this.fontSize,
       brightness: this.brightness,
@@ -37,5 +37,9 @@ export class LnReaderSettingsModal implements OnInit {
       horizontalScrolling: this.horizontalScrolling
     };
     this.viewCtrl.dismiss(data);
+  }
+
+  dismiss() {
+    this.viewCtrl.dismiss({});
   }
 }

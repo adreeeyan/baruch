@@ -10,7 +10,13 @@
     <ion-title>Chapter {{chapter?.number}}</ion-title>
 
     <ion-buttons end>
-      <button ion-button icon-only (click)="openSettingsModal()">
+      <button ion-button icon-only (click)="prevChapter()">
+        <ion-icon name="rewind"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="nextChapter()">
+        <ion-icon name="fastforward"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="openSettingsModal()" color="secondary">
         <ion-icon name="color-palette"></ion-icon>
       </button>
     </ion-buttons>
@@ -20,5 +26,11 @@
 
 
 <ion-content padding id="chapter-page" (click)="toggleNavBar()">
-  <ln-chapter-reader [(chapter)]="chapter" [novelId]="novelId" [fontSize]="settings?.fontSize"></ln-chapter-reader>
+  <ln-chapter-reader
+    [(chapter)]="chapter"
+    [novelId]="novelId"
+    [fontSize]="settings?.fontSize"
+    [horizontalScrolling]="settings?.horizontalScrolling"
+    [isRenderingChapter]="isRenderingChapter"
+  ></ln-chapter-reader>
 </ion-content>
