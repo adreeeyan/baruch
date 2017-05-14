@@ -2,14 +2,7 @@ import { Component } from "@angular/core";
 import { IonicPage, NavController, NavParams } from "ionic-angular";
 import { NovelsService } from "../../providers/novels-service";
 import { Chapter } from "../../common/models/chapter";
-import { LnChapterPage } from "../ln-chapter-page/ln-chapter-page";
 
-/**
- * Generated class for the LnChapterListPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: "ln-chapter-list",
@@ -29,7 +22,7 @@ export class LnChapterListPage {
   }
 
   openChapter(chapterNumber) {
-    this.navCtrl.push(LnChapterPage, {
+    this.navCtrl.push('LnChapterPage', {
       novelId: this.navParams.data,
       chapterNumber: chapterNumber
     });

@@ -2,14 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Novel } from '../../common/models/novel';
 import { NovelsService } from '../../providers/novels-service';
-import { LnDetailsTabs } from '../ln-details-tabs/ln-details-tabs';
 
-/**
- * Generated class for the LnList page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-ln-list',
@@ -44,7 +37,7 @@ export class LnList {
   }
 
   novelTapped(event, item) {
-    this.navCtrl.push(LnDetailsTabs, item.id);
+    this.navCtrl.push('LnDetailsTabs', item.id);
   }
 
 }

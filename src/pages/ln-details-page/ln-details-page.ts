@@ -4,12 +4,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Novel, EmptyNovel } from '../../common/models/novel';
 import { NovelsService } from '../../providers/novels-service';
 
-/**
- * Generated class for the LnDetailsPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-ln-details-page',

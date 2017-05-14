@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { LnLoading } from './ln-chapter-reader';
+import { LnLoading } from "./ln-loading";
+import { IonicPageModule } from "ionic-angular";
 
 @NgModule({
   declarations: [
     LnLoading,
   ],
-  imports: [
+  imports:[
     IonicPageModule.forChild(LnLoading),
   ],
   exports: [

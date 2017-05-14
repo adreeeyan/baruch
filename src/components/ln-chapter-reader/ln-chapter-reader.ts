@@ -3,12 +3,6 @@ import { Chapter } from "../../common/models/chapter";
 import { NovelsService } from "../../providers/novels-service";
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
-/**
- * Generated class for the LnChapterReader component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
 @Component({
   selector: "ln-chapter-reader",
   templateUrl: "ln-chapter-reader.html"

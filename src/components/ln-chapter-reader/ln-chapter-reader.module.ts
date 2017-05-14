@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
 import { LnChapterReader } from './ln-chapter-reader';
+import { LnLoadingModule } from "../ln-loading/ln-loading.module";
+import { IonicPageModule } from "ionic-angular";
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { LnChapterReader } from './ln-chapter-reader';
   ],
   imports: [
     IonicPageModule.forChild(LnChapterReader),
+    LnLoadingModule
   ],
   exports: [
     LnChapterReader

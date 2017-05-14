@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from "@angular/core";
-import { NavParams, ViewController } from "ionic-angular";
+import { NavParams, ViewController, IonicPage } from "ionic-angular";
 
+@IonicPage()
 @Component({
   selector: "ln-reader-settings-modal",
   templateUrl: "ln-reader-settings-modal.html",

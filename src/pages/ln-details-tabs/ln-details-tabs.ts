@@ -1,15 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { LnDetailsPage } from '../ln-details-page/ln-details-page';
-import { LnChapterListPage } from "../ln-chapter-list/ln-chapter-list";
 
-
-/**
- * Generated class for the LnDetailsTabs page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-ln-details-tabs',
@@ -21,8 +12,8 @@ export class LnDetailsTabs {
   params: any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.params = this.navParams.data;
-    this.detailsTab = LnDetailsPage;
-    this.chaptersTab = LnChapterListPage;
+    this.detailsTab = 'LnDetailsPage';
+    this.chaptersTab = 'LnChapterListPage';
   }
 
   ionViewDidLoad() {

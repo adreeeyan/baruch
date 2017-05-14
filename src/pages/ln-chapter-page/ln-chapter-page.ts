@@ -3,14 +3,7 @@ import { IonicPage, NavController, NavParams, Platform, ModalController } from "
 import { NovelsService } from "../../providers/novels-service";
 import { Chapter } from "../../common/models/chapter";
 import { StatusBar } from "@ionic-native/status-bar";
-import { LnReaderSettingsModal } from "../ln-reader-settings-modal/ln-reader-settings-modal";
 
-/**
- * Generated class for the LnChapterPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: "ln-chapter-page",
@@ -88,7 +81,7 @@ export class LnChapterPage {
   }
 
   openSettingsModal() {
-    let settingsModal = this.modalCtrl.create(LnReaderSettingsModal);
+    let settingsModal = this.modalCtrl.create('LnReaderSettingsModal');
     settingsModal.onDidDismiss((settings) => this.settings = settings ? settings : this.settings);
     settingsModal.present();
   }
