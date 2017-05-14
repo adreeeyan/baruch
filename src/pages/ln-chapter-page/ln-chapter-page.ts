@@ -1,8 +1,9 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams, Platform } from "ionic-angular";
+import { IonicPage, NavController, NavParams, Platform, ModalController } from "ionic-angular";
 import { NovelsService } from "../../providers/novels-service";
 import { Chapter } from "../../common/models/chapter";
 import { StatusBar } from "@ionic-native/status-bar";
+import { LnReaderSettingsModal } from "../ln-reader-settings-modal/ln-reader-settings-modal";
 
 /**
  * Generated class for the LnChapterPage page.
@@ -22,12 +23,14 @@ export class LnChapterPage {
   tabBarElement: any;
   chapter: Chapter;
   novelId: number;
+  settings: object;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public novelsService: NovelsService,
     private platform: Platform,
-    private statusBar: StatusBar) {
+    private statusBar: StatusBar,
+    private modalCtrl: ModalController) {
     this.chapterDetailsHeader = document.querySelector("page-ln-details-tabs ion-header");
     this.tabBarElement = document.querySelector(".tabbar.show-tabbar");
   }
@@ -56,6 +59,12 @@ export class LnChapterPage {
     this.novelsService.getNovelChapter(data.novelId, data.chapterNumber)
       .subscribe((chapter: Chapter) => this.chapter = chapter);
     this.novelId = data.novelId;
+    this.settings = {
+      fontSize: 14,
+      brightness: 85,
+      invertColors: false,
+      horizontalScrolling: false
+    };
   }
 
   toggleNavBar() {
@@ -69,14 +78,20 @@ export class LnChapterPage {
       this.platform.is("phablet") ||
       this.platform.is("tablet")
     ) {
-      if(show === undefined){
+      if (show === undefined) {
         this.statusBar.isVisible ? this.statusBar.hide() : this.statusBar.show();
-      }else if(show){
+      } else if (show) {
         this.statusBar.show()
-      }else{
+      } else {
         this.statusBar.hide()
       }
     }
+  }
+
+  openSettingsModal() {
+    let settingsModal = this.modalCtrl.create(LnReaderSettingsModal);
+    settingsModal.onDidDismiss((settings) => this.settings = settings ? settings : this.settings);
+    settingsModal.present();
   }
 
 }

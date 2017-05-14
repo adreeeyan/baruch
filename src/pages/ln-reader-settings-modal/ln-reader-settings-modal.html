@@ -1,0 +1,85 @@
+<!--
+  Generated template for the LnChapterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header no-border>
+  <ion-toolbar color="secondary">
+    <ion-title>Settings</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <span ion-text>Apply</span>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding-top>
+
+  <ion-list no-lines>
+    <ion-list-header>
+      Font size
+      <ion-badge item-right text-lowercase>{{fontSize}}px</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="10" max="100" item-content [(ngModel)]="fontSize" (ionChange)="setFontSize($event.value)">
+        <ion-icon small range-left name="body"></ion-icon>
+        <ion-icon range-right name="body"></ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+
+  <ion-list no-lines>
+    <ion-list-header no-lines>
+      Brightness
+      <ion-badge item-right>{{brightness}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="10" max="100" item-content [(ngModel)]="brightness" (ionChange)="setBrightness($event.value)">
+        <ion-icon small range-left name="sunny"></ion-icon>
+        <ion-icon range-right name="sunny"></ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+
+  <ion-list no-lines>
+    <ion-item>
+      <ion-label>
+        <ion-icon item-start name="cloudy-night"></ion-icon>
+        <span>Invert colors</span>
+      </ion-label>
+      <ion-toggle item-content [(ngModel)]="invertColors"></ion-toggle>
+    </ion-item>
+  </ion-list>
+
+  <ion-list no-lines padding-top>
+    <ion-list-header no-lines>
+      Sample output
+    </ion-list-header>
+    <ion-item class="result" text-wrap>
+      <ion-label #result [class.invert]="invertColors" padding>
+        Bacon ipsum dolor amet bresaola tenderloin rump swine tongue leberkas boudin. Rump beef ribs burgdoggen jerky, tongue ham shoulder ribeye. Bresaola pig porchetta spare ribs. Meatball drumstick rump ham, kevin flank ribeye.
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list no-lines>
+    <ion-list-header no-lines>
+      Experimental features
+    </ion-list-header>
+    <ion-item>
+      <ion-label>
+        <ion-icon item-start name="swap"></ion-icon>
+        <span>Horizontal scrolling</span>
+      </ion-label>
+      <ion-toggle item-content [(ngModel)]="horizontalScrolling"></ion-toggle>
+    </ion-item>
+    <ion-item class="warning">
+      WARNING:<br/>Rendering chapters via horizontal scrolling is slow, if you can handle the wait, then please do so.
+    </ion-item>
+  </ion-list>
+
+
+</ion-content>

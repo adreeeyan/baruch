@@ -17,13 +17,13 @@ export class LnChapterReader implements OnInit, OnChanges {
 
   content: string; // chapter content got from api
   contents: string[]; // content for the ion-slides
-  fontSize: number;
-  pageWidth: number;
-  pageHeight: number;
   linePad: number; // extra vertical height around the fonts
+  slidesHolderWidth: number; // set the variable on init so that it wont change upon update
+  slidesHolderHeight: number; // set the variable on init so that it wont change upon update
   @ViewChild("slidesHolder") slidesHolder: any;
   @ViewChild("contentHolder") contentHolder: any;
-  @Input("novelId") novelId: number;
+  @Input() novelId: number;
+  @Input() fontSize: number;  
   chapterValue: Chapter;
 
   previousPage: number = 0; // used for keeping track pages
@@ -43,25 +43,33 @@ export class LnChapterReader implements OnInit, OnChanges {
     this.chapterChange.emit(this.chapterValue);
   }
 
+  get pageHeight(){
+    return this.slidesHolderHeight - this.linePad;
+  }
+
+  get pageWidth(){
+    return this.slidesHolderWidth;
+  }
 
   ngOnInit() {
-    // set the sizes
-    this.fontSize = 18;
-    this.linePad = this.fontSize + this.fontSize * .75; // extra vertical height around the fonts
-    this.pageHeight = this.slidesHolder._elementRef.nativeElement.offsetHeight - this.linePad;
-    this.pageWidth = this.slidesHolder._elementRef.nativeElement.offsetWidth;
-    this.contentHolder.nativeElement.style.fontSize = this.fontSize + "px";
-
+    this.slidesHolderHeight = this.slidesHolder._elementRef.nativeElement.offsetHeight;
+    this.slidesHolderWidth = this.slidesHolder._elementRef.nativeElement.offsetWidth;
     // set the orientation handler
     this.screenOrientation.onChange().subscribe(() => {
       this.contents = [];
-      this.pageHeight = this.slidesHolder._elementRef.nativeElement.offsetHeight - this.linePad;
-      this.pageWidth = this.slidesHolder._elementRef.nativeElement.offsetWidth;
       this.resetPages();
     });
   }
 
   ngOnChanges() {
+    if(this.fontSize == null ||
+        this.novelId == null ||
+        this.chapter == null){
+      return;
+    }
+    // set the sizes
+    this.linePad = this.fontSize + this.fontSize * .75; // extra vertical height around the fonts
+    this.contentHolder.nativeElement.style.fontSize = this.fontSize + "px";
     this.resetPages();
   }
 

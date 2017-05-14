@@ -8,11 +8,17 @@
 
   <ion-navbar [style.display]="navDisplay" color="primary">
     <ion-title>Chapter {{chapter?.number}}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openSettingsModal()">
+        <ion-icon name="color-palette"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding id="chapter-page" (click)="toggleNavBar()">
-  <ln-chapter-reader [(chapter)]="chapter" [novelId]="novelId"></ln-chapter-reader>
+  <ln-chapter-reader [(chapter)]="chapter" [novelId]="novelId" [fontSize]="settings?.fontSize"></ln-chapter-reader>
 </ion-content>

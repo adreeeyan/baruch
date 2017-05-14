@@ -1,0 +1,23 @@
+ln-reader-settings-modal {
+    & ion-list {
+        margin-bottom: 0px !important;
+    }
+    & ion-label ion-icon {
+        width: 30px;
+    }
+    & .warning {
+        text-align: center;
+        margin-top: 16px;
+        font-weight: bold;
+        background-color: lighten(map-get($colors, danger), 30%);
+        & ion-label {
+            white-space: normal;
+            font-size: $font-size-base - .2rem;
+        }
+    }
+
+    & .invert {
+        background-color: invert($background-color);
+        color: invert($text-color);
+    }
+}
