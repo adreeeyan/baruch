@@ -26,6 +26,7 @@ export class LnChapterReader implements OnInit, OnChanges {
   @Input() novelId: number;
   @Input() fontSize: number;
   @Input() horizontalScrolling: boolean;
+  @Input() brightness: number;
   chapterValue: Chapter;
 
   previousPage: number = 0; // used for keeping track pages
@@ -92,6 +93,11 @@ export class LnChapterReader implements OnInit, OnChanges {
     }else{
       // update thingies for vertical scrolling
       this.verticalContent.nativeElement.style.fontSize = this.fontSize + "px";
+
+      // update the brightness
+      // filter should be applied in the ion-content, i don't know it wont work on the verticalContent div
+      var ionContent: any = document.querySelector("ln-chapter-page ion-content");
+      ionContent.style.filter = `brightness(${this.brightness}`;
     }
   }
 

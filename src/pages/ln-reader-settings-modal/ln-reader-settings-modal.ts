@@ -1,28 +1,33 @@
-import { Component, ViewChild, OnInit, ElementRef } from "@angular/core";
+import { Component, ViewChild, ElementRef } from "@angular/core";
 import { NavParams, ViewController } from "ionic-angular";
 
 @Component({
   selector: "ln-reader-settings-modal",
   templateUrl: "ln-reader-settings-modal.html",
 })
-export class LnReaderSettingsModal implements OnInit {
+export class LnReaderSettingsModal {
 
   fontSize: number = 13;
   brightness: number = 85;
   invertColors: boolean;
   horizontalScrolling: boolean;
   @ViewChild("result") result: ElementRef;
+  @ViewChild("resultIonItem") resultIonItem: any; // some css cannot affect "result" viewChild
 
   constructor(public navParams: NavParams, private viewCtrl: ViewController) {
   }
 
-  ngOnInit() {
-    this.setFontSize(this.fontSize);
-    this.setBrightness(this.brightness);
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad LnReaderSettingsModal');
+    setTimeout(() => {
+      this.setFontSize(this.fontSize);
+      this.setBrightness(this.brightness);
+    }, 200);
+
   }
 
   setBrightness(value) {
-    this.result.nativeElement.style.opacity = value / 100;
+    this.resultIonItem._elementRef.nativeElement.style.filter = `brightness(${value / 100}`;
   }
 
   setFontSize(value) {
@@ -32,7 +37,7 @@ export class LnReaderSettingsModal implements OnInit {
   save() {
     let data = {
       fontSize: this.fontSize,
-      brightness: this.brightness,
+      brightness: this.brightness / 100,
       invertColors: this.invertColors,
       horizontalScrolling: this.horizontalScrolling
     };

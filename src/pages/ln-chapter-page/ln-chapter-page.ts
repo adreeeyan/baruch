@@ -23,7 +23,7 @@ export class LnChapterPage {
   chapter: Chapter;
   novelId: number;
   settings: object;
-  isRenderingChapter: boolean;  
+  isRenderingChapter: boolean;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -60,7 +60,7 @@ export class LnChapterPage {
     this.novelId = data.novelId;
     this.settings = {
       fontSize: 14,
-      brightness: 85,
+      brightness: 1,
       invertColors: false,
       horizontalScrolling: false
     };

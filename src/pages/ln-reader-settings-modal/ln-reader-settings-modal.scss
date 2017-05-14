@@ -20,4 +20,8 @@ ln-reader-settings-modal {
         background-color: invert($background-color);
         color: invert($text-color);
     }
+
+    & .result ion-label {
+        margin-top: 0;
+    }
 }
