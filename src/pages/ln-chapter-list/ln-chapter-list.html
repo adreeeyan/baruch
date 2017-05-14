@@ -15,7 +15,7 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let chapter of chapters" (click)="openChapter(chapter.number)">
+    <button ion-item *ngFor="let chapter of chapters" (tap)="openChapter(chapter.number)">
       <ion-badge>Chapter {{chapter.number}}</ion-badge>
       <span>{{ chapter.title }}</span>
     </button>
