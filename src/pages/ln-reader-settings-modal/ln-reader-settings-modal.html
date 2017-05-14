@@ -18,12 +18,12 @@
 <ion-content padding-top>
 
   <ion-list no-lines>
-    <ion-list-header>
+    <ion-list-header no-lines>
       Font size
       <ion-badge item-right text-lowercase>{{fontSize}}px</ion-badge>
     </ion-list-header>
     <ion-item>
-      <ion-range min="10" max="100" item-content [(ngModel)]="fontSize" (ionChange)="setFontSize($event.value)">
+      <ion-range min="10" max="50" item-content [(ngModel)]="fontSize" (ionChange)="setFontSize($event.value)">
         <ion-icon small range-left name="body"></ion-icon>
         <ion-icon range-right name="body"></ion-icon>
       </ion-range>
