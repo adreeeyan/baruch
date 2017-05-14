@@ -90,15 +90,16 @@ export class LnChapterReader implements OnInit, OnChanges {
       setTimeout(() => {
         this.breakPages().then(() => this.isRenderingChapter = false);
       }, 0);
-    }else{
+    } else {
       // update thingies for vertical scrolling
       this.verticalContent.nativeElement.style.fontSize = this.fontSize + "px";
-
-      // update the brightness
-      // filter should be applied in the ion-content, i don't know it wont work on the verticalContent div
-      var ionContent: any = document.querySelector("ln-chapter-page ion-content");
-      ionContent.style.filter = `brightness(${this.brightness}`;
     }
+
+    // settings here should apply both in vertical and horizontal scrolling
+    // update the brightness
+    // filter should be applied in the ion-content, i don't know it wont work on the verticalContent div
+    var ionContent: any = document.querySelector("ln-chapter-page ion-content");
+    ionContent.style.filter = `brightness(${this.brightness}`;
   }
 
   formatText(content: string) {
