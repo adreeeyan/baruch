@@ -1,7 +1,8 @@
 page-ln-list {
     ion-item {
         & h5 {
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: visible;
             text-overflow: ellipsis;
         }
     }
