@@ -74,6 +74,7 @@ export class LnChapterPage {
   }
 
   openSettingsModal() {
+    this.toggleNavBar();
     let settingsModal = this.modalCtrl.create('LnReaderSettingsModal');
     settingsModal.onDidDismiss((settings) => this.settings = settings ? settings : this.settings);
     settingsModal.present();
@@ -89,10 +90,12 @@ export class LnChapterPage {
   }
 
   nextChapter(){
+    this.toggleNavBar();
     this.goToChapter(this.novelId, this.chapter.number + 1);
   }
 
   prevChapter(){
+    this.toggleNavBar();
     this.goToChapter(this.novelId, this.chapter.number - 1);
   }
 }
