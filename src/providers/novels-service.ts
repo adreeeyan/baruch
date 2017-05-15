@@ -45,7 +45,7 @@ export class NovelsService {
         let data: Array<object> = <any>response.json() || {};
 
         return data.map((c: Chapter): Chapter => new Chapter(c.id, c.number, c.title, ""))
-                  .sort((a, b) => a.number - b.number);
+                  .sort((a, b) => b.number - a.number);
       });
   }
 
