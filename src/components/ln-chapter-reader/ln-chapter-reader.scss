@@ -2,6 +2,9 @@ ln-chapter-reader {
     #contentHolder {
         background: #aaa;
         visibility: hidden;
+        display: block;
+        white-space: normal;
+        word-break: break-word;
     }
     .page {
         padding: 0;
@@ -10,13 +13,18 @@ ln-chapter-reader {
         align-items: flex-start !important;
         .slide-zoom {
             text-align: start;
+            & span {
+                line-height: 1.7;
+            }
         }
     }
-
     & ion-slides {
-        & .swiper-pagination{
+        & .swiper-pagination {
             top: auto !important;
             bottom: 0;
         }
+    }
+    & .vertical-content {
+        line-height: 1.7;
     }
 }

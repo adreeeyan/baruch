@@ -11,9 +11,6 @@ export class LnChapterReader implements OnInit, OnChanges {
 
   content: string; // chapter content got from api
   contents: string[]; // content for the ion-slides
-  linePad: number; // extra vertical height around the fonts
-  slidesHolderWidth: number; // set the variable on init so that it wont change upon update
-  slidesHolderHeight: number; // set the variable on init so that it wont change upon update
   @ViewChild("slidesHolder") slidesHolder: any;
   @ViewChild("contentHolder") contentHolder: any;
   @ViewChild("verticalContent") verticalContent: any;
@@ -41,17 +38,7 @@ export class LnChapterReader implements OnInit, OnChanges {
     this.chapterChange.emit(this.chapterValue);
   }
 
-  get pageHeight() {
-    return this.slidesHolderHeight - this.linePad;
-  }
-
-  get pageWidth() {
-    return this.slidesHolderWidth;
-  }
-
   ngOnInit() {
-    this.slidesHolderHeight = this.slidesHolder._elementRef.nativeElement.offsetHeight;
-    this.slidesHolderWidth = this.slidesHolder._elementRef.nativeElement.offsetWidth;
     // set the orientation handler
     this.screenOrientation.onChange().subscribe(() => {
       this.contents = [];
@@ -68,11 +55,6 @@ export class LnChapterReader implements OnInit, OnChanges {
       this.chapter == null) {
       return;
     }
-    if (this.horizontalScrolling) {
-      // set the sizes
-      this.linePad = this.fontSize + this.fontSize * .75; // extra vertical height around the fonts
-      this.contentHolder.nativeElement.style.fontSize = this.fontSize + "px";
-    }
     this.resetPages();
   }
 
@@ -83,10 +65,12 @@ export class LnChapterReader implements OnInit, OnChanges {
     if (this.horizontalScrolling) {
       // update thingies for horizontal scrolling
       this.isRenderingChapter = true;
+      scrollContent.style.fontSize = this.fontSize + "px";
       setTimeout(() => {
-        this.breakPages().then(() => this.isRenderingChapter = false);
-      }, 0);
-      scrollContent.style.overflow = "hidden";
+        this.paginator();
+        this.isRenderingChapter = false;
+        scrollContent.style.overflow = "hidden";
+      });
     } else {
       // update thingies for vertical scrolling
       this.verticalContent.nativeElement.style.fontSize = this.fontSize + "px";
@@ -97,9 +81,9 @@ export class LnChapterReader implements OnInit, OnChanges {
     // update the brightness
     // filter should be applied in the ion-content, i don't know it wont work on the verticalContent div
     var ionContent: any = document.querySelector("ln-chapter-page ion-content");
-    ionContent.style["-webkit-filter"] = `brightness(${this.brightness})`;    
-    if(this.invertColors){
-      ionContent.style["-webkit-filter"] = `brightness(${this.brightness}) invert()`;      
+    ionContent.style["-webkit-filter"] = `brightness(${this.brightness})`;
+    if (this.invertColors) {
+      ionContent.style["-webkit-filter"] = `brightness(${this.brightness}) invert()`;
     }
   }
 
@@ -115,55 +99,70 @@ export class LnChapterReader implements OnInit, OnChanges {
     return content;
   }
 
-  breakPages(): Promise<any> {
-    return new Promise((resolve) => {
-      // this is for reusing the component
-      // empty the contentHolder
-      this.contentHolder.nativeElement.innerHTML = "";
-      this.contents = [];
-
-      let text = this.content; // gets the text, which should be displayed later on
-      let textArray = text.split(/\s/); // makes the text to an array of words
-      var currentPage = this.createPage(); // creates the first page
-      textArray.forEach(textValue => { // loops through all the words
-        let success = this.appendToLastPage(textValue); // tries to fill the word in the last page
-        if (!success) { // checks if word could not be filled in last page
-
-          // attach the current page to the slides before creating another page
-          this.contents.push(currentPage.innerHTML);
-
-          currentPage = this.createPage(); // create new empty page
-          textValue = textValue.replace(/^((<br>)|(&emsp;))+/g, "");// this will be the first word in the page, so ltrim it
-          this.appendToLastPage(textValue); // fill the word in the new last element
-        }
-      });
-      resolve();
+  paginator() {
+    // split the words by whitespaces
+    var words = this.content.split(/\s/g);
+    // iterate each word
+    var inner = ""; // holder
+    words.forEach((word) => {
+      // append to holder
+      inner += `<span>${word} </span>`;
     });
+
+    // set the container css
+    var scrollContent: any = document.querySelector("ln-chapter-page ion-content .scroll-content");
+    var container = this.contentHolder.nativeElement;
+    container.style.fontSize = this.fontSize + "px";
+    var paddingLeft = parseInt(getComputedStyle(scrollContent).paddingLeft.split("px")[0]);
+    var paddingRight = parseInt(getComputedStyle(scrollContent).paddingRight.split("px")[0]);
+    var paddingTop = parseInt(getComputedStyle(scrollContent).paddingTop.split("px")[0]);
+    var paddingBottom = parseInt(getComputedStyle(scrollContent).paddingBottom.split("px")[0]);
+    container.style.minWidth = (parseInt(getComputedStyle(scrollContent).width.split("px")[0]) - paddingLeft - paddingRight) + "px";
+    container.style.maxWidth = (parseInt(getComputedStyle(scrollContent).width.split("px")[0]) - paddingLeft - paddingRight) + "px";
+    container.style.minHeight = (parseInt(getComputedStyle(scrollContent).height.split("px")[0]) - paddingTop - paddingBottom) + "px";
+    container.style.maxHeight = (parseInt(getComputedStyle(scrollContent).height.split("px")[0]) - paddingTop - paddingBottom) + "px";
+    container.style.lineHeight = 2 + (this.fontSize <= 12 ? .5 : 0); // 12 below fonts needs higher line height
+    container.innerHTML = inner;
+
+    // Make a pages list
+    var pages = [""];
+
+    // Iterate the spans in the container
+    var spans = container.children;
+    var i = 0;
+    // while there is still a word in the container, migrate its word
+    while (spans.length != 0) {
+      var span: any = spans[i];
+      // this means there is no more spans
+      if (span == undefined) {
+        this.removePreviousSiblings(spans[i - 1]);
+        break;
+      }
+
+      // check if span fits in the container
+      if (span.offsetHeight + span.offsetTop < container.offsetHeight + container.offsetTop) {
+        // if it fits, append the span to the latest slide
+        pages[pages.length - 1] += span.innerHTML;
+        i++;
+      } else {
+        // if it doesn't, create a new slide and append the span there
+        pages[pages.length] = span.innerHTML;
+
+        // remove all the previous spans
+        this.removePreviousSiblings(span);
+        // go back to the first item in the container which is still alive
+        i = 0;
+      }
+    };
+
+    this.contents = pages;
   }
 
-  createPage() {
-    let page = document.createElement("div"); // creates new html element
-    page.setAttribute("class", "page"); // appends the class "page" to the element
-    page.style.width = this.pageWidth + "px"; // set the page width
-    page.style.height = this.pageHeight + "px"; // set the page height
-    this.contentHolder.nativeElement.appendChild(page); // appends the element to the container for all the pages
-    return page;
-  }
-
-  appendToLastPage(word) {
-    let pagesContainer = this.contentHolder.nativeElement.getElementsByClassName("page");
-    let page: any = pagesContainer[pagesContainer.length - 1]; // gets the last page
-    let pageText: string = page.innerHTML; // gets the text from the last page
-    let trimmedWord = word.replace(/((<br>)|(&emsp;))+$/g, ""); // rtrim the word
-    page.innerHTML += trimmedWord + " "; // saves the text of the last page
-    if (page.offsetHeight + Math.ceil(this.fontSize * .33) < page.scrollHeight) { // checks if the page overflows (more words than space)
-      pageText = pageText.replace(/^((<br>)\s)+|((<br>)\s)+$/g, ""); // trim the pageText
-      page.innerHTML = pageText; //resets the page-text
-      return false; // returns false because page is full
-    } else {
-      page.innerHTML = pageText + word + " ";
-      return true; // returns true because word was successfully filled in the page
+  removePreviousSiblings(el) {
+    if (el.previousElementSibling) {
+      this.removePreviousSiblings(el.previousElementSibling);
     }
+    el.remove();
   }
 
   goToNextChapter() {
