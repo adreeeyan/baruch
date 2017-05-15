@@ -1,9 +1,12 @@
 page-ln-list {
     ion-item {
-        & h5 {
-            overflow-x: hidden;
+        & ion-label{
             overflow-y: visible;
+            overflow-x: hidden;
+        }
+        & h5 {
             text-overflow: ellipsis;
+            padding-top: 2px;
         }
     }
 }
