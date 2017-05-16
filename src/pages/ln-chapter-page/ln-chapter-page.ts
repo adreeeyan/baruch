@@ -59,7 +59,16 @@ export class LnChapterPage {
     };
   }
 
-  toggleNavBar() {
+  toggleNavBar(evt = null) {
+    // check if tap comes from the edges and if horizontal scrolling is enabled
+    // if it is hide the navbar
+    if (evt &&
+      evt.target.className.indexOf("navigation") > -1 &&
+      this.settings.horizontalScrolling) {
+        this.navDisplay = "none";
+        return;
+    }
+
     this.navDisplay = this.navDisplay == "none" ? "flex" : "none";
   }
 
@@ -80,7 +89,7 @@ export class LnChapterPage {
     settingsModal.present();
   }
 
-  goToChapter(novelId, chapterNumber){
+  goToChapter(novelId, chapterNumber) {
     this.isRenderingChapter = true;
     this.novelsService.getNovelChapter(novelId, chapterNumber)
       .subscribe((chapter: Chapter) => {
@@ -89,17 +98,13 @@ export class LnChapterPage {
       });
   }
 
-  nextChapter(){
+  nextChapter() {
     this.toggleNavBar();
     this.goToChapter(this.novelId, this.chapter.number + 1);
   }
 
-  prevChapter(){
+  prevChapter() {
     this.toggleNavBar();
     this.goToChapter(this.novelId, this.chapter.number - 1);
-  }
-
-  get isHorizontalScrolling(){
-    return (this.settings && this.settings.horizontalScrolling) ? "navbar-toggler navbar-toggler-center" : "navbar-toggler navbar-toggler-full";
   }
 }
