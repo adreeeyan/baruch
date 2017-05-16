@@ -33,10 +33,10 @@
   <ion-list no-lines>
     <ion-list-header no-lines>
       Brightness
-      <ion-badge item-right>{{brightness}}</ion-badge>
+      <ion-badge item-right>{{_brightness}}</ion-badge>
     </ion-list-header>
     <ion-item>
-      <ion-range min="10" max="100" item-content [(ngModel)]="brightness" (ionChange)="setBrightness($event.value)">
+      <ion-range min="10" max="100" item-content [(ngModel)]="_brightness" (ionChange)="setBrightness($event.value)">
         <ion-icon small range-left name="sunny"></ion-icon>
         <ion-icon range-right name="sunny"></ion-icon>
       </ion-range>

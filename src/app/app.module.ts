@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 
@@ -11,6 +12,7 @@ import { NovelsService } from '../providers/novels-service';
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { LnLoadingModule } from "../components/ln-loading/ln-loading.module";
 import { LnChapterReaderModule } from "../components/ln-chapter-reader/ln-chapter-reader.module";
+import { ReaderSettingsService } from "../providers/reader-settings-service";
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { LnChapterReaderModule } from "../components/ln-chapter-reader/ln-chapte
       tabsPlacement: 'bottom'
     }),
     HttpModule,
+    IonicStorageModule.forRoot(),
     LnLoadingModule,
     LnChapterReaderModule
   ],
@@ -35,6 +38,7 @@ import { LnChapterReaderModule } from "../components/ln-chapter-reader/ln-chapte
     ScreenOrientation,
     StatusBar,
     NovelsService,
+    ReaderSettingsService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

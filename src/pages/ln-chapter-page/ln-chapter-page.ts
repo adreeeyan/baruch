@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, Platform, ModalController } from "
 import { NovelsService } from "../../providers/novels-service";
 import { Chapter } from "../../common/models/chapter";
 import { StatusBar } from "@ionic-native/status-bar";
+import { ReaderSettingsService } from "../../providers/reader-settings-service";
 
 @IonicPage()
 @Component({
@@ -21,6 +22,7 @@ export class LnChapterPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public novelsService: NovelsService,
+    private readerSettingsService: ReaderSettingsService,
     private platform: Platform,
     private statusBar: StatusBar,
     private modalCtrl: ModalController) {
@@ -51,12 +53,11 @@ export class LnChapterPage {
     let data = this.navParams.data;
     this.goToChapter(data.novelId, data.chapterNumber);
     this.novelId = data.novelId;
-    this.settings = {
-      fontSize: 14,
-      brightness: 1,
-      invertColors: false,
-      horizontalScrolling: false
-    };
+    this.readerSettingsService
+        .get()
+        .then(settings => {
+          this.settings = settings
+        });
   }
 
   toggleNavBar(evt = null) {

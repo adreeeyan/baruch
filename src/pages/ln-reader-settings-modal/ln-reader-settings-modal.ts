@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef } from "@angular/core";
 import { NavParams, ViewController, IonicPage } from "ionic-angular";
+import { ReaderSettingsService } from "../../providers/reader-settings-service";
 
 @IonicPage()
 @Component({
@@ -8,30 +9,42 @@ import { NavParams, ViewController, IonicPage } from "ionic-angular";
 })
 export class LnReaderSettingsModal {
 
-  fontSize: number = 18;
-  brightness: number = 100;
+  fontSize: number;
+  _brightness: number;
   invertColors: boolean;
   horizontalScrolling: boolean;
   @ViewChild("result") result: ElementRef;
   @ViewChild("resultIonItem") resultIonItem: any; // some css cannot affect "result" viewChild
 
-  constructor(public navParams: NavParams, private viewCtrl: ViewController) {
+  constructor(public navParams: NavParams,
+    private viewCtrl: ViewController,
+    private readerSettingsService: ReaderSettingsService) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LnReaderSettingsModal');
-    setTimeout(() => {
-      this.setFontSize(this.fontSize);
-      this.setBrightness(this.brightness);
-    }, 200);
-
+    console.log("ionViewDidLoad LnReaderSettingsModal");
+    // get values from storage
+    this.readerSettingsService
+      .get()
+      .then((settings) => {
+        this.fontSize = settings.fontSize;
+        this._brightness = settings.brightness * 100;
+        this.invertColors = settings.invertColors;
+        this.horizontalScrolling = settings.horizontalScrolling;
+        this.setFontSize(this.fontSize);
+        this.setBrightness(this.brightness);
+      });
   }
 
   setBrightness(value) {
-    this.resultIonItem._elementRef.nativeElement.style["-webkit-filter"] = `brightness(${value / 100})`;
-    if(this.invertColors){
-      this.resultIonItem._elementRef.nativeElement.style["-webkit-filter"] = `brightness(${this.brightness / 100}) invert()`;      
+    this.resultIonItem._elementRef.nativeElement.style["-webkit-filter"] = `brightness(${this.brightness})`;
+    if (this.invertColors) {
+      this.resultIonItem._elementRef.nativeElement.style["-webkit-filter"] = `brightness(${this.brightness}) invert()`;
     }
+  }
+
+  get brightness() {
+    return this._brightness / 100;
   }
 
   setFontSize(value) {
@@ -45,10 +58,14 @@ export class LnReaderSettingsModal {
   save() {
     let data = {
       fontSize: this.fontSize,
-      brightness: this.brightness / 100,
+      brightness: this.brightness,
       invertColors: this.invertColors,
       horizontalScrolling: this.horizontalScrolling
     };
+
+    // save values to storage
+    this.readerSettingsService.set(data);
+
     this.viewCtrl.dismiss(data);
   }
 
