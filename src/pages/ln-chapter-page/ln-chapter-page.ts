@@ -15,7 +15,7 @@ export class LnChapterPage {
   tabBarElement: any;
   chapter: Chapter;
   novelId: number;
-  settings: object;
+  settings: any;
   isRenderingChapter: boolean;
 
   constructor(public navCtrl: NavController,
@@ -97,5 +97,9 @@ export class LnChapterPage {
   prevChapter(){
     this.toggleNavBar();
     this.goToChapter(this.novelId, this.chapter.number - 1);
+  }
+
+  get isHorizontalScrolling(){
+    return (this.settings && this.settings.horizontalScrolling) ? "navbar-toggler navbar-toggler-center" : "navbar-toggler navbar-toggler-full";
   }
 }

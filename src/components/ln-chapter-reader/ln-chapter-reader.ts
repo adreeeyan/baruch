@@ -218,4 +218,20 @@ export class LnChapterReader implements OnInit, OnChanges {
         });
     });
   }
+
+  goToNextPage(evt) {
+    if(this.slidesHolder.isEnd()){
+      this.goToChapter(this.chapter.number + 1);
+      return;
+    }
+    this.slidesHolder.slideNext();
+  }
+
+  goToPrevPage(evt) {
+    if(this.slidesHolder.isBeginning()){
+      this.goToChapter(this.chapter.number - 1);
+      return;
+    }
+    this.slidesHolder.slidePrev();
+  }
 }

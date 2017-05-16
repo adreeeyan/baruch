@@ -27,4 +27,17 @@ ln-chapter-reader {
     & .vertical-content {
         line-height: 1.7;
     }
+    & .navigation {
+        position: fixed;
+        height: 100%;
+        width: 30%;
+        top: 0;
+        z-index: 100;
+    }
+    & .navigation-prev {
+        left: 0;
+    }
+    & .navigation-next {
+        right: 0;
+    }
 }

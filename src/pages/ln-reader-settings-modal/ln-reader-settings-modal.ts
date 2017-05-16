@@ -8,8 +8,8 @@ import { NavParams, ViewController, IonicPage } from "ionic-angular";
 })
 export class LnReaderSettingsModal {
 
-  fontSize: number = 13;
-  brightness: number = 85;
+  fontSize: number = 18;
+  brightness: number = 100;
   invertColors: boolean;
   horizontalScrolling: boolean;
   @ViewChild("result") result: ElementRef;

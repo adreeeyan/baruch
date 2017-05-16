@@ -25,7 +25,8 @@
 </ion-header>
 
 
-<ion-content padding id="chapter-page" (tap)="toggleNavBar()">
+<ion-content padding id="chapter-page">
+  <div [className]="isHorizontalScrolling" (tap)="toggleNavBar()"></div>
   <ln-chapter-reader
     [(chapter)]="chapter"
     [novelId]="novelId"
