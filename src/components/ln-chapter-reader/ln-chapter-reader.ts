@@ -68,8 +68,9 @@ export class LnChapterReader implements OnInit, OnChanges {
       scrollContent.style.fontSize = this.fontSize + "px";
       setTimeout(() => {
         this.paginator();
-        this.isRenderingChapter = false;
+        scrollContent.scrollTop = 0;
         scrollContent.style.overflow = "hidden";
+        this.isRenderingChapter = false;
       });
     } else {
       // update thingies for vertical scrolling
