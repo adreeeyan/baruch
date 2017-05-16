@@ -13,31 +13,39 @@
 </ion-header>
 
 
-<ion-content>
-    <ion-list-header >
-      <button ion-button clear item-right icon-only>
+<ion-content padding [hidden]="!novel">
+  <ion-list-header>
+    <button ion-button clear item-right icon-only>
         <ion-icon name="heart-outline"></ion-icon>        
       </button>
-      <h2>{{this.novel.title}}</h2>
-      <span >{{this.novel.getAuthors}} </span>
-    </ion-list-header>
-    <ion-row>
-      <img ion-col col-12 col-md-6 [src]="'/api/covers/' + novel.cover"  alt="Cover"/>     
-    </ion-row>
-    
-    <ion-row>
-      <ion-col>
-        Summary
-        <p text-justify>
-           {{this.novel.synopsis}}
-        </p>
-      </ion-col>
-      
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <button ion-button clear>Read</button>
-      </ion-col>
+    <h2>{{novel?.title}}</h2>
+    <span>{{novel?.getAuthors}} </span>
+  </ion-list-header>
+  <ion-row padding-top>
+    <img ion-col col-12 col-md-6 [src]="'/api/covers/' + novel?.cover" alt="Cover" />
+    <div ion-col col-12 col-md-6>
+      <h6>Genre(s):</h6>
 
-    </ion-row>
+      <!--<ion-badge > </ion-badge>-->
+      <ion-badge item-left *ngFor="let genre of novel?.genres" margin-right color="secondary" class="genre">
+        {{genre.name}}
+      </ion-badge>
+    </div>
+
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <h6>Summary</h6>
+      <p text-justify [innerHTML]="formattedSynopsisText">
+      </p>
+    </ion-col>
+
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <button ion-button clear (click)="startReading()">Read</button>
+    </ion-col>
+
+  </ion-row>
 </ion-content>

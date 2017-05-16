@@ -24,7 +24,7 @@ export class NovelsService {
         let data: Array<object> = <any>response.json() || {};
 
         return data.map((d: Novel): Novel => {
-          return new Novel(d.id, d.title, d.cover, d.status, d.source, d.datePublished, d.lastUpdated, d.chaptersCount, d.synopsis, d.authors)
+          return new Novel(d.id, d.title, d.cover, d.status, d.source, d.datePublished, d.lastUpdated, d.chaptersCount, d.synopsis, d.authors, d.genres)
         });
       });
   }
@@ -34,7 +34,8 @@ export class NovelsService {
     return this.http.get(`/api/novels/${id}`)
       .map((response: Response) => {
         let data = <any>response.json() || {};
-        return new Novel(data.id, data.title, data.cover, data.status, data.source, data.datePublished, data.lastUpdated, data.chaptersCount, data.synopsis, data.authors);
+        return new Novel(data.id, data.title, data.cover, data.status, data.source, data.datePublished,
+          data.lastUpdated, data.chaptersCount, data.synopsis, data.authors, data.genres);
       })
   }
 
@@ -45,16 +46,16 @@ export class NovelsService {
         let data: Array<object> = <any>response.json() || {};
 
         return data.map((c: Chapter): Chapter => new Chapter(c.id, c.number, c.title, ""))
-                  .sort((a, b) => b.number - a.number);
+          .sort((a, b) => b.number - a.number);
       });
   }
 
   getNovelChapter(novelId: string, chapterNumber: string): Observable<Chapter> {
     console.log("NovelsService::getNovelChapter");
     return this.http.get(`/api/novels/${novelId}/chapters/${chapterNumber}`)
-              .map((response: Response) => {
-                let data = response.json() || {};
-                return new Chapter(data.id, data.number, data.title, data.content);
-              });
+      .map((response: Response) => {
+        let data = response.json() || {};
+        return new Chapter(data.id, data.number, data.title, data.content);
+      });
   }
 }

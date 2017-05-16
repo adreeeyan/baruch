@@ -12,7 +12,7 @@ import { NovelsService } from '../../providers/novels-service';
 export class LnDetailsPage {
   novel: Novel;
   constructor(public navCtrl: NavController, public navParams: NavParams, public novelsService: NovelsService) {
-    this.novel = new EmptyNovel();
+    // this.novel = new EmptyNovel();
   }
 
   ionViewDidLoad() {
@@ -22,5 +22,33 @@ export class LnDetailsPage {
       console.log("ionVIewDidLoad", novel);
       this.novel = novel;
     })
+  }
+
+  get formattedSynopsisText() {
+    if (this.novel) {
+      let content = this.novel.synopsis.trim();
+      content = '&emsp;' + content.replace(/\n/g, "<br>&emsp;");
+      return content;
+    }
+    return "";
+  }
+
+  get formattedGenre() {
+    if (this.novel) {
+      let genres = this.novel.genres.map(genre => genre.name)
+      return genres.join(", ");
+    }
+    return "";
+  }
+
+  startReading() {
+    this.continueReading(1);
+  }
+
+  continueReading(chapter) {
+    this.navCtrl.push('LnChapterPage', {
+      novelId: this.novel.id,
+      chapterNumber: chapter
+    });
   }
 }

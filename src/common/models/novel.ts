@@ -8,9 +8,10 @@ export class Novel {
         public source: string,
         public datePublished: Date,
         public lastUpdated: Date,
-        public chaptersCount:number,
+        public chaptersCount: number,
         public synopsis: string,
-        public authors: Array<any>) {
+        public authors: Array<any>,
+        public genres?: Array<any>) {
     }
 
     get getAuthors() {
@@ -20,6 +21,6 @@ export class Novel {
 
 export class EmptyNovel extends Novel {
     constructor() {
-        super(-1, "ttile", "cover", "status", "source", new Date(), new Date(), 0, "synopsis",[]);
+        super(-1, "ttile", "cover", "status", "source", new Date(), new Date(), 0, "synopsis", []);
     }
 }
