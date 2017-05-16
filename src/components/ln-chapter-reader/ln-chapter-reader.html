@@ -17,6 +17,13 @@
 <div class="navigation navigation-next" [hidden]="!horizontalScrolling" (tap)="goToNextPage($event)"></div>
 <!-- end for horizontal scrolling -->
 <!-- for vertical scrolling -->
-<div class="vertical-content" [innerHtml]="content" #verticalContent [hidden]="horizontalScrolling || isRenderingChapter">
+<div class="vertical-content"
+      #verticalContent
+      [innerHtml]="content"
+      [hidden]="horizontalScrolling || isRenderingChapter"
+      (pan)="updateVerticalProgress()">
+</div>
+<div class="vertical-progress" [hidden]="horizontalScrolling || isRenderingChapter">
+  <span class="progressbar" #verticalContentProgress></span>
 </div>
 <!-- end for vertical scrolling -->
