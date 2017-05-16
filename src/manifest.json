@@ -1,6 +1,6 @@
 {
-  "name": "LNReader",
-  "short_name": "LNReader",
+  "name": "Baruch",
+  "short_name": "Baruch: A Light Novel reader with downloader",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
