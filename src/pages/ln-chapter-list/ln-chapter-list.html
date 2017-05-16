@@ -14,8 +14,8 @@
 
 
 <ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let chapter of chapters" (tap)="openChapter(chapter.number)">
+  <ion-list [virtualScroll]="chapters">
+    <button ion-item *virtualItem="let chapter" (tap)="openChapter(chapter.number)">
       <ion-badge>Chapter {{chapter.number}}</ion-badge>
       <span>{{ chapter.title }}</span>
     </button>

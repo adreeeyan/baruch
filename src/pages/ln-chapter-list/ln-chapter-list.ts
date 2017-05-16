@@ -9,7 +9,7 @@ import { Chapter } from "../../common/models/chapter";
   templateUrl: "ln-chapter-list.html",
 })
 export class LnChapterListPage {
-  chapters: Chapter[];
+  chapters: Chapter[] = [];
   constructor(public navCtrl: NavController, public navParams: NavParams, public novelService: NovelsService) {
   }
 
