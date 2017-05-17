@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from "@angular/core";
-import { NavParams, ViewController, IonicPage } from "ionic-angular";
+import { NavParams, ViewController, IonicPage, Platform } from "ionic-angular";
 import { ReaderSettingsService } from "../../providers/reader-settings-service";
+import { ReaderSettings } from "../../common/models/reader-settings";
 
 @IonicPage()
 @Component({
@@ -18,21 +19,26 @@ export class LnReaderSettingsModal {
 
   constructor(public navParams: NavParams,
     private viewCtrl: ViewController,
+    private platform: Platform,
     private readerSettingsService: ReaderSettingsService) {
   }
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad LnReaderSettingsModal");
     // get values from storage
-    this.readerSettingsService
-      .get()
-      .then((settings) => {
-        this.fontSize = settings.fontSize;
-        this._brightness = settings.brightness * 100;
-        this.invertColors = settings.invertColors;
-        this.horizontalScrolling = settings.horizontalScrolling;
-        this.setFontSize(this.fontSize);
-        this.setBrightness(this.brightness);
+    this.platform
+      .ready()
+      .then(() => {
+        this.readerSettingsService
+          .get()
+          .then((settings) => {
+            this.fontSize = settings.fontSize;
+            this._brightness = settings.brightness * 100;
+            this.invertColors = settings.invertColors;
+            this.horizontalScrolling = settings.horizontalScrolling;
+            this.setFontSize(this.fontSize);
+            this.setBrightness(this.brightness);
+          });
       });
   }
 
@@ -56,17 +62,19 @@ export class LnReaderSettingsModal {
   }
 
   save() {
-    let data = {
+    let data = new ReaderSettings({
       fontSize: this.fontSize,
       brightness: this.brightness,
       invertColors: this.invertColors,
       horizontalScrolling: this.horizontalScrolling
-    };
+    });
 
     // save values to storage
-    this.readerSettingsService.set(data);
-
-    this.viewCtrl.dismiss(data);
+    this.readerSettingsService
+        .set(data)
+        .then(() => {
+          this.viewCtrl.dismiss(data);
+        });
   }
 
   dismiss() {

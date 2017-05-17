@@ -50,14 +50,19 @@ export class LnChapterPage {
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad LnChapterPage");
-    let data = this.navParams.data;
-    this.goToChapter(data.novelId, data.chapterNumber);
-    this.novelId = data.novelId;
-    this.readerSettingsService
-        .get()
-        .then(settings => {
-          this.settings = settings
-        });
+    this.platform
+      .ready()
+      .then(() => {
+        this.readerSettingsService.initDb();
+        let data = this.navParams.data;
+        this.goToChapter(data.novelId, data.chapterNumber);
+        this.novelId = data.novelId;
+        this.readerSettingsService
+          .get()
+          .then(settings => {
+            this.settings = settings
+          });
+      });
   }
 
   toggleNavBar(evt = null) {
@@ -66,8 +71,8 @@ export class LnChapterPage {
     if (evt &&
       evt.target.className.indexOf("navigation") > -1 &&
       this.settings.horizontalScrolling) {
-        this.navDisplay = "none";
-        return;
+      this.navDisplay = "none";
+      return;
     }
 
     this.navDisplay = this.navDisplay == "none" ? "flex" : "none";
@@ -86,7 +91,9 @@ export class LnChapterPage {
   openSettingsModal() {
     this.toggleNavBar();
     let settingsModal = this.modalCtrl.create('LnReaderSettingsModal');
-    settingsModal.onDidDismiss((settings) => this.settings = settings ? settings : this.settings);
+    settingsModal.onDidDismiss((settings) => {
+      this.settings = settings ? settings : this.settings;
+    });
     settingsModal.present();
   }
 

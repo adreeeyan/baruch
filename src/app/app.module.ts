@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 
@@ -24,7 +23,6 @@ import { ReaderSettingsService } from "../providers/reader-settings-service";
       tabsPlacement: 'bottom'
     }),
     HttpModule,
-    IonicStorageModule.forRoot(),
     LnLoadingModule,
     LnChapterReaderModule
   ],
