@@ -45,9 +45,9 @@ export class ReaderSettingsService {
             this.get()
                 .then(doc => {
                     // this is not a default, so we need to put with the rev
-                    if(doc._rev){
+                    if (doc._rev) {
                         settings._rev = doc._rev;
-                    }else{
+                    } else {
                         delete settings._rev;
                     }
                     this._set(settings, resolve);

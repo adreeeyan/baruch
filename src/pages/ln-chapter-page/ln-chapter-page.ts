@@ -4,6 +4,7 @@ import { NovelsService } from "../../providers/novels-service";
 import { Chapter } from "../../common/models/chapter";
 import { StatusBar } from "@ionic-native/status-bar";
 import { ReaderSettingsService } from "../../providers/reader-settings-service";
+import { ChaptersService } from "../../providers/chapters-service";
 
 @IonicPage()
 @Component({
@@ -23,6 +24,7 @@ export class LnChapterPage {
     public navParams: NavParams,
     public novelsService: NovelsService,
     private readerSettingsService: ReaderSettingsService,
+    private chapterService: ChaptersService,
     private platform: Platform,
     private statusBar: StatusBar,
     private modalCtrl: ModalController) {
@@ -50,19 +52,12 @@ export class LnChapterPage {
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad LnChapterPage");
-    this.platform
-      .ready()
-      .then(() => {
-        this.readerSettingsService.initDb();
-        let data = this.navParams.data;
-        this.goToChapter(data.novelId, data.chapterNumber);
-        this.novelId = data.novelId;
-        this.readerSettingsService
-          .get()
-          .then(settings => {
-            this.settings = settings
-          });
-      });
+    let data = this.navParams.data;
+    this.goToChapter(data.novelId, data.chapterNumber);
+    this.novelId = data.novelId;
+    this.readerSettingsService
+      .get()
+      .then(settings => this.settings = settings);
   }
 
   toggleNavBar(evt = null) {
@@ -102,6 +97,7 @@ export class LnChapterPage {
     this.novelsService.getNovelChapter(novelId, chapterNumber)
       .subscribe((chapter: Chapter) => {
         this.chapter = chapter;
+        this.markChapterAsRead();
         this.isRenderingChapter = false;
       });
   }
@@ -114,5 +110,12 @@ export class LnChapterPage {
   prevChapter() {
     this.toggleNavBar();
     this.goToChapter(this.novelId, this.chapter.number - 1);
+  }
+
+  markChapterAsRead() {
+    this.chapterService
+      .markAsRead(this.chapter)
+      .then(() => console.log("MARKED AS READ", this.chapter.id))
+      .catch((err) => console.log("UNABLE TO MARK AS READ", this.chapter.id));
   }
 }

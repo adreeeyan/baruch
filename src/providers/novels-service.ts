@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/observable';
 import { Novel } from '../common/models/novel';
 import { Chapter } from "../common/models/chapter";
+import { ChaptersService } from "./chapters-service";
 /*
   Generated class for the Novels provider.
 
@@ -13,7 +14,7 @@ import { Chapter } from "../common/models/chapter";
 @Injectable()
 export class NovelsService {
 
-  constructor(public http: Http) {
+  constructor(public http: Http, private chaptersService: ChaptersService) {
     console.log('Hello Novels Service');
   }
 
@@ -45,8 +46,12 @@ export class NovelsService {
       .map((response: Response) => {
         let data: Array<object> = <any>response.json() || {};
 
-        return data.map((c: Chapter): Chapter => new Chapter(c.id, c.number, c.title, ""))
-          .sort((a, b) => b.number - a.number);
+        return data.map((c: Chapter): Chapter => new Chapter({
+          id: c.id,
+          number: c.number,
+          title: c.title,
+          content: ""
+        })).sort((a, b) => b.number - a.number);
       });
   }
 
@@ -55,7 +60,12 @@ export class NovelsService {
     return this.http.get(`/api/novels/${novelId}/chapters/${chapterNumber}`)
       .map((response: Response) => {
         let data = response.json() || {};
-        return new Chapter(data.id, data.number, data.title, data.content);
+        return new Chapter({
+          id: data.id,
+          number: data.number,
+          title: data.title,
+          content: data.content
+        });
       });
   }
 }

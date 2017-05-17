@@ -15,8 +15,8 @@
 
 <ion-content>
   <ion-list [virtualScroll]="chapters">
-    <button ion-item *virtualItem="let chapter" (tap)="openChapter(chapter.number)">
-      <ion-badge>Chapter {{chapter.number}}</ion-badge>
+    <button ion-item *virtualItem="let chapter" (tap)="openChapter(chapter)">
+      <ion-badge [class.read]="chapter.isRead">Chapter {{chapter.number}}</ion-badge>
       <span>{{ chapter.title }}</span>
     </button>
   </ion-list>
