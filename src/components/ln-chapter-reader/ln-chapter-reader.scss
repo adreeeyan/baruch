@@ -40,23 +40,4 @@ ln-chapter-reader {
     & .navigation-next {
         right: 0;
     }
-    & .vertical-progress {
-        position: fixed;
-        background: rgba(0, 0, 0, 0.25);
-        left: 2px;
-        top: 2px;
-        bottom: 2px;
-        width: 2px;
-        .progressbar {
-            background: #007aff;
-            position: fixed;
-            left: 2px;
-            top: 2px;
-            bottom: 2px;
-            width: 2px;
-            transform-origin: left top;
-            transition-duration: 300ms;
-            transform: translate3d(0px, 0px, 0px) scaleX(1) scaleY(0);
-        }
-    }
 }

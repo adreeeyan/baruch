@@ -14,14 +14,12 @@ export class LnChapterReader implements OnInit, OnChanges {
   @ViewChild("slidesHolder") slidesHolder: any;
   @ViewChild("contentHolder") contentHolder: any;
   @ViewChild("verticalContent") verticalContent: any;
-  @ViewChild("verticalContentProgress") verticalContentProgress: any;
   @Input() novelId: number;
   @Input() fontSize: number;
   @Input() horizontalScrolling: boolean;
   @Input() brightness: number;
   @Input() invertColors: number;
   chapterValue: Chapter;
-  scrollContent: any;
 
   previousPage: number = 0; // used for keeping track pages
   @Input() isRenderingChapter: boolean = true; // used as a lock so that goToChapter cannot execute simultaneously
@@ -49,7 +47,6 @@ export class LnChapterReader implements OnInit, OnChanges {
     if (!this.horizontalScrolling) {
       this.isRenderingChapter = false;
     }
-    this.scrollContent = document.querySelector("ln-chapter-page ion-content .scroll-content");
   }
 
   ngOnChanges() {
@@ -64,21 +61,21 @@ export class LnChapterReader implements OnInit, OnChanges {
   resetPages() {
     if (!this.chapter) return;
     this.content = this.formatText(this.chapter.content);
+    var scrollContent: any = document.querySelector("ln-chapter-page ion-content .scroll-content");
     if (this.horizontalScrolling) {
       // update thingies for horizontal scrolling
       this.isRenderingChapter = true;
-      this.scrollContent.style.fontSize = this.fontSize + "px";
+      scrollContent.style.fontSize = this.fontSize + "px";
       setTimeout(() => {
         this.paginator();
-        this.scrollContent.scrollTop = 0;
-        this.scrollContent.style.overflow = "hidden";
+        scrollContent.scrollTop = 0;
+        scrollContent.style.overflow = "hidden";
         this.isRenderingChapter = false;
       });
     } else {
       // update thingies for vertical scrolling
       this.verticalContent.nativeElement.style.fontSize = this.fontSize + "px";
-      this.scrollContent.style.overflow = "auto";
-      this.updateVerticalProgress();
+      scrollContent.style.overflow = "auto";
     }
 
     // settings here should apply both in vertical and horizontal scrolling
@@ -114,16 +111,17 @@ export class LnChapterReader implements OnInit, OnChanges {
     });
 
     // set the container css
+    var scrollContent: any = document.querySelector("ln-chapter-page ion-content .scroll-content");
     var container = this.contentHolder.nativeElement;
     container.style.fontSize = this.fontSize + "px";
-    var paddingLeft = parseInt(getComputedStyle(this.scrollContent).paddingLeft.split("px")[0]);
-    var paddingRight = parseInt(getComputedStyle(this.scrollContent).paddingRight.split("px")[0]);
-    var paddingTop = parseInt(getComputedStyle(this.scrollContent).paddingTop.split("px")[0]);
-    var paddingBottom = parseInt(getComputedStyle(this.scrollContent).paddingBottom.split("px")[0]);
-    container.style.minWidth = (parseInt(getComputedStyle(this.scrollContent).width.split("px")[0]) - paddingLeft - paddingRight) + "px";
-    container.style.maxWidth = (parseInt(getComputedStyle(this.scrollContent).width.split("px")[0]) - paddingLeft - paddingRight) + "px";
-    container.style.minHeight = (parseInt(getComputedStyle(this.scrollContent).height.split("px")[0]) - paddingTop - paddingBottom) + "px";
-    container.style.maxHeight = (parseInt(getComputedStyle(this.scrollContent).height.split("px")[0]) - paddingTop - paddingBottom) + "px";
+    var paddingLeft = parseInt(getComputedStyle(scrollContent).paddingLeft.split("px")[0]);
+    var paddingRight = parseInt(getComputedStyle(scrollContent).paddingRight.split("px")[0]);
+    var paddingTop = parseInt(getComputedStyle(scrollContent).paddingTop.split("px")[0]);
+    var paddingBottom = parseInt(getComputedStyle(scrollContent).paddingBottom.split("px")[0]);
+    container.style.minWidth = (parseInt(getComputedStyle(scrollContent).width.split("px")[0]) - paddingLeft - paddingRight) + "px";
+    container.style.maxWidth = (parseInt(getComputedStyle(scrollContent).width.split("px")[0]) - paddingLeft - paddingRight) + "px";
+    container.style.minHeight = (parseInt(getComputedStyle(scrollContent).height.split("px")[0]) - paddingTop - paddingBottom) + "px";
+    container.style.maxHeight = (parseInt(getComputedStyle(scrollContent).height.split("px")[0]) - paddingTop - paddingBottom) + "px";
     container.style.lineHeight = 2 + (this.fontSize <= 12 ? .5 : 0); // 12 below fonts needs higher line height
     container.innerHTML = inner;
 
@@ -223,7 +221,7 @@ export class LnChapterReader implements OnInit, OnChanges {
   }
 
   goToNextPage(evt) {
-    if (this.slidesHolder.isEnd()) {
+    if(this.slidesHolder.isEnd()){
       this.goToChapter(this.chapter.number + 1);
       return;
     }
@@ -231,18 +229,10 @@ export class LnChapterReader implements OnInit, OnChanges {
   }
 
   goToPrevPage(evt) {
-    if (this.slidesHolder.isBeginning()) {
+    if(this.slidesHolder.isBeginning()){
       this.goToChapter(this.chapter.number - 1);
       return;
     }
     this.slidesHolder.slidePrev();
-  }
-
-  updateVerticalProgress() {
-    // let scroll end
-    setTimeout(() => {
-      let progress = this.scrollContent.scrollTop / (this.scrollContent.scrollHeight - this.scrollContent.clientHeight);
-      this.verticalContentProgress.nativeElement.style.transform = `translate3d(0px, 0px, 0px) scaleX(1) scaleY(${progress})`;
-    }, 500);
   }
 }
