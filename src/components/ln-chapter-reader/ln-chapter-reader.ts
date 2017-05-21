@@ -23,6 +23,7 @@ export class LnChapterReader implements OnInit, OnChanges {
 
   previousPage: number = 0; // used for keeping track pages
   @Input() isRenderingChapter: boolean = true; // used as a lock so that goToChapter cannot execute simultaneously
+  @Input() isFromNextChapter: boolean; // used to check if chapter navigated by swiping left
 
   constructor(public novelsService: NovelsService, private screenOrientation: ScreenOrientation) {
   }
@@ -60,22 +61,26 @@ export class LnChapterReader implements OnInit, OnChanges {
 
   resetPages() {
     if (!this.chapter) return;
+    this.isRenderingChapter = true;    
     this.content = this.formatText(this.chapter.content);
     var scrollContent: any = document.querySelector("ln-chapter-page ion-content .scroll-content");
     if (this.horizontalScrolling) {
       // update thingies for horizontal scrolling
-      this.isRenderingChapter = true;
       scrollContent.style.fontSize = this.fontSize + "px";
-      setTimeout(() => {
-        this.paginator();
-        scrollContent.scrollTop = 0;
-        scrollContent.style.overflow = "hidden";
-        this.isRenderingChapter = false;
-      });
+      this.paginator();
+      scrollContent.scrollTop = 0;
+      scrollContent.style.overflow = "hidden";
+      if(this.isFromNextChapter){
+        this.slidesHolder.slideTo(this.contents.length - 1, 0);
+      }else{
+        this.slidesHolder.slideTo(0, 0);
+      }
+      this.isRenderingChapter = false;
     } else {
       // update thingies for vertical scrolling
       this.verticalContent.nativeElement.style.fontSize = this.fontSize + "px";
       scrollContent.style.overflow = "auto";
+      scrollContent.scrollTop = 0;
     }
 
     // settings here should apply both in vertical and horizontal scrolling
@@ -86,6 +91,7 @@ export class LnChapterReader implements OnInit, OnChanges {
     if (this.invertColors) {
       ionContent.style["-webkit-filter"] = `brightness(${this.brightness}) invert()`;
     }
+    this.isRenderingChapter = false;    
   }
 
   formatText(content: string) {
@@ -171,11 +177,8 @@ export class LnChapterReader implements OnInit, OnChanges {
     // so for this we need to check if the previous page is the last page before executing this
     if (this.slidesHolder.isEnd() && this.previousPage == this.slidesHolder.length() - 1 && !this.isRenderingChapter) {
       this.isRenderingChapter = true; // explicitly call here
-      this.goToChapter(this.chapter.number + 1)
-        .then(() => {
-          // move to first slide
-          this.slidesHolder.slideTo(0);
-        });
+      this.isFromNextChapter = false;
+      this.goToChapter(this.chapter.number + 1);
     }
   }
 
@@ -192,14 +195,8 @@ export class LnChapterReader implements OnInit, OnChanges {
     let transformX = parseInt(swiperWrapper.style.transform.substr(12).split(",")[0].replace("px", ""));
     if (transformX > 50) {
       this.isRenderingChapter = true; // explicitly call here
-      // use setTimeout to wait for the content to go back to its position
-      setTimeout(() => {
-        this.goToChapter(this.chapter.number - 1)
-          .then(() => {
-            // move to first slide, last slide fires a bug when slided there
-            this.slidesHolder.slideTo(0);
-          });
-      }, 500);
+      this.isFromNextChapter = true;
+      this.goToChapter(this.chapter.number - 1);
     }
   }
 
@@ -222,6 +219,7 @@ export class LnChapterReader implements OnInit, OnChanges {
 
   goToNextPage(evt) {
     if(this.slidesHolder.isEnd()){
+      this.isFromNextChapter = false;
       this.goToChapter(this.chapter.number + 1);
       return;
     }
@@ -230,6 +228,7 @@ export class LnChapterReader implements OnInit, OnChanges {
 
   goToPrevPage(evt) {
     if(this.slidesHolder.isBeginning()){
+      this.isFromNextChapter = true;
       this.goToChapter(this.chapter.number - 1);
       return;
     }

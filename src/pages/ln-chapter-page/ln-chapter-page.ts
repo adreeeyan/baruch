@@ -19,6 +19,7 @@ export class LnChapterPage {
   novelId: number;
   settings: any;
   isRenderingChapter: boolean;
+  isFromNextChapter: boolean;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -104,11 +105,13 @@ export class LnChapterPage {
 
   nextChapter() {
     this.toggleNavBar();
+    this.isFromNextChapter = false;
     this.goToChapter(this.novelId, this.chapter.number + 1);
   }
 
   prevChapter() {
     this.toggleNavBar();
+    this.isFromNextChapter = false;
     this.goToChapter(this.novelId, this.chapter.number - 1);
   }
 

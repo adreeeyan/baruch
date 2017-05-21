@@ -13,8 +13,8 @@
   </ion-slide>
 </ion-slides>
 <div #contentHolder id="contentHolder" [hidden]="!horizontalScrolling"></div>
-<div class="navigation navigation-prev" [hidden]="!horizontalScrolling" (tap)="goToPrevPage($event)"></div>
-<div class="navigation navigation-next" [hidden]="!horizontalScrolling" (tap)="goToNextPage($event)"></div>
+<div class="navigation navigation-prev" [hidden]="!horizontalScrolling || isRenderingChapter" (tap)="goToPrevPage($event)"></div>
+<div class="navigation navigation-next" [hidden]="!horizontalScrolling || isRenderingChapter" (tap)="goToNextPage($event)"></div>
 <!-- end for horizontal scrolling -->
 <!-- for vertical scrolling -->
 <div class="vertical-content" [innerHtml]="content" #verticalContent [hidden]="horizontalScrolling || isRenderingChapter">
