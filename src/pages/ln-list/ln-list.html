@@ -13,15 +13,15 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-grid>
+<ion-content no-padding>
+  <ion-grid no-padding>
     <ion-row class="list-row" align-items-end justify-content-start>
-      <ion-col col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 *ngFor="let novel of novels">
+      <ion-col col-xl-2 col-lg-2 col-md-3 col-sm-4 col-4 *ngFor="let novel of novels" no-padding>
         <ion-card (tap)="novelTapped($event, novel)">
           <div class="cover-holder">
             <img [src]="'/api/covers/' + novel.cover" alt="Cover">
-          </div>          
-          <ion-item color="secondary">
+          </div>
+          <ion-item color="secondary" no-padding>
             <h5>{{novel.title}}</h5>
             <p>
               <span *ngFor="let author of novel.authors">
