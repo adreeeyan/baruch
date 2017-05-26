@@ -28,7 +28,9 @@ $colors: (
   secondary:  #FB9A00,
   danger:     #EF0021,
   light:      #6DCACA,
-  dark:       #111
+  dark:       #111,
+  white:    #fff,
+  supplement : lighten(#111, 20%)
 );
 
 

@@ -14,13 +14,15 @@
 
 
 <ion-content padding [hidden]="!novel">
-  <ion-list-header no-lines>
-    <button ion-button clear item-right icon-only>
+  <ion-toolbar color="white">
+    <ion-title>{{novel?.title}}</ion-title>
+    <span class="supplement" *ngIf="novel?.getAuthors">{{novel?.getAuthors}}</span>
+    <ion-buttons end>
+      <button ion-button icon-only color="danger">
         <ion-icon name="heart-outline"></ion-icon>        
       </button>
-    <h2>{{novel?.title}}</h2>
-    <span>{{novel?.getAuthors}} </span>
-  </ion-list-header>
+    </ion-buttons>
+  </ion-toolbar>
   <ion-row padding-top>
     <div ion-col col-12 col-md-6 align-items-center>
       <img col-12 [src]="'/api/covers/' + novel?.cover" alt="Cover" class="cover" />

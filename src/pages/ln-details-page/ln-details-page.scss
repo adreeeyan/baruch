@@ -2,4 +2,11 @@ page-ln-details-page {
     .genre{
         margin-bottom: 5px;
     }
+    ion-toolbar {
+        background-color: white !important;
+    }
+    .supplement {
+        color: lighten(map-get($colors, dark), 50%);
+        padding: 0px 12px 0px 12px;
+    }
 }
