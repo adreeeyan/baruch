@@ -17,10 +17,28 @@ export class NovelsService {
   constructor(public http: Http, private chaptersService: ChaptersService) {
     console.log('Hello Novels Service');
   }
+  encodeQueryData(data) {
+    let ret = [];
+    for (let d in data) {
+      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+    }
+    return ret.join('&');
+  }
+  getNovels(start: number, count: number, searchValue?: string): Observable<Array<Novel>> {
+    let data: any = {
+      Start: start,
+      Count: count
+    }
+    if (searchValue) {
+      data.SearchKey = "Title";
+      data.SearchValue = searchValue;
+      data.IsFull = false
+    }
+    let params = this.encodeQueryData(data);
+    let url = `/api/novels?${params}`;
 
-  getNovels(start: number, count: number): Observable<Array<Novel>> {
     console.log("NovelsService::getNovels");
-    return this.http.get(`/api/novels?start=${start}&count=${count}`)
+    return this.http.get(url)
       .map((response: Response) => {
         let data: Array<object> = <any>response.json() || {};
 

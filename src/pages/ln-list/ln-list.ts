@@ -40,4 +40,7 @@ export class LnList {
     this.navCtrl.push('LnDetailsTabs', item.id);
   }
 
+  searchTapped(event, item) {
+    this.navCtrl.push('LnSearchPage');
+  }
 }
