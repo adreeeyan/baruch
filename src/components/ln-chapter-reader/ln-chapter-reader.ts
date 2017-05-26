@@ -102,7 +102,7 @@ export class LnChapterReader implements OnInit, OnChanges {
     // replace the new lines with break plus tab
     content = content.replace(/\n/g, "<br>&emsp;");
     // add the title at the start of the page
-    content = `<center><b>Chapter&nbsp;${this.chapter.number}</b></center><br>` + content;
+    content = `<center><b>Content&nbsp;#${this.chapter.number}</b></center><br>` + content;
     return content;
   }
 
