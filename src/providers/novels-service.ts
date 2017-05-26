@@ -32,8 +32,13 @@ export class NovelsService {
     if (searchValue) {
       data.SearchKey = "Title";
       data.SearchValue = searchValue;
-      data.IsFull = false
+      data.IsFull = false;
     }
+
+    // set default sorting
+    data.SortOrder = "Title";
+    data.IsAsc = true;
+
     let params = this.encodeQueryData(data);
     let url = `/api/novels?${params}`;
 
