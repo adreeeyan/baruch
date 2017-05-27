@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Input, OnChanges, EventEmitter, Output } 
 import { Chapter } from "../../common/models/chapter";
 import { NovelsService } from "../../providers/novels-service";
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { LoadingController } from "ionic-angular";
 
 @Component({
   selector: "ln-chapter-reader",
@@ -9,6 +10,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 })
 export class LnChapterReader implements OnInit, OnChanges {
 
+  loader: any; // used for the loading indicator
   content: string; // chapter content got from api
   contents: string[]; // content for the ion-slides
   @ViewChild("slidesHolder") slidesHolder: any;
@@ -22,10 +24,11 @@ export class LnChapterReader implements OnInit, OnChanges {
   chapterValue: Chapter;
 
   previousPage: number = 0; // used for keeping track pages
-  @Input() isRenderingChapter: boolean = true; // used as a lock so that goToChapter cannot execute simultaneously
   @Input() isFromNextChapter: boolean; // used to check if chapter navigated by swiping left
 
-  constructor(public novelsService: NovelsService, private screenOrientation: ScreenOrientation) {
+  constructor(public novelsService: NovelsService,
+              private screenOrientation: ScreenOrientation,
+              private loadingCtrl: LoadingController) {
   }
 
   @Input()
@@ -43,11 +46,8 @@ export class LnChapterReader implements OnInit, OnChanges {
     // set the orientation handler
     this.screenOrientation.onChange().subscribe(() => {
       this.contents = [];
-      this.resetPages();
+      this.ngOnChanges();
     });
-    if (!this.horizontalScrolling) {
-      this.isRenderingChapter = false;
-    }
   }
 
   ngOnChanges() {
@@ -56,26 +56,28 @@ export class LnChapterReader implements OnInit, OnChanges {
       this.chapter == null) {
       return;
     }
+    this.presentLoadingMessage(); 
     this.resetPages();
+    this.loader.dismiss();
   }
 
   resetPages() {
-    if (!this.chapter) return;
-    this.isRenderingChapter = true;    
+    if (!this.chapter) return; 
     this.content = this.formatText(this.chapter.content);
     var scrollContent: any = document.querySelector("ln-chapter-page ion-content .scroll-content");
     if (this.horizontalScrolling) {
       // update thingies for horizontal scrolling
       scrollContent.style.fontSize = this.fontSize + "px";
-      this.paginator();
-      scrollContent.scrollTop = 0;
-      scrollContent.style.overflow = "hidden";
-      if(this.isFromNextChapter){
-        this.slidesHolder.slideTo(this.contents.length - 1, 0);
-      }else{
-        this.slidesHolder.slideTo(0, 0);
-      }
-      this.isRenderingChapter = false;
+      setTimeout(() => {
+        this.paginator();
+        scrollContent.scrollTop = 0;
+        scrollContent.style.overflow = "hidden";
+        if(this.isFromNextChapter){
+          this.slidesHolder.slideTo(this.contents.length - 1, 0);
+        }else{
+          this.slidesHolder.slideTo(0, 0);
+        }
+      });
     } else {
       // update thingies for vertical scrolling
       this.verticalContent.nativeElement.style.fontSize = this.fontSize + "px";
@@ -91,7 +93,6 @@ export class LnChapterReader implements OnInit, OnChanges {
     if (this.invertColors) {
       ionContent.style["-webkit-filter"] = `brightness(${this.brightness}) invert()`;
     }
-    this.isRenderingChapter = false;    
   }
 
   formatText(content: string) {
@@ -175,8 +176,7 @@ export class LnChapterReader implements OnInit, OnChanges {
   goToNextChapter() {
     // ionic has no native way in checking if the user swipped more than the number of slides
     // so for this we need to check if the previous page is the last page before executing this
-    if (this.slidesHolder.isEnd() && this.previousPage == this.slidesHolder.length() - 1 && !this.isRenderingChapter) {
-      this.isRenderingChapter = true; // explicitly call here
+    if (this.slidesHolder.isEnd() && this.previousPage == this.slidesHolder.length() - 1) {
       this.isFromNextChapter = false;
       this.goToChapter(this.chapter.number + 1);
     }
@@ -189,12 +189,11 @@ export class LnChapterReader implements OnInit, OnChanges {
     // hence, we also need a workaround for this
     // we need to get swiper-wrapper element and check how much translate3d on "x" it has
     // if it exceeds 30 then we will fire this function
-    if (this.previousPage != 0 || evt.swipeDirection != "prev" || this.isRenderingChapter) return;
+    if (this.previousPage != 0 || evt.swipeDirection != "prev") return;
     let swiperWrapper: any = document.querySelector(".swiper-wrapper");
     // sample transform3d "translate3d(0px, 0px, 0px)"
     let transformX = parseInt(swiperWrapper.style.transform.substr(12).split(",")[0].replace("px", ""));
     if (transformX > 50) {
-      this.isRenderingChapter = true; // explicitly call here
       this.isFromNextChapter = true;
       this.goToChapter(this.chapter.number - 1);
     }
@@ -206,12 +205,9 @@ export class LnChapterReader implements OnInit, OnChanges {
 
   goToChapter(number): Promise<any> {
     return new Promise((resolve) => {
-      this.isRenderingChapter = true;
       this.novelsService.getNovelChapter(this.novelId.toString(), number)
         .subscribe((chapter: Chapter) => {
           this.chapter = chapter;
-          // fire on change
-          this.resetPages();
           resolve();
         });
     });
@@ -233,5 +229,14 @@ export class LnChapterReader implements OnInit, OnChanges {
       return;
     }
     this.slidesHolder.slidePrev();
+  }
+
+  presentLoadingMessage() {
+    this.loader = this.loadingCtrl.create({
+      spinner: "hide",
+      content: `<img src="assets/loading.gif" /><h3>Fetching the chapter...</h3>`
+    });
+
+    this.loader.present();
   }
 }

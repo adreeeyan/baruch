@@ -18,7 +18,6 @@ export class LnChapterPage {
   chapter: Chapter;
   novelId: number;
   settings: any;
-  isRenderingChapter: boolean;
   isFromNextChapter: boolean;
 
   constructor(public navCtrl: NavController,
@@ -94,12 +93,10 @@ export class LnChapterPage {
   }
 
   goToChapter(novelId, chapterNumber) {
-    this.isRenderingChapter = true;
     this.novelsService.getNovelChapter(novelId, chapterNumber)
       .subscribe((chapter: Chapter) => {
         this.chapter = chapter;
         this.markChapterAsRead();
-        this.isRenderingChapter = false;
       });
   }
 

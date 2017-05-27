@@ -1,9 +1,8 @@
-<ln-loading [hidden]="!isRenderingChapter"></ln-loading>
 <!-- for horizontal scrolling -->
 <ion-slides #slidesHolder
   pager
   paginationType="progress"
-  [hidden]="isRenderingChapter || !horizontalScrolling"
+  [hidden]="!horizontalScrolling"
   spaceBetween="10"
   (ionSlideNextStart)="goToNextChapter()"
   (ionSlideDrag)="goToPreviousChapter($event)"
@@ -13,10 +12,10 @@
   </ion-slide>
 </ion-slides>
 <div #contentHolder id="contentHolder" [hidden]="!horizontalScrolling"></div>
-<div class="navigation navigation-prev" [hidden]="!horizontalScrolling || isRenderingChapter" (tap)="goToPrevPage($event)"></div>
-<div class="navigation navigation-next" [hidden]="!horizontalScrolling || isRenderingChapter" (tap)="goToNextPage($event)"></div>
+<div class="navigation navigation-prev" [hidden]="!horizontalScrolling" (tap)="goToPrevPage($event)"></div>
+<div class="navigation navigation-next" [hidden]="!horizontalScrolling" (tap)="goToNextPage($event)"></div>
 <!-- end for horizontal scrolling -->
 <!-- for vertical scrolling -->
-<div class="vertical-content" [innerHtml]="content" #verticalContent [hidden]="horizontalScrolling || isRenderingChapter">
+<div class="vertical-content" [innerHtml]="content" #verticalContent [hidden]="horizontalScrolling">
 </div>
 <!-- end for vertical scrolling -->

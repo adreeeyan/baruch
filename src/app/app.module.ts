@@ -10,7 +10,6 @@ import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { NovelsService } from "../providers/novels-service";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
-import { LnLoadingModule } from "../components/ln-loading/ln-loading.module";
 import { LnChapterReaderModule } from "../components/ln-chapter-reader/ln-chapter-reader.module";
 import { ReaderSettingsService } from "../providers/reader-settings-service";
 import { ChaptersService } from "../providers/chapters-service";
@@ -26,7 +25,6 @@ import { ChaptersService } from "../providers/chapters-service";
     }),
     IonicStorageModule.forRoot(),
     HttpModule,
-    LnLoadingModule,
     LnChapterReaderModule
   ],
   bootstrap: [IonicApp],
