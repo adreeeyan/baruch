@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component } from "@angular/core";
 import { NavParams, ViewController, IonicPage, Platform } from "ionic-angular";
 import { Storage } from "@ionic/storage";
 import { NovelsService } from "../../providers/novels-service";

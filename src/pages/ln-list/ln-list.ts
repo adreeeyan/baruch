@@ -31,13 +31,16 @@ export class LnList {
         let checkedGenres = values[0];
         let selectedStatus = values[1];
 
-        checkedGenres.forEach(genre => {
-          this.filterParams.push(new FilterParams({
-            searchKey: "Genre",
-            searchValue: genre,
-            isFull: true
-          }));
-        });
+        if (checkedGenres) {
+          checkedGenres.forEach(genre => {
+            this.filterParams.push(new FilterParams({
+              searchKey: "Genre",
+              searchValue: genre,
+              isFull: true
+            }));
+          });
+        }
+
         if (selectedStatus && selectedStatus != Status.ALL) {
           this.filterParams.push(new FilterParams({
             searchKey: "Status",
@@ -45,8 +48,8 @@ export class LnList {
             isFull: true
           }));
         }
-        
-        this.resetNovelList();        
+
+        this.resetNovelList();
       })
   }
 
