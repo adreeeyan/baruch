@@ -1,6 +1,6 @@
 page-ln-list {
     ion-item {
-        & ion-label{
+        & ion-label {
             overflow-y: visible;
             margin: 4px !important;
         }
@@ -10,7 +10,6 @@ page-ln-list {
             padding-top: 2px;
         }
     }
-
     ion-card {
         margin: 5px !important;
         width: calc(100% - 10px) !important;
@@ -18,7 +17,6 @@ page-ln-list {
             min-height: 150px;
             max-height: 150px;
             display: flex;
-
             img {
                 align-self: center;
                 max-height: 150px;

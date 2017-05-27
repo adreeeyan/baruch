@@ -45,7 +45,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-infinite-scroll (ionInfinite)="$event.waitFor(updateNovelList())">
+  <ion-infinite-scroll *ngIf="novels?.length" (ionInfinite)="$event.waitFor(updateNovelList())">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
