@@ -1,13 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { BrowserModule } from "@angular/platform-browser";
+import { HttpModule } from "@angular/http";
+import { ErrorHandler, NgModule } from "@angular/core";
+import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
+import { IonicStorageModule } from "@ionic/storage";
 
-import { MyApp } from './app.component';
+import { MyApp } from "./app.component";
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { NovelsService } from '../providers/novels-service';
+import { StatusBar } from "@ionic-native/status-bar";
+import { SplashScreen } from "@ionic-native/splash-screen";
+import { NovelsService } from "../providers/novels-service";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { LnLoadingModule } from "../components/ln-loading/ln-loading.module";
 import { LnChapterReaderModule } from "../components/ln-chapter-reader/ln-chapter-reader.module";
@@ -21,8 +22,9 @@ import { ChaptersService } from "../providers/chapters-service";
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp, {
-      tabsPlacement: 'bottom'
+      tabsPlacement: "bottom"
     }),
+    IonicStorageModule.forRoot(),
     HttpModule,
     LnLoadingModule,
     LnChapterReaderModule

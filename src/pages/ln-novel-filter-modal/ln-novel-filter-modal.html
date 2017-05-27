@@ -1,0 +1,47 @@
+<ion-header no-border>
+  <ion-toolbar color="secondary">
+    <ion-buttons start>
+      <button ion-button (tap)="dismiss()">
+        <span ion-text>Cancel</span>
+      </button>
+    </ion-buttons>
+    <ion-title>Filter</ion-title>
+    <ion-buttons end>
+      <button ion-button (tap)="save()">
+        <span ion-text>Apply</span>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding-top>
+
+  <ion-list no-lines radio-group [(ngModel)]="status">
+    <ion-list-header no-lines>
+      Status
+    </ion-list-header>
+    <ion-item>
+      <ion-label>All</ion-label>
+      <ion-radio value="0"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Ongoing</ion-label>
+      <ion-radio value="2"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Completed</ion-label>
+      <ion-radio value="1"></ion-radio>
+    </ion-item>
+  </ion-list>
+
+  <ion-list no-lines padding-top>
+    <ion-list-header no-lines>
+      Genres
+    </ion-list-header>
+    <ion-item *ngFor="let genre of genres">
+      <ion-label>{{genre.name}}</ion-label>
+      <ion-toggle [(ngModel)]="genre.checked"></ion-toggle>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

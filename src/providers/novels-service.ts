@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/observable';
 import { Novel } from '../common/models/novel';
 import { Chapter } from "../common/models/chapter";
 import { ChaptersService } from "./chapters-service";
+import { Genre } from "../common/models/genre";
 /*
   Generated class for the Novels provider.
 
@@ -24,7 +25,7 @@ export class NovelsService {
     }
     return ret.join('&');
   }
-  getNovels(start: number, count: number, searchValue?: string): Observable<Array<Novel>> {
+  getNovels(start: number, count: number, searchValue?: string, additionalParams?: object[]): Observable<Array<Novel>> {
     let data: any = {
       Start: start,
       Count: count
@@ -35,11 +36,18 @@ export class NovelsService {
       data.IsFull = false;
     }
 
+    let addedParams = "";
+    if (additionalParams) {
+      additionalParams.forEach(params => {
+        addedParams += "&" + this.encodeQueryData(params);
+      });
+    }
+
     // set default sorting
     data.SortOrder = "Title";
     data.IsAsc = true;
 
-    let params = this.encodeQueryData(data);
+    let params = this.encodeQueryData(data) + "&" + addedParams;
     let url = `/api/novels?${params}`;
 
     console.log("NovelsService::getNovels");
@@ -89,6 +97,15 @@ export class NovelsService {
           title: data.title,
           content: data.content
         });
+      });
+  }
+
+  getGenres() {
+    console.log("NovelsService::getGenres");
+    return this.http.get(`/api/genres`)
+      .map((response: Response) => {
+        let data: Array<Genre> = <any>response.json() || {};
+        return data.sort((a, b) => a.name.localeCompare(b.name));
       });
   }
 }
