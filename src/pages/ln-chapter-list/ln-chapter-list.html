@@ -20,4 +20,8 @@
       <span>{{ chapter.title }}</span>
     </button>
   </ion-list>
+  <div *ngIf="!chapters.length && isFinishedLoading" class="no-content">
+    <ion-icon name="ios-sad"></ion-icon>
+    <div>NO CONTENT YET</div>
+  </div>
 </ion-content>

@@ -11,6 +11,7 @@ import { ChaptersService } from "../../providers/chapters-service";
 })
 export class LnChapterListPage {
   chapters: Chapter[] = [];
+  isFinishedLoading: boolean = false;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public novelService: NovelsService,
@@ -27,6 +28,7 @@ export class LnChapterListPage {
           this.checkIfChapterIsRead(chapter);
         });
         this.chapters = chapters;
+        this.isFinishedLoading = true;
       });
   }
 
