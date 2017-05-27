@@ -1,7 +1,7 @@
-<ion-menu [content]="content">
+<ion-menu [content]="content" [swipeEnabled]="false">
   <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
+    <ion-toolbar color="secondary">
+      <ion-title>BARUCH</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -12,6 +12,15 @@
       </button>
     </ion-list>
   </ion-content>
+
+  <ion-footer>
+    <img class="feedbacks" src="assets/food.png" alt="Feedbacks">
+    <a href="mailto:adrian.onrails@gmail.com?subject=Baruch feedback&body=Anything?">
+      <ion-toolbar color="primary">
+        <ion-title>Feedbacks?</ion-title>
+      </ion-toolbar>
+    </a>
+  </ion-footer>
 
 </ion-menu>
 

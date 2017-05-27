@@ -15,3 +15,20 @@
 .loading-content {
     text-align: center;
 }
+
+ion-menu {
+    & ion-footer {
+        .feedbacks {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            z-index: 1000;
+            width: 130px;
+        }
+        & .toolbar-title {
+            position: absolute;
+            left: 20px;
+            text-align: left;
+        }
+    }
+}
