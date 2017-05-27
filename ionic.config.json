@@ -5,7 +5,7 @@
   "proxies": [
     {
       "path": "/api",
-      "proxyUrl": "http://ec2-52-221-220-14.ap-southeast-1.compute.amazonaws.com:5050/api"
+      "proxyUrl": "http://localhost:5050/api"
     }
   ]
 }
