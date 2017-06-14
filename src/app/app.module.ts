@@ -13,6 +13,7 @@ import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { LnChapterReaderModule } from "../components/ln-chapter-reader/ln-chapter-reader.module";
 import { ReaderSettingsService } from "../providers/reader-settings-service";
 import { ChaptersService } from "../providers/chapters-service";
+import { FavoritesService } from '../providers/favorites-service';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ChaptersService } from "../providers/chapters-service";
     ScreenOrientation,
     StatusBar,
     NovelsService,
+    FavoritesService,
     ReaderSettingsService,
     ChaptersService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }

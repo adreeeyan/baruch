@@ -18,8 +18,8 @@
     <ion-title>{{novel?.title}}</ion-title>
     <span class="supplement" *ngIf="novel?.getAuthors">{{novel?.getAuthors}}</span>
     <ion-buttons end>
-      <button ion-button icon-only color="danger">
-        <ion-icon name="heart-outline"></ion-icon>        
+      <button ion-button icon-only color="danger" (click)="toggleFavorite()">
+        <ion-icon name="{{isFavorite? 'heart': 'heart-outline'}}"></ion-icon>        
       </button>
     </ion-buttons>
   </ion-toolbar>

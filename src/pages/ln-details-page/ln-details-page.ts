@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { Novel } from '../../common/models/novel';
 import { NovelsService } from '../../providers/novels-service';
+import { FavoritesService } from '../../providers/favorites-service';
 
 @IonicPage()
 @Component({
@@ -11,7 +12,8 @@ import { NovelsService } from '../../providers/novels-service';
 })
 export class LnDetailsPage {
   novel: Novel;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public novelsService: NovelsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    public novelsService: NovelsService, private favoritesService: FavoritesService) {
   }
 
   ionViewDidLoad() {
@@ -49,5 +51,20 @@ export class LnDetailsPage {
       novelId: this.novel.id,
       chapterNumber: chapter
     });
+  }
+
+  toggleFavorite() {
+    if (this.novel) {
+      this.favoritesService.toggleFavorite(this.novel.id);
+    }
+
+  }
+
+  get isFavorite() {
+    if (this.novel) {
+      return this.favoritesService.isFavorite(this.novel.id);
+    }
+
+    return false;
   }
 }
