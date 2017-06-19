@@ -28,7 +28,7 @@ export class FavoritesService {
 
     removeFromFavorites(novel) {
         if (this.isFavorite(novel)) {
-            this.favorites = _.without(this.favorites, novel);
+            this.favorites = _.reject(this.favorites, novel);
             this.save();
         }
     }
