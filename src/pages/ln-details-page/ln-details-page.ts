@@ -55,14 +55,14 @@ export class LnDetailsPage {
 
   toggleFavorite() {
     if (this.novel) {
-      this.favoritesService.toggleFavorite(this.novel.id);
+      this.favoritesService.toggleFavorite(this.novel);
     }
 
   }
 
   get isFavorite() {
     if (this.novel) {
-      return this.favoritesService.isFavorite(this.novel.id);
+      return this.favoritesService.isFavorite(this.novel);
     }
 
     return false;

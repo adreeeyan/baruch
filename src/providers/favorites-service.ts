@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Storage } from "@ionic/storage";
 import _ from "lodash";
+import { Novel } from "../common/models/novel";
 @Injectable()
 export class FavoritesService {
     favorites = [];
@@ -14,34 +15,56 @@ export class FavoritesService {
             })
     }
 
-    addToFavorites(novelId) {
-        if (!this.isFavorite(novelId)) {
-            this.favorites.push(novelId);
+    addToFavorites(novel) {
+        if (!this.isFavorite(novel)) {
+            this.favorites.push(novel);
             this.save();
         }
     }
 
-    isFavorite(novelId) {
-        return _.includes(this.favorites, novelId);
+    isFavorite(novel) {
+        return _.some(this.favorites, novel);
     }
 
-    removeFromFavorites(novelId) {
-        if (this.isFavorite(novelId)) {
-            this.favorites = _.without(this.favorites, novelId);
+    removeFromFavorites(novel) {
+        if (this.isFavorite(novel)) {
+            this.favorites = _.without(this.favorites, novel);
             this.save();
         }
     }
 
-    toggleFavorite(novelId) {
-        if (!this.isFavorite(novelId)) {
-            this.addToFavorites(novelId);
+    toggleFavorite(novel) {
+        if (!this.isFavorite(novel)) {
+            this.addToFavorites(novel);
         } else {
-            this.removeFromFavorites(novelId);
+            this.removeFromFavorites(novel);
         }
 
         this.save();
     }
     save() {
         this.storage.set("favorites", this.favorites);
+    }
+
+    encodeQueryData(data) {
+        let ret = [];
+        for (let d in data) {
+            ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+        }
+        return ret.join('&');
+    }
+
+    // retrieve the favorites
+    getNovels(): Promise<Array<Novel>> {
+        console.log("FavoritesService::getNovels");
+        return new Promise((resolve) => {
+            return this.storage.get("favorites")
+                .then(favorites => {
+                    resolve(favorites || [])
+                })
+                .catch(() => {
+                    resolve([]);
+                });
+        });
     }
 }
