@@ -15,6 +15,7 @@ import { ReaderSettingsService } from "../providers/reader-settings-service";
 import { ChaptersService } from "../providers/chapters-service";
 import { FavoritesService } from '../providers/favorites-service';
 import { LnLoadingController } from "../common/ln-loading-controller";
+import { LnNovelListModule } from "../components/ln-novel-list/ln-novel-list.module";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { LnLoadingController } from "../common/ln-loading-controller";
     }),
     IonicStorageModule.forRoot(),
     HttpModule,
-    LnChapterReaderModule
+    LnChapterReaderModule,
+    LnNovelListModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

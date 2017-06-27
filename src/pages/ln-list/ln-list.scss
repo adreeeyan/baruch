@@ -1,26 +1,2 @@
 page-ln-list {
-    ion-item {
-        & ion-label {
-            overflow-y: visible;
-            margin: 4px !important;
-        }
-        & h5 {
-            overflow-x: hidden;
-            text-overflow: ellipsis;
-            padding-top: 2px;
-        }
-    }
-    ion-card {
-        margin: 5px !important;
-        width: calc(100% - 10px) !important;
-        .cover-holder {
-            min-height: 150px;
-            max-height: 150px;
-            display: flex;
-            img {
-                align-self: center;
-                max-height: 150px;
-            }
-        }
-    }
 }

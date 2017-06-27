@@ -50,10 +50,6 @@ export class LnFavorites {
       .then(() => this.loadingCtrl.hideLoadingMessage());
   }
 
-  novelTapped(event, item) {
-    this.navCtrl.push('LnDetailsTabs', item.id);
-  }
-
   searchTapped(event, item) {
     this.navCtrl.push('LnSearchPage');
   }

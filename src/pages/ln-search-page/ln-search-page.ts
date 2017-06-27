@@ -10,8 +10,8 @@ import { NovelsService } from '../../providers/novels-service';
     styles: ['ln-search-page.scss']
 })
 export class LnSearchPage {
+    @ViewChild("search") search: any;    
     novels: Array<Novel>;
-    @ViewChild("search") search: any;
     start: number;
     count: number;
     searchValue: string = "";
@@ -53,10 +53,4 @@ export class LnSearchPage {
                 });
         });
     }
-
-
-    novelTapped(event, item) {
-        this.navCtrl.push('LnDetailsTabs', item.id);
-    }
-
 }
