@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Storage } from "@ionic/storage";
 import { Novel } from '../../common/models/novel';
 import { FavoritesService } from '../../providers/favorites-service';
+import { LnLoadingController } from "../../common/ln-loading-controller";
 
 @IonicPage()
 @Component({
@@ -14,23 +15,17 @@ export class LnFavorites {
   novels: Array<Novel>;
   start: number;
   count: number;
-  loader: any;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public favoritesService: FavoritesService,
     private modalCtrl: ModalController,
-    private loadingCtrl: LoadingController,
+    private loadingCtrl: LnLoadingController,
     private storage: Storage) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LnFavorites');
-
-    this.loader = this.loadingCtrl.create({
-      content: "Fetching your favorites..."
-    });
-    
     this.resetNovelList();
   }
 
@@ -47,12 +42,12 @@ export class LnFavorites {
   }
 
   resetNovelList() {
-    this.presentLoadingMessage();
+    this.loadingCtrl.presentLoadingMessage();
     this.novels = [];
     this.start = 0;
     this.count = 50;
     this.updateNovelList()
-      .then(() => this.loader.dismiss());
+      .then(() => this.loadingCtrl.hideLoadingMessage());
   }
 
   novelTapped(event, item) {
@@ -61,14 +56,5 @@ export class LnFavorites {
 
   searchTapped(event, item) {
     this.navCtrl.push('LnSearchPage');
-  }
-
-  presentLoadingMessage() {
-    this.loader = this.loadingCtrl.create({
-      spinner: "hide",
-      content: `<img src="assets/loading.gif" /><h3>Fetching your favorites...</h3>`
-    });
-
-    this.loader.present();
   }
 }

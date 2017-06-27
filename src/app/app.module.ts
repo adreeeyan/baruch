@@ -14,6 +14,7 @@ import { LnChapterReaderModule } from "../components/ln-chapter-reader/ln-chapte
 import { ReaderSettingsService } from "../providers/reader-settings-service";
 import { ChaptersService } from "../providers/chapters-service";
 import { FavoritesService } from '../providers/favorites-service';
+import { LnLoadingController } from "../common/ln-loading-controller";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { FavoritesService } from '../providers/favorites-service';
     FavoritesService,
     ReaderSettingsService,
     ChaptersService,
+    LnLoadingController,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Storage } from "@ionic/storage";
 import { Novel } from '../../common/models/novel';
 import { NovelsService } from '../../providers/novels-service';
 import { FilterParams } from "../../common/models/filter-params";
 import { Status } from "../../common/models/status";
+import { LnLoadingController } from "../../common/ln-loading-controller";
 
 @IonicPage()
 @Component({
@@ -17,22 +18,17 @@ export class LnList {
   start: number;
   count: number;
   filterParams: FilterParams[] = [];
-  loader: any;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public novelsService: NovelsService,
     private modalCtrl: ModalController,
-    private loadingCtrl: LoadingController,
+    private loadingCtrl: LnLoadingController,
     private storage: Storage) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LnList');
-
-    this.loader = this.loadingCtrl.create({
-      content: "Fetching the novels..."
-    });
 
     Promise.all([this.storage.get("checkedGenres"), this.storage.get("selectedStatus")])
       .then(values => {
@@ -74,12 +70,12 @@ export class LnList {
   }
 
   resetNovelList() {
-    this.presentLoadingMessage();
+    this.loadingCtrl.presentLoadingMessage("Fetching the novels...");
     this.novels = [];
     this.start = 0;
     this.count = 50;
     this.updateNovelList()
-      .then(() => this.loader.dismiss());
+      .then(() => this.loadingCtrl.hideLoadingMessage());
   }
 
   novelTapped(event, item) {
@@ -117,14 +113,5 @@ export class LnList {
       this.resetNovelList();
     });
     filterModal.present();
-  }
-
-  presentLoadingMessage() {
-    this.loader = this.loadingCtrl.create({
-      spinner: "hide",
-      content: `<img src="assets/loading.gif" /><h3>Fetching the novels...</h3>`
-    });
-
-    this.loader.present();
   }
 }

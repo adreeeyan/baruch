@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Input, OnChanges, EventEmitter, Output } 
 import { Chapter } from "../../common/models/chapter";
 import { NovelsService } from "../../providers/novels-service";
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { LoadingController } from "ionic-angular";
+import { LnLoadingController } from "../../common/ln-loading-controller";
 
 @Component({
   selector: "ln-chapter-reader",
@@ -10,7 +10,6 @@ import { LoadingController } from "ionic-angular";
 })
 export class LnChapterReader implements OnInit, OnChanges {
 
-  loader: any; // used for the loading indicator
   content: string; // chapter content got from api
   contents: string[]; // content for the ion-slides
   @ViewChild("slidesHolder") slidesHolder: any;
@@ -28,7 +27,7 @@ export class LnChapterReader implements OnInit, OnChanges {
 
   constructor(public novelsService: NovelsService,
               private screenOrientation: ScreenOrientation,
-              private loadingCtrl: LoadingController) {
+              private loadingCtrl: LnLoadingController) {
   }
 
   @Input()
@@ -56,9 +55,9 @@ export class LnChapterReader implements OnInit, OnChanges {
       this.chapter == null) {
       return;
     }
-    this.presentLoadingMessage(); 
+    this.loadingCtrl.presentLoadingMessage(); 
     this.resetPages();
-    this.loader.dismiss();
+    this.loadingCtrl.hideLoadingMessage();
   }
 
   resetPages() {
@@ -229,14 +228,5 @@ export class LnChapterReader implements OnInit, OnChanges {
       return;
     }
     this.slidesHolder.slidePrev();
-  }
-
-  presentLoadingMessage() {
-    this.loader = this.loadingCtrl.create({
-      spinner: "hide",
-      content: `<img src="assets/loading.gif" /><h3>Fetching the chapter...</h3>`
-    });
-
-    this.loader.present();
   }
 }
