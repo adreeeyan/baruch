@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { ReaderSettingsService } from "../providers/reader-settings-service";
 
 @Component({
   templateUrl: 'app.html'
@@ -16,8 +15,7 @@ export class MyApp {
 
   constructor(public platform: Platform,
             public statusBar: StatusBar,
-            public splashScreen: SplashScreen,
-            private readerSettingsService: ReaderSettingsService) {
+            public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -34,9 +32,6 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
-      // initialize services that uses db
-      this.readerSettingsService.initDb();
     });
   }
 

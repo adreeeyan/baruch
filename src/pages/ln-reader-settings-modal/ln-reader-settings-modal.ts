@@ -70,11 +70,8 @@ export class LnReaderSettingsModal {
     });
 
     // save values to storage
-    this.readerSettingsService
-        .set(data)
-        .then(() => {
-          this.viewCtrl.dismiss(data);
-        });
+    this.readerSettingsService.set(data);
+    this.viewCtrl.dismiss(data);
   }
 
   dismiss() {
