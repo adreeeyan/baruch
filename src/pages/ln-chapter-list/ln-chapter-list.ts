@@ -20,7 +20,7 @@ export class LnChapterListPage {
     private loadingCtrl: LnLoadingController) {
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     console.log("ionViewDidLoad LnChapterListPage");
     this.loadingCtrl.presentLoadingMessage();
     let id = this.navParams.data;
@@ -38,9 +38,12 @@ export class LnChapterListPage {
 
   checkIfChapterIsRead(chapter) {
     this.chaptersService
-      .isRead(chapter)
-      .then((isRead) => {
-        chapter.isRead = isRead;
+      .isRead(chapter.id)
+      .then(() => {
+        chapter.isRead = true;
+      })
+      .catch(() => {
+        chapter.isRead = false;
       });
   }
 

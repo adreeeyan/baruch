@@ -1,82 +1,63 @@
 import { Injectable } from "@angular/core";
-import * as PouchDB from "pouchdb";
-import cordovaSqlitePlugin from "pouchdb-adapter-cordova-sqlite";
+import { Storage } from "@ionic/storage";
+import _ from "lodash";
 
 @Injectable()
 export class ChaptersService {
-    private _db;
+    private _readChapters: Array<number> = [];
+    private READCHAPTERS: string = "readChapters";
 
-    constructor() {
+    constructor(private storage: Storage) {
         console.log("Hello Chapters Service");
     }
 
-    initDb() {
-        PouchDB.plugin(cordovaSqlitePlugin);
-        let windowCopy: any = window;
-        if (!!windowCopy.cordova) {
-            this._db = new PouchDB("chapters.db", { adapter: "cordova-sqlite", location: "default" });
-        } else {
-            this._db = new PouchDB("chapters.db");
-        }
-    }
-
-    get(id): Promise<any> {
+    getAllReadChapters() {
         return new Promise((resolve, reject) => {
-            this._db
-                .get(id.toString())
-                .then((chapter) => {
-                    resolve(chapter);
+            this.storage.get(this.READCHAPTERS)
+                .then(chapters => {
+                    this._readChapters = chapters || [];
+                    resolve(chapters);
                 })
-                .catch((err) => {
-                    reject(err);
+                .catch(() => {
+                    resolve([]);
                 });
         });
     }
 
     isRead(chapter): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.get(chapter.id)
-                .then((chapter) => {
-                    if (chapter.isRead) {
-                        resolve(true);
+            this.getAllReadChapters()
+                .then(readChapters => {
+                    var isRead = _.includes(readChapters, chapter);
+                    if (isRead) {
+                        resolve();
                     } else {
-                        resolve(false);
+                        reject();
                     }
                 })
                 .catch(() => {
-                    resolve(false);
+                    reject();
                 });
         });
     }
 
     markAsRead(chapter): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.get(chapter.id)
-                .then(doc => {
-                    if (doc.isRead) {
-                        resolve();
-                        return;
-                    }
-                    doc.isRead = true;
-                    this._put(doc, resolve, reject);
+            this.isRead(chapter)
+                .then(() => {
+                    // chapter is already read
+                    reject();
                 })
-                .catch((err) => {
-                    // not in db yet
-                    chapter.isRead = true;
-                    this._put(chapter, resolve, reject);
+                .catch(() => {
+                    // add chapter to read
+                    this._readChapters.push(chapter);
+                    this.save();
+                    resolve()
                 });
         });
     }
 
-    private _put(chapter, resolve, reject) {
-        chapter._id = chapter.id.toString();
-        this._db
-            .put(chapter)
-            .then(() => {
-                resolve();
-            })
-            .catch((err) => {
-                reject();
-            });
+    save() {
+        this.storage.set(this.READCHAPTERS, this._readChapters);
     }
 }

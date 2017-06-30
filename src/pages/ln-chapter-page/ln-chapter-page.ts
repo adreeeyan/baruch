@@ -114,7 +114,7 @@ export class LnChapterPage {
 
   markChapterAsRead() {
     this.chapterService
-      .markAsRead(this.chapter)
+      .markAsRead(this.chapter.id)
       .then(() => console.log("MARKED AS READ", this.chapter.id))
       .catch((err) => console.log("UNABLE TO MARK AS READ", this.chapter.id));
   }

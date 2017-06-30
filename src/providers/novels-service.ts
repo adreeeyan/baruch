@@ -4,7 +4,6 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/observable';
 import { Novel } from '../common/models/novel';
 import { Chapter } from "../common/models/chapter";
-import { ChaptersService } from "./chapters-service";
 import { Genre } from "../common/models/genre";
 /*
   Generated class for the Novels provider.
@@ -15,7 +14,7 @@ import { Genre } from "../common/models/genre";
 @Injectable()
 export class NovelsService {
 
-  constructor(public http: Http, private chaptersService: ChaptersService) {
+  constructor(public http: Http) {
     console.log('Hello Novels Service');
   }
   encodeQueryData(data) {

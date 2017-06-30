@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { ChaptersService } from "../providers/chapters-service";
 import { ReaderSettingsService } from "../providers/reader-settings-service";
 
 @Component({
@@ -18,8 +17,7 @@ export class MyApp {
   constructor(public platform: Platform,
             public statusBar: StatusBar,
             public splashScreen: SplashScreen,
-            private readerSettingsService: ReaderSettingsService,
-            private chaptersService: ChaptersService) {
+            private readerSettingsService: ReaderSettingsService) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -39,7 +37,6 @@ export class MyApp {
 
       // initialize services that uses db
       this.readerSettingsService.initDb();
-      this.chaptersService.initDb();
     });
   }
 
