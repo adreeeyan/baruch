@@ -20,20 +20,24 @@ export class LnChapterListPage {
     private loadingCtrl: LnLoadingController) {
   }
 
-  ionViewWillEnter() {
+  ionViewDidLoad() {
     console.log("ionViewDidLoad LnChapterListPage");
     this.loadingCtrl.presentLoadingMessage();
     let id = this.navParams.data;
     this.novelService
       .getNovelChapterList(id)
       .subscribe((chapters: Chapter[]) => {
-        chapters.forEach(chapter => {
-          this.checkIfChapterIsRead(chapter);
-        });
         this.chapters = chapters;
         this.isFinishedLoading = true;
         this.loadingCtrl.hideLoadingMessage();
       });
+  }
+
+  ionViewDidEnter() {
+    console.log("ionViewDidEnter LnChapterListPage");
+    this.chapters.forEach(chapter => {
+      this.checkIfChapterIsRead(chapter);
+    });
   }
 
   checkIfChapterIsRead(chapter) {
