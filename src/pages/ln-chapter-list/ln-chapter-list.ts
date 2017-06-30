@@ -29,12 +29,16 @@ export class LnChapterListPage {
       .subscribe((chapters: Chapter[]) => {
         this.chapters = chapters;
         this.isFinishedLoading = true;
+        this.ionViewDidEnter();
         this.loadingCtrl.hideLoadingMessage();
       });
   }
 
   ionViewDidEnter() {
     console.log("ionViewDidEnter LnChapterListPage");
+    if (!this.isFinishedLoading) {
+      return;
+    }
     this.chapters.forEach(chapter => {
       this.checkIfChapterIsRead(chapter);
     });
