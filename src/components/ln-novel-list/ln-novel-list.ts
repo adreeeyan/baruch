@@ -2,12 +2,6 @@ import { Component, Input } from '@angular/core';
 import { NavController } from "ionic-angular";
 import { Novel } from "../../common/models/novel";
 
-/**
- * Generated class for the LnNovelList component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
 @Component({
   selector: 'ln-novel-list',
   templateUrl: 'ln-novel-list.html'

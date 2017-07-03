@@ -5,6 +5,7 @@ import { Chapter } from "../../common/models/chapter";
 import { StatusBar } from "@ionic-native/status-bar";
 import { ReaderSettingsService } from "../../providers/reader-settings-service";
 import { ChaptersService } from "../../providers/chapters-service";
+import { LnLoadingController } from "../../common/ln-loading-controller";
 
 @IonicPage()
 @Component({
@@ -27,7 +28,8 @@ export class LnChapterPage {
     private chapterService: ChaptersService,
     private platform: Platform,
     private statusBar: StatusBar,
-    private modalCtrl: ModalController) {
+    private modalCtrl: ModalController,
+    private loadingCtrl: LnLoadingController) {
     this.chapterDetailsHeader = document.querySelector("page-ln-details-tabs ion-header");
     this.tabBarElement = document.querySelector(".tabbar.show-tabbar");
   }
@@ -93,10 +95,12 @@ export class LnChapterPage {
   }
 
   goToChapter(novelId, chapterNumber) {
+    this.loadingCtrl.presentLoadingMessage();
     this.novelsService.getNovelChapter(novelId, chapterNumber)
       .subscribe((chapter: Chapter) => {
         this.chapter = chapter;
         this.markChapterAsRead();
+        this.loadingCtrl.hideLoadingMessage();
       });
   }
 

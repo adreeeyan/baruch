@@ -55,9 +55,7 @@ export class LnChapterReader implements OnInit, OnChanges {
       this.chapter == null) {
       return;
     }
-    this.loadingCtrl.presentLoadingMessage(); 
     this.resetPages();
-    this.loadingCtrl.hideLoadingMessage();
   }
 
   resetPages() {
@@ -204,10 +202,12 @@ export class LnChapterReader implements OnInit, OnChanges {
 
   goToChapter(number): Promise<any> {
     return new Promise((resolve) => {
+      this.loadingCtrl.presentLoadingMessage();
       this.novelsService.getNovelChapter(this.novelId.toString(), number)
         .subscribe((chapter: Chapter) => {
           this.chapter = chapter;
           resolve();
+          this.loadingCtrl.hideLoadingMessage();
         });
     });
   }
