@@ -18,6 +18,7 @@ export class LnList {
   start: number;
   count: number;
   filterParams: FilterParams[] = [];
+  noInternet: boolean = false; 
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -58,13 +59,15 @@ export class LnList {
   }
 
   updateNovelList(): Promise<any> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.novelsService
         .getNovels(this.start, this.count, "", this.filterParams)
         .subscribe((novels: Array<Novel>) => {
           this.novels = this.novels.concat(novels);
           this.start += novels.length;
           resolve();
+        }, (error) => {
+          reject(error);
         });
     });
   }
@@ -75,7 +78,15 @@ export class LnList {
     this.start = 0;
     this.count = 50;
     this.updateNovelList()
-      .then(() => this.loadingCtrl.hideLoadingMessage());
+      .then(() => {
+        this.noInternet = false;
+        this.loadingCtrl.hideLoadingMessage();
+      })
+      .catch((error) => {
+        console.log("error getting novels list: ", error);
+        this.noInternet = true;
+        this.loadingCtrl.hideLoadingMessage();
+      });
   }
 
   searchTapped(event, item) {

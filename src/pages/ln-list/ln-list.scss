@@ -1,2 +1,11 @@
 page-ln-list {
+    & .no-content {
+        text-align: center;
+        ion-icon {
+            font-size: 20em;
+        }
+        div {
+            font-size: 2em;
+        }
+    }
 }

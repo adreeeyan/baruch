@@ -10,7 +10,7 @@ import { NovelsService } from '../../providers/novels-service';
     styles: ['ln-search-page.scss']
 })
 export class LnSearchPage {
-    @ViewChild("search") search: any;    
+    @ViewChild("search") search: any;
     novels: Array<Novel>;
     start: number;
     count: number;
@@ -29,12 +29,14 @@ export class LnSearchPage {
     }
 
     updateNovelList(): Promise<any> {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             this.novelsService
                 .getNovels(this.start, this.count, this.searchValue)
                 .subscribe((novels: Array<Novel>) => {
                     this.novels = this.novels.concat(novels);
                     this.start += novels.length;
+                    resolve();
+                }, (error) => {
                     resolve();
                 });
         });
@@ -43,12 +45,14 @@ export class LnSearchPage {
     searchNovels(): any {
         console.log("LnSearchPage.searchNovels");
         this.start = 0;
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             this.novelsService
                 .getNovels(this.start, this.count, this.searchValue)
                 .subscribe((novels: Array<Novel>) => {
                     this.novels = novels;
                     this.start += novels.length;
+                    resolve();
+                }, (error) => {
                     resolve();
                 });
         });

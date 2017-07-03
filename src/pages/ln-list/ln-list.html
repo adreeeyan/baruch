@@ -30,4 +30,10 @@
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
+  <div padding-top *ngIf="noInternet" class="no-content">
+    <ion-icon name="ios-sad"></ion-icon>
+    <div>NO CONNECTION</div>
+    <button ion-button color="secondary" (click)="resetNovelList()">Retry</button>
+  </div>
+
 </ion-content>

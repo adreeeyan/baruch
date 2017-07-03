@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import "rxjs/Rx";
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/observable';
+
 import { Novel } from '../common/models/novel';
 import { Chapter } from "../common/models/chapter";
 import { Genre } from "../common/models/genre";
-/*
-  Generated class for the Novels provider.
+import { SafeHttpProvider } from "./safe-http";
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
 export class NovelsService {
 
-  constructor(public http: Http) {
+  constructor(public http: SafeHttpProvider) {
     console.log('Hello Novels Service');
   }
   encodeQueryData(data) {
@@ -57,6 +55,9 @@ export class NovelsService {
         return data.map((d: Novel): Novel => {
           return new Novel(d.id, d.title, d.cover, d.status, d.source, d.datePublished, d.lastUpdated, d.chaptersCount, d.synopsis, d.authors, d.genres)
         });
+      })
+      .catch(error => {
+        return Observable.throw(error);
       });
   }
 
@@ -67,7 +68,9 @@ export class NovelsService {
         let data = <any>response.json() || {};
         return new Novel(data.id, data.title, data.cover, data.status, data.source, data.datePublished,
           data.lastUpdated, data.chaptersCount, data.synopsis, data.authors, data.genres);
-      })
+      }).catch(error => {
+        return Observable.throw(error);
+      });
   }
 
   getNovelChapterList(id: string): Observable<Array<Chapter>> {
@@ -82,6 +85,8 @@ export class NovelsService {
           title: c.title,
           content: ""
         })).sort((a, b) => b.number - a.number);
+      }).catch(error => {
+        return Observable.throw(error);
       });
   }
 
@@ -96,6 +101,8 @@ export class NovelsService {
           title: data.title,
           content: data.content
         });
+      }).catch(error => {
+        return Observable.throw(error);
       });
   }
 
@@ -105,6 +112,8 @@ export class NovelsService {
       .map((response: Response) => {
         let data: Array<Genre> = <any>response.json() || {};
         return data.sort((a, b) => a.name.localeCompare(b.name));
+      }).catch(error => {
+        return Observable.throw(error);
       });
   }
 }

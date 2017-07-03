@@ -16,6 +16,10 @@ import { ChaptersService } from "../providers/chapters-service";
 import { FavoritesService } from '../providers/favorites-service';
 import { LnLoadingController } from "../common/ln-loading-controller";
 import { LnNovelListModule } from "../components/ln-novel-list/ln-novel-list.module";
+import { NetworkServiceProvider } from '../providers/network-service';
+import { SafeHttpProvider } from '../providers/safe-http';
+import { Network } from "@ionic-native/network";
+import { Diagnostic } from "@ionic-native/diagnostic";
 
 @NgModule({
   declarations: [
@@ -45,7 +49,11 @@ import { LnNovelListModule } from "../components/ln-novel-list/ln-novel-list.mod
     ReaderSettingsService,
     ChaptersService,
     LnLoadingController,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    Network,
+    Diagnostic,
+    NetworkServiceProvider,
+    SafeHttpProvider
   ]
 })
 export class AppModule { }
