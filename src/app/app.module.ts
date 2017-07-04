@@ -22,6 +22,7 @@ import { Network } from "@ionic-native/network";
 import { Diagnostic } from "@ionic-native/diagnostic";
 import { NovelsLocalService } from "../providers/novels-local-service";
 import { RecentNovelsService } from "../providers/recent-novels-service";
+import { DownloadService } from "../providers/download-service";
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { RecentNovelsService } from "../providers/recent-novels-service";
     NetworkServiceProvider,
     SafeHttpProvider,
     NovelsLocalService,
-    RecentNovelsService
+    RecentNovelsService,
+    DownloadService
   ]
 })
 export class AppModule { }

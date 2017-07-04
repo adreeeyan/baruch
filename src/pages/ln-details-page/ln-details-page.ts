@@ -63,8 +63,7 @@ export class LnDetailsPage {
   }
 
   download() {
-    this.navCtrl.push('LnDownloadNovelPage', {
-    });
+    this.navCtrl.push('LnDownloadNovelPage', this.novel);
   }
 
   toggleFavorite() {

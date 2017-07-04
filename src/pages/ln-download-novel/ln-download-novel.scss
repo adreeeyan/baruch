@@ -1,5 +1,11 @@
 page-ln-download-novel {
-    & ion-footer {
-        bottom: 0px !important;
+    & ion-content {
+        & .scroll-content {
+            margin-bottom: 0px !important;
+        }
+    }
+
+    & .fixed-content {
+        margin-bottom: 0px !important;
     }
 }

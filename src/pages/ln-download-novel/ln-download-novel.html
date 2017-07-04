@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar color="secondary">
-    <ion-title>Download: Accel world</ion-title>
+    <ion-title>Download: {{novel?.title}}</ion-title>
 
     <ion-buttons end>
       <button ion-button icon-only (click)="selectPopover($event)">
@@ -16,27 +16,15 @@
 <ion-content>
   <ion-list>
 
-    <ion-item>
-      <ion-label>Content 1: The title</ion-label>
-      <ion-checkbox></ion-checkbox>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Content 2: The title</ion-label>
-      <ion-checkbox></ion-checkbox>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Content 3: The title</ion-label>
-      <ion-checkbox></ion-checkbox>
+    <ion-item *ngFor="let chapter of chapters">
+      <ion-label>Content {{chapter.number}}: {{chapter.title}}</ion-label>
+      <ion-checkbox [(ngModel)]="chapter.checked"></ion-checkbox>
     </ion-item>
 
   </ion-list>
+  <ion-fab color="primary" right bottom>
+    <button ion-fab>
+      <ion-icon name="download"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
-
-<ion-footer>
-  <button ion-button full color="primary" icon-end no-margin>
-    Download 3 chapters
-    <ion-icon name="download"></ion-icon>
-  </button>
-</ion-footer>
