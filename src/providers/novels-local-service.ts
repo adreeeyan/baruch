@@ -60,7 +60,7 @@ export class NovelsLocalService {
         return new Promise((resolve, reject) => {
             this.get()
                 .then(novels => {
-                    let inList = _.includes(novels, novel);
+                    let inList = _.some(novels, novel);
                     if (inList) {
                         resolve();
                     } else {
@@ -82,9 +82,16 @@ export class NovelsLocalService {
                     let filtered = _.filter(novels, (novel: Novel) => {
                         return _.includes(novelIds, novel.id);
                     });
-
+                    filtered = this.sortByOriginal(novelIds, filtered);
                     resolve(filtered);
                 });
+        });
+    }
+
+    // sorts the novels by original order in which it was passed to the function
+    private sortByOriginal(novelIds, novels){
+        return _.map(novelIds, id => {
+            return _.find(novels, novel => novel.id === id);
         });
     }
 }

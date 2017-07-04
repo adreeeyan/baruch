@@ -5,6 +5,7 @@ import { Novel } from '../../common/models/novel';
 import { NovelsService } from '../../providers/novels-service';
 import { FavoritesService } from '../../providers/favorites-service';
 import { LnLoadingController } from "../../common/ln-loading-controller";
+import { RecentNovelsService } from "../../providers/recent-novels-service";
 
 @IonicPage()
 @Component({
@@ -17,6 +18,7 @@ export class LnDetailsPage {
     public navParams: NavParams,
     public novelsService: NovelsService,
     private favoritesService: FavoritesService,
+    private recentNovelsService: RecentNovelsService,
     private loadingCtrl: LnLoadingController) {
   }
 
@@ -27,6 +29,7 @@ export class LnDetailsPage {
     this.novelsService.getNovel(id).subscribe((novel: Novel) => {
       console.log("ionVIewDidLoad", novel);
       this.novel = novel;
+      this.recentNovelsService.add(novel);
       this.loadingCtrl.hideLoadingMessage();
     });
   }

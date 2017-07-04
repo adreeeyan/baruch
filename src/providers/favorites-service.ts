@@ -9,7 +9,7 @@ export class FavoritesService {
     private FAVORITES: string = "favorites";
 
     constructor(private storage: Storage, private novelsLocalService: NovelsLocalService) {
-        console.log("Hello Bookmarks Service");
+        console.log("Hello Favorites Service");
         this.storage.get(this.FAVORITES)
             .then(favorites => this.favorites = favorites || [])
             .catch(() => {
