@@ -20,6 +20,7 @@ import { NetworkServiceProvider } from '../providers/network-service';
 import { SafeHttpProvider } from '../providers/safe-http';
 import { Network } from "@ionic-native/network";
 import { Diagnostic } from "@ionic-native/diagnostic";
+import { NovelsLocalService } from "../providers/novels-local-service";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { Diagnostic } from "@ionic-native/diagnostic";
     Network,
     Diagnostic,
     NetworkServiceProvider,
-    SafeHttpProvider
+    SafeHttpProvider,
+    NovelsLocalService
   ]
 })
 export class AppModule { }

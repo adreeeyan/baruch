@@ -2,13 +2,15 @@ import { Injectable } from "@angular/core";
 import { Storage } from "@ionic/storage";
 import _ from "lodash";
 import { Novel } from "../common/models/novel";
+import { NovelsLocalService } from "./novels-local-service";
 @Injectable()
 export class FavoritesService {
     favorites = [];
+    private FAVORITES: string = "favorites";
 
-    constructor(private storage: Storage) {
+    constructor(private storage: Storage, private novelsLocalService: NovelsLocalService) {
         console.log("Hello Bookmarks Service");
-        this.storage.get("favorites")
+        this.storage.get(this.FAVORITES)
             .then(favorites => this.favorites = favorites || [])
             .catch(() => {
                 this.favorites = [];
@@ -17,18 +19,21 @@ export class FavoritesService {
 
     addToFavorites(novel) {
         if (!this.isFavorite(novel)) {
-            this.favorites.push(novel);
+            // save local data
+            this.novelsLocalService.add(novel);
+            // save the id
+            this.favorites.push(novel.id);
             this.save();
         }
     }
 
     isFavorite(novel) {
-        return _.some(this.favorites, novel);
+        return _.includes(this.favorites, novel.id);
     }
 
     removeFromFavorites(novel) {
         if (this.isFavorite(novel)) {
-            this.favorites = _.reject(this.favorites, novel);
+            this.favorites = _.without(this.favorites, novel.id);
             this.save();
         }
     }
@@ -43,7 +48,7 @@ export class FavoritesService {
         this.save();
     }
     save() {
-        this.storage.set("favorites", this.favorites);
+        this.storage.set(this.FAVORITES, this.favorites);
     }
 
     encodeQueryData(data) {
@@ -58,9 +63,13 @@ export class FavoritesService {
     getNovels(): Promise<Array<Novel>> {
         console.log("FavoritesService::getNovels");
         return new Promise((resolve) => {
-            return this.storage.get("favorites")
+            return this.storage.get(this.FAVORITES)
                 .then(favorites => {
-                    resolve(favorites || [])
+                    this.novelsLocalService
+                        .getNovels(favorites)
+                        .then(novels => {
+                            resolve(novels)
+                        });
                 })
                 .catch(() => {
                     resolve([]);
