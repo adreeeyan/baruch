@@ -62,6 +62,11 @@ export class LnDetailsPage {
     });
   }
 
+  download() {
+    this.navCtrl.push('LnDownloadNovelPage', {
+    });
+  }
+
   toggleFavorite() {
     if (this.novel) {
       this.favoritesService.toggleFavorite(this.novel);
