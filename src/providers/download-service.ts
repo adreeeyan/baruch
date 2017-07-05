@@ -63,7 +63,6 @@ export class DownloadService {
 
   private retrieveChapters(downloadItem, url, novelDir) {
     // computation for progress
-    let total = downloadItem.chapters.length;
     let currentlyFinished = 0;
 
     // iterate all and download
@@ -75,18 +74,19 @@ export class DownloadService {
           console.log("download complete: ", entry.toURL());
 
           // update progress
-          this.updateProgress(downloadItem, total, currentlyFinished);
+          currentlyFinished = this.updateProgress(downloadItem, currentlyFinished);
         })
         .catch(err => {
           console.log("error downloading", err);
 
           // still update progress
-          this.updateProgress(downloadItem, total, currentlyFinished);
+          currentlyFinished = this.updateProgress(downloadItem, currentlyFinished);
         });
     });
   }
 
-  private updateProgress(downloadItem, total, currentlyFinished) {
+  private updateProgress(downloadItem, currentlyFinished) {
+    let total = downloadItem.chapters.length;
     currentlyFinished += 1;
     downloadItem.progress = currentlyFinished / total;
 
@@ -94,6 +94,8 @@ export class DownloadService {
     if (currentlyFinished === total) {
       downloadItem.isFinished = true;
     }
+
+    return currentlyFinished;
   }
 
   private createDir(novelId): Promise<any> {
