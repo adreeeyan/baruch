@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Downloading queue</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="card-background-page">
+  <ion-card *ngFor="let item of queue">
+    <div class="cover-holder">
+      <img [src]="'/api/covers/' + item.novel?.cover" alt="Cover" class="cover" />
+    </div>
+    <div class="card-title">{{item.novel.title}}</div>
+    <div class="card-subtitle">{{item.progress}}% Completed</div>
+  </ion-card>
+</ion-content>

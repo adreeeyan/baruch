@@ -7,6 +7,7 @@ import { SafeHttpProvider } from "./safe-http";
 import { NovelsService } from "./novels-service";
 import { Chapter } from "../common/models/chapter";
 import { Novel } from "../common/models/novel";
+import { NovelsLocalService } from "./novels-local-service";
 
 @Injectable()
 export class DownloadService {
@@ -17,7 +18,8 @@ export class DownloadService {
   constructor(private http: SafeHttpProvider,
     private novelsService: NovelsService,
     private file: File,
-    private transfer: Transfer) {
+    private transfer: Transfer,
+    private novelsLocalService: NovelsLocalService) {
     console.log('Hello Downloads Service');
 
     this.fileTransfer = this.transfer.create();
@@ -33,10 +35,10 @@ export class DownloadService {
   }
 
   // add to queue
-  addToQueue(novelId, chapters) {
+  addToQueue(novel, chapters) {
     // add to queue
     let item = new DownloadItem({
-      novel: novelId,
+      novel: novel,
       chapters: chapters
     });
     this.queue.push(item);
@@ -46,11 +48,11 @@ export class DownloadService {
 
   download(downloadItem: DownloadItem) {
     let dataDir = this.file.dataDirectory;
-    let url = `/api/Novels/${downloadItem.novel}/chapters/`;
+    let url = `/api/Novels/${downloadItem.novel.id}/chapters/`;
 
     // create a folder for the novel if it doesn't have
-    let novelDir = dataDir + downloadItem.novel + "/";
-    this.createDir(downloadItem.novel)
+    let novelDir = dataDir + downloadItem.novel.id + "/";
+    this.createDir(downloadItem.novel.id)
       .then(entry => {
         this.retrieveChapters(downloadItem, url, novelDir);
       })
@@ -73,18 +75,25 @@ export class DownloadService {
           console.log("download complete: ", entry.toURL());
 
           // update progress
-          currentlyFinished += 1;
-          downloadItem.progress = currentlyFinished / total;
-
-          // if all chapters is finished
-          if (downloadItem.progress === 1) {
-            downloadItem.isFinished = true;
-          }
+          this.updateProgress(downloadItem, total, currentlyFinished);
         })
         .catch(err => {
-          console.log("error downloading", err)
+          console.log("error downloading", err);
+
+          // still update progress
+          this.updateProgress(downloadItem, total, currentlyFinished);
         });
     });
+  }
+
+  private updateProgress(downloadItem, total, currentlyFinished) {
+    currentlyFinished += 1;
+    downloadItem.progress = currentlyFinished / total;
+
+    // if all chapters is finished
+    if (currentlyFinished === total) {
+      downloadItem.isFinished = true;
+    }
   }
 
   private createDir(novelId): Promise<any> {
@@ -108,15 +117,22 @@ export class DownloadService {
             });
         });
     });
-
   }
 }
 
 export class DownloadItem {
-  public novel: number;
+  public novel: Novel;
   public chapters: Chapter[];
   public isFinished: boolean;
-  public progress: number;
+  private _progress: number;
+
+  get progress() {
+    return Math.round(this._progress * 100) || 0;
+  }
+
+  set progress(prog) {
+    this._progress = prog;
+  }
 
   constructor(init?: Partial<DownloadItem>) {
     Object.assign(this, init);

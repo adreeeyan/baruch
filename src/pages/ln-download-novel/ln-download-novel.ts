@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, App } from 'ionic-angular';
 import { Novel } from "../../common/models/novel";
 import { DownloadService } from "../../providers/download-service";
 import { Chapter } from "../../common/models/chapter";
@@ -21,7 +21,8 @@ export class LnDownloadNovelPage {
     private navParams: NavParams,
     private popoverCtrl: PopoverController,
     private downloadService: DownloadService,
-    private loadingCtrl: LnLoadingController) {
+    private loadingCtrl: LnLoadingController,
+    private app: App) {
     this.chapterDetailsHeader = document.querySelector("page-ln-details-tabs ion-header");
     this.tabBarElement = document.querySelector(".tabbar.show-tabbar");
   }
@@ -64,7 +65,8 @@ export class LnDownloadNovelPage {
 
   download() {
     let chapters = _.map(this.selectedChapters, "number");
-    this.downloadService.addToQueue(this.novel.id, chapters);
+    this.downloadService.addToQueue(this.novel, chapters);
+    this.app.getRootNav().setRoot("LnDownloadsPage");
   }
 
 }
