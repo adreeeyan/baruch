@@ -23,7 +23,7 @@
 
   </ion-list>
   <ion-fab color="primary" right bottom>
-    <button ion-fab>
+    <button ion-fab [disabled]="!selectedChapters.length">
       <ion-icon name="download"></ion-icon>
     </button>
   </ion-fab>
