@@ -23,6 +23,8 @@ import { Diagnostic } from "@ionic-native/diagnostic";
 import { NovelsLocalService } from "../providers/novels-local-service";
 import { RecentNovelsService } from "../providers/recent-novels-service";
 import { DownloadService } from "../providers/download-service";
+import { Transfer } from "@ionic-native/transfer";
+import { File } from "@ionic-native/file";
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { DownloadService } from "../providers/download-service";
     SplashScreen,
     ScreenOrientation,
     StatusBar,
+    File,
+    Transfer,
     NovelsService,
     FavoritesService,
     ReaderSettingsService,

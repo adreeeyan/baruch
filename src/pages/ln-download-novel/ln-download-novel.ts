@@ -18,10 +18,10 @@ export class LnDownloadNovelPage {
   tabBarElement: any;
 
   constructor(private navCtrl: NavController,
-              private navParams: NavParams,
-              private popoverCtrl: PopoverController,
-              private downloadService: DownloadService,
-              private loadingCtrl: LnLoadingController) {
+    private navParams: NavParams,
+    private popoverCtrl: PopoverController,
+    private downloadService: DownloadService,
+    private loadingCtrl: LnLoadingController) {
     this.chapterDetailsHeader = document.querySelector("page-ln-details-tabs ion-header");
     this.tabBarElement = document.querySelector(".tabbar.show-tabbar");
   }
@@ -52,7 +52,7 @@ export class LnDownloadNovelPage {
   }
 
   selectPopover(evt) {
-    let popover = this.popoverCtrl.create("LnDownloadNovelChaptersPopup", {chapters: this.chapters});
+    let popover = this.popoverCtrl.create("LnDownloadNovelChaptersPopup", { chapters: this.chapters });
     popover.present({
       ev: evt
     });
@@ -60,6 +60,11 @@ export class LnDownloadNovelPage {
 
   get selectedChapters() {
     return _.filter(this.chapters, (chapter: ChapterDownload) => chapter.checked);
+  }
+
+  download() {
+    let chapters = _.map(this.selectedChapters, "number");
+    this.downloadService.addToQueue(this.novel.id, chapters);
   }
 
 }
