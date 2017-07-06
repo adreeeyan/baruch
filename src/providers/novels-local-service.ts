@@ -73,6 +73,25 @@ export class NovelsLocalService {
         });
     }
 
+    getNovel(novelId: string): Promise<Novel> {
+        console.log("NovelsLocalService::getNovel", novelId);
+        return new Promise((resolve, reject) => {
+            this.get()
+                .then(novels => {
+                    // map novels
+                    let found = _.find(novels, novel => novel.id == novelId);
+                    if (found) {
+                        resolve(found);
+                    } else {
+                        reject();
+                    }
+                })
+                .catch(() => {
+                    reject();
+                });
+        });
+    }
+
     getNovels(novelIds: number[]): Promise<Array<Novel>> {
         console.log("NovelsLocalService::getNovels", novelIds);
         return new Promise((resolve, reject) => {

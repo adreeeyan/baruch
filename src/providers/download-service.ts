@@ -211,6 +211,7 @@ export class DownloadService {
           });
         })
         .catch(() => {
+          console.log("no downloaded chapters for this one yet");
           resolve([]);
         });
     });

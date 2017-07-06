@@ -10,12 +10,16 @@ import { Chapter } from "../common/models/chapter";
 import { Genre } from "../common/models/genre";
 import { SafeHttpProvider } from "./safe-http";
 import { DownloadService } from "./download-service";
+import { NovelsLocalService } from "./novels-local-service";
+import { NetworkServiceProvider } from "./network-service";
 
 @Injectable()
 export class NovelsService {
 
   constructor(private http: SafeHttpProvider,
-    private downloadService: DownloadService) {
+    private downloadService: DownloadService,
+    private novelsLocalService: NovelsLocalService,
+    private networkService: NetworkServiceProvider) {
     console.log('Hello Novels Service');
   }
   encodeQueryData(data) {
@@ -64,8 +68,8 @@ export class NovelsService {
       });
   }
 
-  getNovel(id: string): Observable<Novel> {
-    console.log("NovelsService::getNovel", id);
+  private getOnlineNovel(id: string): Observable<Novel> {
+
     return this.http.get(`/api/novels/${id}`)
       .map((response: Response) => {
         let data = <any>response.json() || {};
@@ -74,6 +78,25 @@ export class NovelsService {
       }).catch(error => {
         return Observable.throw(error);
       });
+  }
+
+  getNovel(id: string): Promise<Novel> {
+    console.log("NovelsService::getNovel", id);
+    return new Promise((resolve, reject) => {
+      // try getting locally first
+      this.novelsLocalService
+        .getNovel(id)
+        .then(novel => {
+          resolve(novel);
+        })
+        .catch(() => {
+          // get online
+          this.getOnlineNovel(id)
+            .subscribe(novel => {
+              resolve(novel);
+            });
+        });
+    });
   }
 
   private getOnlineNovelChapterList(id: string): Observable<Array<Chapter>> {
@@ -96,7 +119,11 @@ export class NovelsService {
     console.log("NovelsService::getNovelChapterList");
 
     return new Promise((resolve, reject) => {
-      let chaptersRetrievalServices = [this.downloadService.getNovelChapterList(id), this.getOnlineNovelChapterList(id).toPromise()];
+      let chaptersRetrievalServices = [this.downloadService.getNovelChapterList(id)];
+      // add getting chapters online if there is a network
+      if (!this.networkService.noConnection()) {
+        chaptersRetrievalServices.push(this.getOnlineNovelChapterList(id).toPromise());
+      }
 
       Promise.all(chaptersRetrievalServices)
         .then(chapters => {

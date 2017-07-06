@@ -26,7 +26,7 @@ export class LnDetailsPage {
     console.log('ionViewDidLoad LnDetailsPage', this.novel);
     this.loadingCtrl.presentLoadingMessage();
     let id = this.navParams.data;
-    this.novelsService.getNovel(id).subscribe((novel: Novel) => {
+    this.novelsService.getNovel(id).then((novel: Novel) => {
       console.log("ionVIewDidLoad", novel);
       this.novel = novel;
       this.recentNovelsService.add(novel);
