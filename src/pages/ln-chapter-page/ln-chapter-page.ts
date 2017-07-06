@@ -97,7 +97,7 @@ export class LnChapterPage {
   goToChapter(novelId, chapterNumber) {
     this.loadingCtrl.presentLoadingMessage();
     this.novelsService.getNovelChapter(novelId, chapterNumber)
-      .subscribe((chapter: Chapter) => {
+      .then((chapter: Chapter) => {
         this.chapter = chapter;
         this.markChapterAsRead();
         this.loadingCtrl.hideLoadingMessage();

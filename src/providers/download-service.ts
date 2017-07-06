@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import "rxjs/Rx";
+import 'rxjs/add/operator/map';
 import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { File } from '@ionic-native/file';
 import _ from "lodash";
 
 import { SafeHttpProvider } from "./safe-http";
-import { NovelsService } from "./novels-service";
 import { Chapter } from "../common/models/chapter";
 import { Novel } from "../common/models/novel";
 import { NovelsLocalService } from "./novels-local-service";
@@ -18,7 +21,6 @@ export class DownloadService {
   novelsDirName: string = "novels";
 
   constructor(private http: SafeHttpProvider,
-    private novelsService: NovelsService,
     public file: File,
     private transfer: Transfer,
     private novelsLocalService: NovelsLocalService) {
@@ -32,9 +34,26 @@ export class DownloadService {
   // call an api and match it with the downloaded files
   // remove the matched
   getUndownloadedChapters(novelId): Promise<any> {
-    return this.novelsService
-      .getNovelChapterList(novelId)
+    return this._getNovelChapterList(novelId)
       .toPromise();
+  }
+
+  // duplicate function from novelsService (REFACTOR THIS!!)
+  private _getNovelChapterList(id: string): Observable<Array<Chapter>> {
+    console.log("NovelsService::getNovelChapterList");
+    return this.http.get(`/api/novels/${id}/chapters`)
+      .map((response: Response) => {
+        let data: Array<object> = <any>response.json() || {};
+
+        return data.map((c: Chapter): Chapter => new Chapter({
+          id: c.id,
+          number: c.number,
+          title: c.title,
+          content: ""
+        })).sort((a, b) => b.number - a.number);
+      }).catch(error => {
+        return Observable.throw(error);
+      });
   }
 
   // add to queue
@@ -201,7 +220,7 @@ export class DownloadService {
     let novelDir = `${this.novelsDir}${novelId}/`;
     return new Promise((resolve, reject) => {
       this.file
-        .readAsText(novelDir, chapterNumber)
+        .readAsText(novelDir, chapterNumber.toString())
         .then(value => {
           resolve(JSON.parse(value));
         })

@@ -3,16 +3,19 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import "rxjs/Rx";
 import 'rxjs/add/operator/map';
+import _ from "lodash";
 
 import { Novel } from '../common/models/novel';
 import { Chapter } from "../common/models/chapter";
 import { Genre } from "../common/models/genre";
 import { SafeHttpProvider } from "./safe-http";
+import { DownloadService } from "./download-service";
 
 @Injectable()
 export class NovelsService {
 
-  constructor(public http: SafeHttpProvider) {
+  constructor(private http: SafeHttpProvider,
+    private downloadService: DownloadService) {
     console.log('Hello Novels Service');
   }
   encodeQueryData(data) {
@@ -73,8 +76,7 @@ export class NovelsService {
       });
   }
 
-  getNovelChapterList(id: string): Observable<Array<Chapter>> {
-    console.log("NovelsService::getNovelChapterList");
+  private getOnlineNovelChapterList(id: string): Observable<Array<Chapter>> {
     return this.http.get(`/api/novels/${id}/chapters`)
       .map((response: Response) => {
         let data: Array<object> = <any>response.json() || {};
@@ -90,20 +92,70 @@ export class NovelsService {
       });
   }
 
-  getNovelChapter(novelId: string, chapterNumber: string): Observable<Chapter> {
-    console.log("NovelsService::getNovelChapter");
-    return this.http.get(`/api/novels/${novelId}/chapters/${chapterNumber}`)
-      .map((response: Response) => {
-        let data = response.json() || {};
-        return new Chapter({
-          id: data.id,
-          number: data.number,
-          title: data.title,
-          content: data.content
+  getNovelChapterList(id: string): Promise<Array<Chapter>> {
+    console.log("NovelsService::getNovelChapterList");
+
+    return new Promise((resolve, reject) => {
+      let chaptersRetrievalServices = [this.downloadService.getNovelChapterList(id), this.getOnlineNovelChapterList(id).toPromise()];
+
+      Promise.all(chaptersRetrievalServices)
+        .then(chapters => {
+          let combinedChapters = [];
+          let offlineChapters = chapters[0];
+          let onlineChapters = chapters[1];
+
+          // add all the offline chapters
+          combinedChapters = combinedChapters.concat(offlineChapters);
+
+          // add the online chapters that does not exist in offline chapters
+          _.each(onlineChapters, chapter => {
+            let foundChapter = _.find(offlineChapters, chap => chap.id === chapter.id);
+            if (!foundChapter) {
+              combinedChapters.push(chapter);
+            }
+          });
+
+          // sort the chapters
+          combinedChapters.sort((a, b) => b.number - a.number);
+          resolve(combinedChapters);
+        })
+        .catch(() => {
+          resolve([]);
         });
-      }).catch(error => {
-        return Observable.throw(error);
-      });
+    });
+
+
+  }
+
+  getNovelChapter(novelId: string, chapterNumber: string): Promise<Chapter> {
+    console.log("NovelsService::getNovelChapter");
+
+    return new Promise((resolve, reject) => {
+      // try getting locally first
+      this.downloadService
+        .readNovelChapter(novelId, chapterNumber + ".json")
+        .then(chapter => {
+          console.log("getting from offline");
+          resolve(chapter);
+        })
+        .catch(error => {
+          // get it online
+          console.log("getting from online", error);
+          this.http.get(`/api/novels/${novelId}/chapters/${chapterNumber}`)
+            .map((response: Response) => {
+              let data = response.json() || {};
+              return new Chapter({
+                id: data.id,
+                number: data.number,
+                title: data.title,
+                content: data.content
+              });
+            })
+            .subscribe(chapter => {
+              resolve(chapter);
+            });
+        });
+    });
   }
 
   getGenres() {

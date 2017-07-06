@@ -204,7 +204,7 @@ export class LnChapterReader implements OnInit, OnChanges {
     return new Promise((resolve) => {
       this.loadingCtrl.presentLoadingMessage();
       this.novelsService.getNovelChapter(this.novelId.toString(), number)
-        .subscribe((chapter: Chapter) => {
+        .then((chapter: Chapter) => {
           this.chapter = chapter;
           resolve();
           this.loadingCtrl.hideLoadingMessage();
