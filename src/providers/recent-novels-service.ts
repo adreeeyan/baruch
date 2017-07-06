@@ -46,7 +46,7 @@ export class RecentNovelsService {
                     recents.unshift(novel.id);
 
                     // check if maximum items is reached
-                    if(recents.length > this.MAX){
+                    if (recents.length > this.MAX) {
                         recents.pop();
                     }
 

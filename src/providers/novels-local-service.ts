@@ -9,7 +9,7 @@ export class NovelsLocalService {
 
     private NOVELS: string = "novels";
 
-    constructor(public storage: Storage) {
+    constructor(private storage: Storage) {
         console.log('Hello Novels Local Service');
     }
 
@@ -74,7 +74,7 @@ export class NovelsLocalService {
     }
 
     getNovels(novelIds: number[]): Promise<Array<Novel>> {
-        console.log("NovelsLocalService::getNovels");
+        console.log("NovelsLocalService::getNovels", novelIds);
         return new Promise((resolve, reject) => {
             this.get()
                 .then(novels => {
@@ -89,7 +89,7 @@ export class NovelsLocalService {
     }
 
     // sorts the novels by original order in which it was passed to the function
-    private sortByOriginal(novelIds, novels){
+    private sortByOriginal(novelIds, novels) {
         return _.map(novelIds, id => {
             return _.find(novels, novel => novel.id === id);
         });

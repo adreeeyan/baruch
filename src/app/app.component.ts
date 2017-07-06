@@ -23,7 +23,9 @@ export class MyApp {
       { title: 'All novels', component: 'LnList' },
       { title: 'Favorites', component: 'LnFavorites' },
       { title: 'Recently viewed', component: 'LnRecentNovelsPage' },
-      { title: 'Downloading', component: 'LnDownloadsPage' }
+      { title: 'Downloaded', component: 'LnDownloadsListPage' },
+      { title: 'Downloading queue', component: 'LnDownloadsPage' },
+      
     ];
 
   }

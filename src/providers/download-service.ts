@@ -14,15 +14,18 @@ export class DownloadService {
 
   fileTransfer: TransferObject;
   queue: DownloadItem[] = [];
+  novelsDir: string = "";
+  novelsDirName: string = "novels";
 
   constructor(private http: SafeHttpProvider,
     private novelsService: NovelsService,
-    private file: File,
+    public file: File,
     private transfer: Transfer,
     private novelsLocalService: NovelsLocalService) {
     console.log('Hello Downloads Service');
 
     this.fileTransfer = this.transfer.create();
+    this.novelsDir = `${this.file.dataDirectory}${this.novelsDirName}/`;
   }
 
   // returns the list of all undowloaded chapters
@@ -47,17 +50,23 @@ export class DownloadService {
   }
 
   download(downloadItem: DownloadItem) {
-    let dataDir = this.file.dataDirectory;
     let url = `/api/Novels/${downloadItem.novel.id}/chapters/`;
 
-    // create a folder for the novel if it doesn't have
-    let novelDir = dataDir + downloadItem.novel.id + "/";
-    this.createDir(downloadItem.novel.id)
-      .then(entry => {
-        this.retrieveChapters(downloadItem, url, novelDir);
+    // create the root folder for novels first
+    this.createDir(this.novelsDirName, true)
+      .then(() => {
+        // create a folder for the novel if it doesn't have
+        let novelDir = this.novelsDir + downloadItem.novel.id + "/";
+        this.createDir(downloadItem.novel.id)
+          .then(entry => {
+            this.retrieveChapters(downloadItem, url, novelDir);
+          })
+          .catch(err => {
+            console.log("error creating directory", err);
+          });
       })
       .catch(err => {
-        console.log("error creating directory", err);
+        console.log("error creating root directory", err);
       });
   }
 
@@ -98,11 +107,11 @@ export class DownloadService {
     return currentlyFinished;
   }
 
-  private createDir(novelId): Promise<any> {
+  private createDir(novelId, isRoot = false): Promise<any> {
+    let rootDir = isRoot ? this.file.dataDirectory : this.novelsDir;
     return new Promise((resolve, reject) => {
-      let dataDir = this.file.dataDirectory;
       this.file
-        .checkDir(dataDir, novelId.toString())
+        .checkDir(rootDir, novelId.toString())
         .then(() => {
           // if directory exists, just do nothing
           resolve();
@@ -110,13 +119,94 @@ export class DownloadService {
         .catch(() => {
           // create the directory
           this.file
-            .createDir(dataDir, novelId.toString(), false)
+            .createDir(rootDir, novelId.toString(), false)
             .then(() => {
               resolve();
             })
             .catch(() => {
               reject();
             });
+        });
+    });
+  }
+
+  // retrieve the downloaded novels
+  getNovels(): Promise<Array<Novel>> {
+    console.log("DownloadService::getNovels");
+    return new Promise((resolve) => {
+      return this.getNovelIdsFromFolders()
+        .then(ids => {
+          this.novelsLocalService
+            .getNovels(ids)
+            .then(novels => {
+              resolve(novels);
+            });
+        })
+        .catch(() => {
+          resolve([]);
+        });
+    });
+  }
+
+  private getNovelIdsFromFolders(): Promise<Array<number>> {
+    return new Promise((resolve, reject) => {
+      // list the directory
+      this.file
+        .listDir(this.file.dataDirectory, this.novelsDirName)
+        .then(entries => {
+          console.log("entries: ", entries);
+          let ids = _.map(entries, "name");
+          // convert ids to number
+          ids = _.map(ids, id => parseInt(id));
+          resolve(ids);
+        })
+        .catch(() => {
+          resolve([]);
+        });
+    });
+  }
+
+  getNovelChapterList(id: string): Promise<Array<Chapter>> {
+    console.log("NovelsLocalService::getNovelChapterList");
+
+    return new Promise((resolve, reject) => {
+      let chapters: Chapter[] = [];
+      this.file
+        .listDir(this.novelsDir, id.toString())
+        .then(entries => {
+          let chapterNumbers = _.map(entries, "name");
+          _.each(chapterNumbers, chapterNumber => {
+            this.readNovelChapter(id, chapterNumber)
+              .then(chapter => {
+                chapters.push(chapter);
+
+                // if all chapters are read
+                // resolve the chapters
+                if (chapters.length == chapterNumbers.length) {
+                  resolve(chapters);
+                }
+              })
+              .catch(err => {
+                console.log("error reading chapter", err);
+              });
+          });
+        })
+        .catch(() => {
+          resolve([]);
+        });
+    });
+  }
+
+  readNovelChapter(novelId: string, chapterNumber: string): Promise<Chapter> {
+    let novelDir = `${this.novelsDir}${novelId}/`;
+    return new Promise((resolve, reject) => {
+      this.file
+        .readAsText(novelDir, chapterNumber)
+        .then(value => {
+          resolve(JSON.parse(value));
+        })
+        .catch(err => {
+          reject(err);
         });
     });
   }
