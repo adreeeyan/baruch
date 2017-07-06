@@ -4,6 +4,8 @@ import { NovelsService } from "../../providers/novels-service";
 import { Chapter } from "../../common/models/chapter";
 import { ChaptersService } from "../../providers/chapters-service";
 import { LnLoadingController } from "../../common/ln-loading-controller";
+import { DownloadService } from "../../providers/download-service";
+import _ from "lodash";
 
 @IonicPage()
 @Component({
@@ -17,6 +19,7 @@ export class LnChapterListPage {
     public navParams: NavParams,
     public novelService: NovelsService,
     public chaptersService: ChaptersService,
+    private downloadService: DownloadService,
     private loadingCtrl: LnLoadingController) {
   }
 
@@ -24,10 +27,26 @@ export class LnChapterListPage {
     console.log("ionViewDidLoad LnChapterListPage");
     this.loadingCtrl.presentLoadingMessage();
     let id = this.navParams.data;
-    this.novelService
-      .getNovelChapterList(id)
-      .subscribe((chapters: Chapter[]) => {
-        this.chapters = chapters;
+    let chaptersRetrievalServices = [this.downloadService.getNovelChapterList(id), this.novelService.getNovelChapterList(id).toPromise()];
+
+    Promise.all(chaptersRetrievalServices)
+      .then(chapters => {
+        let combinedChapters = [];
+        let offlineChapters = chapters[0];
+        let onlineChapters = chapters[1];
+
+        // add all the offline chapters
+        combinedChapters = combinedChapters.concat(offlineChapters);
+
+        // add the online chapters that does not exist in offline chapters
+        _.each(onlineChapters, chapter => {
+          let foundChapter = _.find(offlineChapters, chap => chap.id === chapter.id);
+          if(!foundChapter){
+            combinedChapters.push(chapter);
+          }
+        });
+        
+        this.chapters = combinedChapters;
         this.isFinishedLoading = true;
         this.ionViewDidEnter();
         this.loadingCtrl.hideLoadingMessage();
