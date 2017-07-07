@@ -5,7 +5,6 @@ import { Chapter } from "../../common/models/chapter";
 import { ChaptersService } from "../../providers/chapters-service";
 import { LnLoadingController } from "../../common/ln-loading-controller";
 import { DownloadService } from "../../providers/download-service";
-import _ from "lodash";
 
 @IonicPage()
 @Component({
@@ -23,8 +22,8 @@ export class LnChapterListPage {
     private loadingCtrl: LnLoadingController) {
   }
 
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad LnChapterListPage");
+  ionViewDidEnter() {
+    console.log("ionViewDidEnter LnChapterListPage");
     this.loadingCtrl.presentLoadingMessage();
     let id = this.navParams.data;
     this.novelService
@@ -32,13 +31,12 @@ export class LnChapterListPage {
       .then(chapters => {
         this.chapters = chapters;
         this.isFinishedLoading = true;
-        this.ionViewDidEnter();
+        this.toggleRead();
         this.loadingCtrl.hideLoadingMessage();
       });
   }
 
-  ionViewDidEnter() {
-    console.log("ionViewDidEnter LnChapterListPage");
+  private toggleRead() {
     if (!this.isFinishedLoading) {
       return;
     }

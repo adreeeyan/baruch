@@ -26,20 +26,13 @@ export class LnReaderSettingsModal {
   ionViewDidLoad() {
     console.log("ionViewDidLoad LnReaderSettingsModal");
     // get values from storage
-    this.platform
-      .ready()
-      .then(() => {
-        this.readerSettingsService
-          .get()
-          .then((settings) => {
-            this.fontSize = settings.fontSize;
-            this._brightness = settings.brightness * 100;
-            this.invertColors = settings.invertColors;
-            this.horizontalScrolling = settings.horizontalScrolling;
-            this.setFontSize(this.fontSize);
-            this.setBrightness(this.brightness);
-          });
-      });
+    let settings = this.readerSettingsService.settings;
+    this.fontSize = settings.fontSize;
+    this._brightness = settings.brightness * 100;
+    this.invertColors = settings.invertColors;
+    this.horizontalScrolling = settings.horizontalScrolling;
+    this.setFontSize(this.fontSize);
+    this.setBrightness(this.brightness);
   }
 
   setBrightness(value) {

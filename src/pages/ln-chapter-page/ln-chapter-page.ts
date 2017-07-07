@@ -57,9 +57,7 @@ export class LnChapterPage {
     let data = this.navParams.data;
     this.goToChapter(data.novelId, data.chapterNumber);
     this.novelId = data.novelId;
-    this.readerSettingsService
-      .get()
-      .then(settings => this.settings = settings);
+    this.settings = this.readerSettingsService.settings;
   }
 
   toggleNavBar(evt = null) {

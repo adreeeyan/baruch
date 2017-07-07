@@ -3,7 +3,6 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import "rxjs/Rx";
 import 'rxjs/add/operator/map';
-import _ from "lodash";
 
 import { Novel } from '../common/models/novel';
 import { Chapter } from "../common/models/chapter";
@@ -118,40 +117,23 @@ export class NovelsService {
   getNovelChapterList(id: string): Promise<Array<Chapter>> {
     console.log("NovelsService::getNovelChapterList");
 
+    // if there is a connection just retrieve the online chapters
+    if (!this.networkService.noConnection()) {
+      return this.getOnlineNovelChapterList(id).toPromise();
+    }
+
     return new Promise((resolve, reject) => {
-      let chaptersRetrievalServices = [this.downloadService.getNovelChapterList(id)];
-      // add getting chapters online if there is a network
-      if (!this.networkService.noConnection()) {
-        chaptersRetrievalServices.push(this.getOnlineNovelChapterList(id).toPromise());
-      }
-
-      Promise.all(chaptersRetrievalServices)
+      this.downloadService
+        .getNovelChapterList(id)
         .then(chapters => {
-          let combinedChapters = [];
-          let offlineChapters = chapters[0];
-          let onlineChapters = chapters[1];
-
-          // add all the offline chapters
-          combinedChapters = combinedChapters.concat(offlineChapters);
-
-          // add the online chapters that does not exist in offline chapters
-          _.each(onlineChapters, chapter => {
-            let foundChapter = _.find(offlineChapters, chap => chap.id === chapter.id);
-            if (!foundChapter) {
-              combinedChapters.push(chapter);
-            }
-          });
-
           // sort the chapters
-          combinedChapters.sort((a, b) => b.number - a.number);
-          resolve(combinedChapters);
+          chapters.sort((a, b) => b.number - a.number);
+          resolve(chapters);
         })
         .catch(() => {
           resolve([]);
         });
     });
-
-
   }
 
   getNovelChapter(novelId: string, chapterNumber: string): Promise<Chapter> {

@@ -210,8 +210,8 @@ export class DownloadService {
               });
           });
         })
-        .catch(() => {
-          console.log("no downloaded chapters for this one yet");
+        .catch(err => {
+          console.log("no downloaded chapters for this one yet", err);
           resolve([]);
         });
     });
