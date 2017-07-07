@@ -9,7 +9,7 @@
   <ion-content>
     <ion-list>
       <ion-list-header>Catalog</ion-list-header>
-      <button ion-item *ngFor="let p of overallPages" (click)="openPage(p)">
+      <button ion-item *ngFor="let p of overallPages" (click)="openPage(p)" menuClose>
         <ion-icon name="{{p.icon}}" small item-start></ion-icon>
         {{p.title}}
       </button>
@@ -17,7 +17,7 @@
 
     <ion-list>
       <ion-list-header>My picks</ion-list-header>
-      <button ion-item *ngFor="let p of userPages" (click)="openPage(p)">
+      <button ion-item *ngFor="let p of userPages" (click)="openPage(p)" menuClose>
         <ion-icon name="{{p.icon}}" small item-start></ion-icon>
         {{p.title}}
       </button>
