@@ -22,4 +22,8 @@ export class LnDownloadsPage {
     this.queue = this.downloadService.queue;
   }
 
+  navigateToNovel(item) {
+    this.navCtrl.push('LnChapterListPage', item.id);
+  }
+
 }

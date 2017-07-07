@@ -1,34 +1,5 @@
 page-ln-downloads {
-    .card-background-page {
-        ion-card {
-            width: calc(100% - 10px) !important;
-            position: relative;
-            text-align: center;
-            margin: 5px;
-            .cover-holder {
-                min-height: 150px;
-                max-height: 150px;
-                display: flex;
-                img {
-                    align-self: center;
-                    filter: blur(2px);
-                }
-            }
-        }
-        .card-title {
-            position: absolute;
-            top: 36%;
-            font-size: 2.0em;
-            width: 100%;
-            font-weight: bold;
-            color: #fff;
-        }
-        .card-subtitle {
-            font-size: 1.0em;
-            position: absolute;
-            bottom: 10%;
-            width: 100%;
-            color: #fff;
-        }
+    & ion-label {
+        white-space: normal !important;
     }
 }
