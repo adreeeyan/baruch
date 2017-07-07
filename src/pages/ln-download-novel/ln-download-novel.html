@@ -14,13 +14,11 @@
 
 
 <ion-content>
-  <ion-list>
-
-    <ion-item *ngFor="let chapter of chapters">
+  <ion-list [virtualScroll]="chapters">
+    <ion-item *virtualItem="let chapter">
       <ion-label>Content {{chapter.number}}: {{chapter.title}}</ion-label>
       <ion-checkbox [(ngModel)]="chapter.checked"></ion-checkbox>
     </ion-item>
-
   </ion-list>
   <ion-fab color="primary" right bottom>
     <button ion-fab [disabled]="!selectedChapters.length" (click)="download()">
