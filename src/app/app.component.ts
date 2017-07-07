@@ -1,33 +1,36 @@
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { Component, ViewChild } from "@angular/core";
+import { Nav, Platform } from "ionic-angular";
+import { StatusBar } from "@ionic-native/status-bar";
+import { SplashScreen } from "@ionic-native/splash-screen";
 import { ReaderSettingsService } from "../providers/reader-settings-service";
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: "app.html"
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = 'LnList';
+  rootPage: any = "LnList";
 
-  pages: Array<{ title: string, component: any }>;
+  overallPages: Array<any>;
+  userPages: Array<any>;
 
   constructor(public platform: Platform,
-            public statusBar: StatusBar,
-            public splashScreen: SplashScreen,
-            private readerSettingsService: ReaderSettingsService) {
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    private readerSettingsService: ReaderSettingsService) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'All novels', component: 'LnList' },
-      { title: 'Favorites', component: 'LnFavorites' },
-      { title: 'Recently viewed', component: 'LnRecentNovelsPage' },
-      { title: 'Downloaded', component: 'LnDownloadsListPage' },
-      { title: 'Downloading queue', component: 'LnDownloadsPage' },
-      
+    this.overallPages = [
+      { title: "All novels", icon: "home", component: "LnList" },
+    ];
+
+    this.userPages = [
+      { title: "Favorites", icon: "heart", component: "LnFavorites" },
+      { title: "Recently viewed", icon: "book", component: "LnRecentNovelsPage" },
+      { title: "Downloaded", icon: "cloud-done", component: "LnDownloadsListPage" },
+      { title: "Downloading queue", icon: "cloud-download", component: "LnDownloadsPage" }
     ];
 
   }
@@ -46,7 +49,7 @@ export class MyApp {
 
   openPage(page) {
     // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
+    // we wouldn"t want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
 }

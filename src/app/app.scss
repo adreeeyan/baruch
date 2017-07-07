@@ -17,6 +17,23 @@
 }
 
 ion-menu {
+    & ion-header {
+        & ion-toolbar {
+            min-height: $toolbar-md-height + 30px !important;
+            text-align: center;
+        }
+        & .toolbar-title {
+            font-size: 3rem !important;
+            position: static !important;
+        }
+        & .toolbar-ios ion-title {
+            position: static !important;
+            padding: 0 !important;
+        }
+        & .subtitle {
+            margin-top: 0;
+        }
+    }
     & ion-footer {
         .feedbacks {
             position: absolute;
@@ -29,6 +46,22 @@ ion-menu {
             position: absolute;
             left: 20px;
             text-align: left;
+        }
+    }
+    & ion-content {
+        & ion-list-header {
+            margin-bottom: 0px !important;
+            & ion-label {
+                margin-bottom: 0px !important;
+            }
+        }
+
+        & ion-list {
+            & .item {
+                & .item-inner {
+                    margin-left: 5px !important;
+                }
+            }
         }
     }
 }
