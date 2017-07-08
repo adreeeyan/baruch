@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { LnDownloadsPage } from './ln-downloads';
+import { LnDownloadsQueuePage } from "./ln-downloads-queue";
 
 @NgModule({
   declarations: [
-    LnDownloadsPage,
+    LnDownloadsQueuePage,
   ],
   imports: [
-    IonicPageModule.forChild(LnDownloadsPage),
+    IonicPageModule.forChild(LnDownloadsQueuePage),
   ],
   exports: [
-    LnDownloadsPage
+    LnDownloadsQueuePage
   ]
 })
 export class LnDownloadsPageModule {}

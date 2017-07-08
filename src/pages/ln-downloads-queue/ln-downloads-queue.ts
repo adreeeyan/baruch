@@ -4,10 +4,10 @@ import { DownloadService, DownloadItem } from "../../providers/download-service"
 
 @IonicPage()
 @Component({
-  selector: 'page-ln-downloads',
-  templateUrl: 'ln-downloads.html',
+  selector: 'page-ln-downloads-queue',
+  templateUrl: 'ln-downloads-queue.html',
 })
-export class LnDownloadsPage {
+export class LnDownloadsQueuePage {
 
   queue: DownloadItem[] = [];
 

@@ -13,7 +13,7 @@ import _ from "lodash";
 })
 export class LnDownloadNovelPage {
   novel: Novel;
-  chapters: ChapterDownload[];
+  chapters: ChapterDownload[] = [];
   chapterDetailsHeader: any;
   tabBarElement: any;
 
@@ -66,7 +66,7 @@ export class LnDownloadNovelPage {
   download() {
     let chapters = _.map(this.selectedChapters, "number");
     this.downloadService.addToQueue(this.novel, chapters);
-    this.app.getRootNav().setRoot("LnDownloadsPage");
+    this.app.getRootNav().setRoot("LnDownloadsQueuePage");
   }
 
 }

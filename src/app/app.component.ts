@@ -30,7 +30,7 @@ export class MyApp {
       { title: "Favorites", icon: "heart", component: "LnFavorites" },
       { title: "Recently viewed", icon: "book", component: "LnRecentNovelsPage" },
       { title: "Downloaded", icon: "cloud-done", component: "LnDownloadsListPage" },
-      { title: "Downloading queue", icon: "cloud-download", component: "LnDownloadsPage" }
+      { title: "Downloading queue", icon: "cloud-download", component: "LnDownloadsQueuePage" }
     ];
 
   }
