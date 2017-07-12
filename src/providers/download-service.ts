@@ -11,6 +11,7 @@ import { SafeHttpProvider } from "./safe-http";
 import { Chapter } from "../common/models/chapter";
 import { Novel } from "../common/models/novel";
 import { NovelsLocalService } from "./novels-local-service";
+import { DownloadItem, DownloadStatus } from "../common/models/download-item";
 
 @Injectable()
 export class DownloadService {
@@ -93,34 +94,43 @@ export class DownloadService {
     // computation for progress
     let currentlyFinished = 0;
 
+    // change novel download status
+    downloadItem.status = DownloadStatus.Ongoing;
+
     // iterate all and download
     _.each(downloadItem.chapters, chapter => {
+      // change chapter download status
+      chapter.status = DownloadStatus.Ongoing;
+
+      // download it
       this.fileTransfer
-        .download(`${url}${chapter}`,
-        `${novelDir}${chapter}.json`)
+        .download(`${url}${chapter.number}`,
+        `${novelDir}${chapter.number}.json`)
         .then(entry => {
           console.log("download complete: ", entry.toURL());
 
           // update progress
           currentlyFinished = this.updateProgress(downloadItem, currentlyFinished);
+          chapter.status = DownloadStatus.Completed;
         })
         .catch(err => {
           console.log("error downloading", err);
 
           // still update progress
           currentlyFinished = this.updateProgress(downloadItem, currentlyFinished);
+          chapter.status = DownloadStatus.Error;
         });
     });
   }
 
-  private updateProgress(downloadItem, currentlyFinished) {
+  private updateProgress(downloadItem: DownloadItem, currentlyFinished) {
     let total = downloadItem.chapters.length;
     currentlyFinished += 1;
     downloadItem.progress = currentlyFinished / total;
 
     // if all chapters is finished
     if (currentlyFinished === total) {
-      downloadItem.isFinished = true;
+      downloadItem.status = DownloadStatus.Completed;
     }
 
     return currentlyFinished;
@@ -185,6 +195,7 @@ export class DownloadService {
     });
   }
 
+  // retrieves the downloaded chapters
   getNovelChapterList(id: string): Promise<Array<Chapter>> {
     console.log("NovelsLocalService::getNovelChapterList");
 
@@ -230,23 +241,10 @@ export class DownloadService {
         });
     });
   }
-}
 
-export class DownloadItem {
-  public novel: Novel;
-  public chapters: Chapter[];
-  public isFinished: boolean;
-  private _progress: number;
-
-  get progress() {
-    return Math.round(this._progress * 100) || 0;
-  }
-
-  set progress(prog) {
-    this._progress = prog;
-  }
-
-  constructor(init?: Partial<DownloadItem>) {
-    Object.assign(this, init);
+  // get chapter list from queue
+  getNovelChaterListFromQueue(id: string): Array<Chapter> {
+    let item = _.find(this.queue, item => item.novel.id == id);
+    return item.chapters;
   }
 }

@@ -64,8 +64,7 @@ export class LnDownloadNovelPage {
   }
 
   download() {
-    let chapters = _.map(this.selectedChapters, "number");
-    this.downloadService.addToQueue(this.novel, chapters);
+    this.downloadService.addToQueue(this.novel, this.selectedChapters);
     this.app.getRootNav().setRoot("LnDownloadsQueuePage");
   }
 

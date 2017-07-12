@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { DownloadService, DownloadItem } from "../../providers/download-service";
+import { DownloadService } from "../../providers/download-service";
+import { DownloadItem } from "../../common/models/download-item";
 
 @IonicPage()
 @Component({
@@ -23,7 +24,7 @@ export class LnDownloadsQueuePage {
   }
 
   navigateToNovel(item) {
-    this.navCtrl.push('LnChapterListPage', item.id);
+    this.navCtrl.push('LnDownloadNovelChaptersListPage', item.id);
   }
 
 }

@@ -1,0 +1,17 @@
+<ion-header>
+
+  <ion-navbar color="secondary">
+    <ion-title>Chapters list</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list [virtualScroll]="chapters">
+    <ion-item *virtualItem="let chapter">
+      <ion-badge [color]="statusColor(chapter)" item-start>{{status(chapter)}}</ion-badge>
+      <ion-label item-end>Content {{chapter.number}}: {{chapter.title}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
