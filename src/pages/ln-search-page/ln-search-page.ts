@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Keyboard } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Novel } from '../../common/models/novel';
 import { NovelsService } from '../../providers/novels-service';
+import { LnLoadingController } from "../../common/ln-loading-controller";
 
 @IonicPage()
 @Component({
@@ -15,13 +16,14 @@ export class LnSearchPage {
     start: number;
     count: number;
     searchValue: string = "";
-    constructor(public navCtrl: NavController, public navParams: NavParams, public novelsService: NovelsService, public keyboard: Keyboard) {
-        this.keyboard.onClose(this.searchNovels.bind(this));
+    constructor(public navCtrl: NavController,
+        public navParams: NavParams,
+        public novelsService: NovelsService,
+        private loadingController: LnLoadingController) {
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad LnSearchPage');
-        this.novels = [];
         this.start = 0;
         this.count = 50;
 
@@ -46,14 +48,17 @@ export class LnSearchPage {
         console.log("LnSearchPage.searchNovels");
         this.start = 0;
         return new Promise((resolve, reject) => {
+            this.loadingController.presentLoadingMessage();
             this.novelsService
                 .getNovels(this.start, this.count, this.searchValue)
                 .subscribe((novels: Array<Novel>) => {
                     this.novels = novels;
                     this.start += novels.length;
+                    this.loadingController.hideLoadingMessage();
                     resolve();
                 }, (error) => {
                     resolve();
+                    this.loadingController.hideLoadingMessage();
                 });
         });
     }

@@ -67,7 +67,7 @@ ion-menu {
 /* Loading controller */
 
 .loading-ion {
-    top: $toolbar-md-height + 10px !important;
+    top: $toolbar-md-height !important;
 
     & .loading-wrapper {
         width: 100%;

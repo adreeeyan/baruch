@@ -9,6 +9,8 @@ import { Novel } from "../../common/models/novel";
 export class LnNovelList {
 
   @Input() novels: Array<Novel>;
+  @Input() showEmpty: boolean = true;
+  @Input() emptyMessage: string = "Nothing to show";
 
   constructor(private navCtrl: NavController) {
     console.log('Hello LnNovelList Component');
@@ -16,6 +18,10 @@ export class LnNovelList {
 
   novelTapped(event, item) {
     this.navCtrl.push('LnDetailsTabs', item.id);
+  }
+
+  get isEmptyNovels() {
+    return this.showEmpty && this.novels != null && this.novels.length == 0;
   }
 
 }

@@ -1,4 +1,4 @@
-<ion-grid no-padding>
+<ion-grid no-padding *ngIf="!isEmptyNovels">
   <ion-row class="list-row" align-items-end justify-content-start>
     <ion-col col-xl-2 col-lg-2 col-md-3 col-sm-4 col-4 *ngFor="let novel of novels" no-padding>
       <ion-card (tap)="novelTapped($event, novel)">
@@ -18,3 +18,8 @@
     </ion-col>
   </ion-row>
 </ion-grid>
+
+<div padding-top *ngIf="isEmptyNovels" class="no-content">
+  <ion-icon name="ios-sad"></ion-icon>
+  <div>{{emptyMessage}}</div>
+</div>

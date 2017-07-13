@@ -24,7 +24,7 @@
 </ion-header>
 
 <ion-content no-padding>
-  <ln-novel-list [novels]="novels"></ln-novel-list>
+  <ln-novel-list [novels]="novels" [showEmpty]="false"></ln-novel-list>
 
   <ion-infinite-scroll *ngIf="novels?.length" (ionInfinite)="$event.waitFor(updateNovelList())">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

@@ -21,25 +21,23 @@ export class LnDownloadsListPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LnDownloadsListPage');
-    this.resetNovelList();
+    this.updateNovelList();
   }
 
   updateNovelList(): Promise<any> {
+    this.loadingCtrl.presentLoadingMessage();
     return new Promise((resolve) => {
       this.downloadService
         .getNovels()
         .then((novels: Array<Novel>) => {
-          this.novels = this.novels.concat(novels);
+          this.novels = novels;
+          this.loadingCtrl.hideLoadingMessage();
           resolve();
+        })
+        .catch(() => {
+          this.loadingCtrl.hideLoadingMessage();
         });
     });
-  }
-
-  resetNovelList() {
-    this.loadingCtrl.presentLoadingMessage();
-    this.novels = [];
-    this.updateNovelList()
-      .then(() => this.loadingCtrl.hideLoadingMessage());
   }
 
 }

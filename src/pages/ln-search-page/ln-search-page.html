@@ -9,7 +9,7 @@
 </ion-header>
 
 <ion-content no-padding>
-    <ln-novel-list [novels]="novels"></ln-novel-list>
+    <ln-novel-list [novels]="novels" [emptyMessage]="'Nothing found...'"></ln-novel-list>
 
     <ion-infinite-scroll (ionInfinite)="$event.waitFor(updateNovelList())">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>

@@ -25,6 +25,6 @@ export class LnLoadingController extends LoadingController {
     }
 
     hideLoadingMessage() {
-        this.loader.dismiss();
+        this.loader.dismissAll();
     }
 }
