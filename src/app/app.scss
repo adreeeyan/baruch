@@ -14,7 +14,7 @@
 // automatically applied to the <body> element in the app.
 
 ion-menu {
-    z-index: 10000;
+    z-index: 10000 !important;
     & ion-header {
         & ion-toolbar {
             min-height: $toolbar-md-height + 30px !important;
@@ -67,6 +67,8 @@ ion-menu {
 /* Loading controller */
 
 .loading-ion {
+    top: $toolbar-md-height + 10px !important;
+
     & .loading-wrapper {
         width: 100%;
         height: 100%;
