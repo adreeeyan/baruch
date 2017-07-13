@@ -16,6 +16,7 @@ export class LnDownloadNovelPage {
   chapters: ChapterDownload[] = [];
   chapterDetailsHeader: any;
   tabBarElement: any;
+  isUpdated: boolean = false;
 
   constructor(private navCtrl: NavController,
     private navParams: NavParams,
@@ -47,6 +48,8 @@ export class LnDownloadNovelPage {
     this.downloadService
       .getUndownloadedChapters(this.novel.id)
       .then((chapters: ChapterDownload[]) => {
+        // check if nothing is new
+        this.isUpdated = chapters.length === 0;
         this.chapters = chapters.reverse();
         this.loadingCtrl.hideLoadingMessage();
       });

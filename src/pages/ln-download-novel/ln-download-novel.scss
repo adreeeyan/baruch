@@ -8,4 +8,14 @@ page-ln-download-novel {
     & .fixed-content {
         margin-bottom: 0px !important;
     }
+
+    & .no-content {
+        text-align: center;
+        ion-icon {
+            font-size: 20em;
+        }
+        div {
+            font-size: 2em;
+        }
+    }
 }

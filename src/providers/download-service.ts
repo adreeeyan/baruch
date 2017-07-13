@@ -35,8 +35,26 @@ export class DownloadService {
   // call an api and match it with the downloaded files
   // remove the matched
   getUndownloadedChapters(novelId): Promise<any> {
-    return this._getNovelChapterList(novelId)
-      .toPromise();
+    let onlineChapterList = this._getNovelChapterList(novelId).toPromise();
+    let offlineChapterList = this.getNovelChapterList(novelId);
+
+    return new Promise((resolve, reject) => {
+      Promise.all([onlineChapterList, offlineChapterList])
+        .catch(chapters => {
+          let uniqueChapters = this._getUniqueChapterList(chapters);
+          resolve(uniqueChapters);
+        })
+        .then(chapters => {
+          let uniqueChapters = this._getUniqueChapterList(chapters);
+          resolve(uniqueChapters);
+        });
+    });
+  }
+
+  private _getUniqueChapterList(chapters) {
+    let onlineChapters = chapters[0];
+    let offlineChapters = chapters[1];
+    return _.differenceBy(onlineChapters, offlineChapters, "id");
   }
 
   // duplicate function from novelsService (REFACTOR THIS!!)
@@ -53,7 +71,7 @@ export class DownloadService {
           content: ""
         })).sort((a, b) => b.number - a.number);
       }).catch(error => {
-        return Observable.throw(error);
+        return Observable.of([]);
       });
   }
 

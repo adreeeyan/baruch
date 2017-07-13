@@ -20,9 +20,14 @@
       <ion-checkbox [(ngModel)]="chapter.checked"></ion-checkbox>
     </ion-item>
   </ion-list>
-  <ion-fab color="primary" right bottom>
+  <ion-fab color="primary" *ngIf="!isUpdated" right bottom>
     <button ion-fab [disabled]="!selectedChapters.length" (click)="download()">
       <ion-icon name="download"></ion-icon>
     </button>
   </ion-fab>
+
+  <div padding-top *ngIf="isUpdated" class="no-content">
+    <ion-icon name="ios-happy-outline"></ion-icon>
+    <div>Nothing new here...</div>
+  </div>
 </ion-content>
