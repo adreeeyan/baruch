@@ -3,6 +3,7 @@ import { Nav, Platform } from "ionic-angular";
 import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { ReaderSettingsService } from "../providers/reader-settings-service";
+import { LnLoadingController } from "../common/ln-loading-controller";
 
 @Component({
   templateUrl: "app.html"
@@ -18,7 +19,8 @@ export class MyApp {
   constructor(public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    private readerSettingsService: ReaderSettingsService) {
+    private readerSettingsService: ReaderSettingsService,
+    private loadingController: LnLoadingController) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -44,6 +46,7 @@ export class MyApp {
 
       // initialize services here that needs to be initialized
       this.readerSettingsService.init();
+      this.loadingController.init();
     });
   }
 

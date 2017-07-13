@@ -12,11 +12,9 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-.loading-content {
-    text-align: center;
-}
 
 ion-menu {
+    z-index: 10000;
     & ion-header {
         & ion-toolbar {
             min-height: $toolbar-md-height + 30px !important;
@@ -55,7 +53,6 @@ ion-menu {
                 margin-bottom: 0px !important;
             }
         }
-
         & ion-list {
             & .item {
                 & .item-inner {
@@ -65,3 +62,26 @@ ion-menu {
         }
     }
 }
+
+
+/* Loading controller */
+
+.loading-ion {
+    & .loading-wrapper {
+        width: 100%;
+        height: 100%;
+        background: white;
+        box-shadow: none;
+        max-width: none;
+        max-height: none;
+    }
+
+    & .loading-content {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+/* end Loading controller */

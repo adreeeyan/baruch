@@ -5,16 +5,40 @@ import { Injectable } from "@angular/core";
 export class LnLoadingController extends LoadingController {
     loader: Loading;
 
+    init() {
+        // move the loading container to app-root
+        let appRoot = document.querySelector("ng-component");
+        let loadingContainer = document.querySelector(".loading-portal");
+        appRoot.appendChild(loadingContainer);
+    }
+
     presentLoadingMessage(message = "Loading your stuff...") {
         this.loader = this.create({
             spinner: "hide",
-            content: `<img src="assets/loading.gif" /><h3>${message}</h3>`
+            content: `<img src="assets/loading.svg" />`,
+            cssClass: "loading-ion",
+            showBackdrop: false,
+            dismissOnPageChange: true
         });
 
-        this.loader.present();
+        this.loader
+            .present()
+            .then(() => {
+                this.setLoaderTop();
+            });
     }
 
-    hideLoadingMessage(){
+    private getHeaderHeight() {
+        let header = document.querySelector("ion-nav ion-header");
+        return header.clientHeight || 0;
+    }
+
+    private setLoaderTop() {
+        let loader: any = document.querySelector(".loading-ion");
+        loader.style.top = this.getHeaderHeight() + "px";
+    }
+
+    hideLoadingMessage() {
         this.loader.dismiss();
     }
 }
