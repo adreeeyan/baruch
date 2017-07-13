@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Chapter } from "../../common/models/chapter";
 import { DownloadService } from "../../providers/download-service";
-import { DownloadItem, DownloadStatus } from "../../common/models/download-item";
+import { DownloadStatus, DownloadChapterItem } from "../../common/models/download-item";
 import _ from "lodash";
 
 @IonicPage()
@@ -29,7 +29,7 @@ export class LnDownloadNovelChaptersListPage {
     this.chapters = this.downloadService.getNovelChaterListFromQueue(novelId);
   }
 
-  status(item: DownloadItem) {
+  status(item: DownloadChapterItem) {
     switch (item.status) {
       case DownloadStatus.Pending: return "Pending";
       case DownloadStatus.Ongoing: return "Ongoing";
@@ -38,7 +38,7 @@ export class LnDownloadNovelChaptersListPage {
     }
   }
 
-  statusColor(item: DownloadItem) {
+  statusColor(item: DownloadChapterItem) {
     switch (item.status) {
       case DownloadStatus.Pending: return "light";
       case DownloadStatus.Ongoing: return "secondary";

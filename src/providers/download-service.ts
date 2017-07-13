@@ -11,7 +11,7 @@ import { SafeHttpProvider } from "./safe-http";
 import { Chapter } from "../common/models/chapter";
 import { Novel } from "../common/models/novel";
 import { NovelsLocalService } from "./novels-local-service";
-import { DownloadItem, DownloadStatus } from "../common/models/download-item";
+import { DownloadItem, DownloadStatus, DownloadChapterItem } from "../common/models/download-item";
 
 @Injectable()
 export class DownloadService {
@@ -91,49 +91,32 @@ export class DownloadService {
   }
 
   private retrieveChapters(downloadItem, url, novelDir) {
-    // computation for progress
-    let currentlyFinished = 0;
-
-    // change novel download status
-    downloadItem.status = DownloadStatus.Ongoing;
-
     // iterate all and download
     _.each(downloadItem.chapters, chapter => {
-      // change chapter download status
-      chapter.status = DownloadStatus.Ongoing;
-
-      // download it
-      this.fileTransfer
-        .download(`${url}${chapter.number}`,
-        `${novelDir}${chapter.number}.json`)
-        .then(entry => {
-          console.log("download complete: ", entry.toURL());
-
-          // update progress
-          currentlyFinished = this.updateProgress(downloadItem, currentlyFinished);
-          chapter.status = DownloadStatus.Completed;
-        })
-        .catch(err => {
-          console.log("error downloading", err);
-
-          // still update progress
-          currentlyFinished = this.updateProgress(downloadItem, currentlyFinished);
-          chapter.status = DownloadStatus.Error;
-        });
+      this.downloadChapter(chapter, url, novelDir)
     });
   }
 
-  private updateProgress(downloadItem: DownloadItem, currentlyFinished) {
-    let total = downloadItem.chapters.length;
-    currentlyFinished += 1;
-    downloadItem.progress = currentlyFinished / total;
+  private downloadChapter(chapter: DownloadChapterItem, url, novelDir) {
+    // change chapter download status
+    chapter.status = DownloadStatus.Ongoing;
 
-    // if all chapters is finished
-    if (currentlyFinished === total) {
-      downloadItem.status = DownloadStatus.Completed;
-    }
+    // download it
+    this.fileTransfer
+      .download(`${url}${chapter.number}`,
+      `${novelDir}${chapter.number}.json`)
+      .then(entry => {
+        console.log("download complete: ", entry.toURL());
 
-    return currentlyFinished;
+        // update progress
+        chapter.status = DownloadStatus.Completed;
+      })
+      .catch(err => {
+        console.log("error downloading, retrying...", err);
+
+        // we retry
+        this.downloadChapter(chapter, url, novelDir);
+      });
   }
 
   private createDir(novelId, isRoot = false): Promise<any> {
