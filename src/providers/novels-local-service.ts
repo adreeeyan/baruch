@@ -1,16 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Storage } from "@ionic/storage";
+import { File } from "@ionic-native/file";
 import _ from "lodash";
 
 import { Novel } from '../common/models/novel';
+import { Transfer, TransferObject } from "@ionic-native/transfer";
 
 @Injectable()
 export class NovelsLocalService {
 
     private NOVELS: string = "novels";
+    private coversDir: string = "covers";
+    fileTransfer: TransferObject;
 
-    constructor(private storage: Storage) {
+    constructor(private storage: Storage,
+        private file: File,
+        private transfer: Transfer, ) {
         console.log('Hello Novels Local Service');
+
+        this.fileTransfer = this.transfer.create();
     }
 
     get(): Promise<any> {
@@ -41,6 +49,53 @@ export class NovelsLocalService {
                         .then((novels) => {
                             novels.push(novel);
                             this.set(novels);
+                        });
+
+                    //save the image in data directory
+                    this.saveImage(novel);
+                });
+        });
+    }
+
+    saveImage(novel: Novel): Promise<any> {
+        let coversDir = this.file.dataDirectory;
+        return new Promise((resolve, reject) => {
+            // create the root folder for covers first
+            this.createDir()
+                .then(() => {
+                    this.fileTransfer
+                        .download(`/api/covers/${novel.cover}`, `${coversDir}${this.coversDir}/${novel.cover}`)
+                        .then(entry => {
+                            console.log("download image complete: ", entry.toURL());
+                        })
+                        .catch(err => {
+                            console.log("error downloading image", err);
+                        });
+                })
+                .catch(err => {
+                    console.log("error creating root directory", err);
+                });
+        });
+    }
+
+    private createDir(): Promise<any> {
+        let rootDir = this.file.dataDirectory;
+        return new Promise((resolve, reject) => {
+            this.file
+                .checkDir(rootDir, this.coversDir)
+                .then(() => {
+                    // if directory exists, just do nothing
+                    resolve();
+                })
+                .catch(() => {
+                    // create the directory
+                    this.file
+                        .createDir(rootDir, this.coversDir, false)
+                        .then(() => {
+                            resolve();
+                        })
+                        .catch(() => {
+                            reject();
                         });
                 });
         });

@@ -12,7 +12,7 @@
   <ion-list>
     <button ion-item *ngFor="let item of queue" (click)="navigateToNovel(item.novel)">
       <ion-thumbnail item-start>
-        <img [src]="'/api/covers/' + item.novel?.cover" alt="Cover">
+        <img [ln-img-src]="item.novel?.cover" alt="Cover">
       </ion-thumbnail>
       <h2>{{item.novel.title}}</h2>
       <p>{{item.progress}}% Completed</p>

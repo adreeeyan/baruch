@@ -3,7 +3,7 @@
     <ion-col col-xl-2 col-lg-2 col-md-3 col-sm-4 col-4 *ngFor="let novel of novels" no-padding>
       <ion-card (tap)="novelTapped($event, novel)">
         <div class="cover-holder">
-          <img [src]="'/api/covers/' + novel.cover" alt="Cover">
+          <img [ln-img-src]="novel.cover" alt="Cover">
         </div>
         <ion-item color="secondary" no-padding>
           <h5>{{novel.title}}</h5>
