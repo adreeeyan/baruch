@@ -21,21 +21,7 @@ export class LnLoadingController extends LoadingController {
             dismissOnPageChange: true
         });
 
-        this.loader
-            .present()
-            .then(() => {
-                this.setLoaderTop();
-            });
-    }
-
-    private getHeaderHeight() {
-        let header = document.querySelector("ion-nav ion-header");
-        return header.clientHeight || 0;
-    }
-
-    private setLoaderTop() {
-        let loader: any = document.querySelector(".loading-ion");
-        loader.style.top = this.getHeaderHeight() + "px";
+        this.loader.present();
     }
 
     hideLoadingMessage() {
