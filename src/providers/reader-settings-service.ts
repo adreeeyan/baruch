@@ -18,7 +18,9 @@ export class ReaderSettingsService {
         return new Promise((resolve, reject) => {
             this.storage.get(this.READERSETTINGS)
                 .then(settings => {
-                    resolve(settings || this.DEFAULTSETTINGS);
+                    let availableSettings = settings || this.DEFAULTSETTINGS;
+                    this.settings = availableSettings;
+                    resolve(availableSettings);
                 })
                 .catch(err => {
                     // if no settings yet
