@@ -22,29 +22,22 @@ export class LnRecentNovelsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LnRecentNovelsPage');
-    this.resetNovelList();
+    this.updateNovelList();
   }
 
   updateNovelList(): Promise<any> {
+    this.loadingCtrl.presentLoadingMessage();
     return new Promise((resolve) => {
       this.recentNovelsService
         .getNovels()
         .then((novels: Array<Novel>) => {
-          this.novels = this.novels.concat(novels);
+          this.novels = novels;
+          this.loadingCtrl.hideLoadingMessage();
           resolve();
+        })
+        .catch(() => {
+          this.loadingCtrl.hideLoadingMessage();
         });
     });
   }
-
-  resetNovelList() {
-    this.loadingCtrl.presentLoadingMessage();
-    this.novels = [];
-    this.updateNovelList()
-      .then(() => this.loadingCtrl.hideLoadingMessage());
-  }
-
-  searchTapped(event, item) {
-    this.navCtrl.push('LnSearchPage');
-  }
-
 }

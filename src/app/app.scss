@@ -14,7 +14,7 @@
 // automatically applied to the <body> element in the app.
 
 ion-menu {
-    z-index: 10000 !important;
+    z-index: 1000000 !important;
     & ion-header {
         & ion-toolbar {
             min-height: $toolbar-md-height + 30px !important;

@@ -22,28 +22,22 @@ export class LnFavorites {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LnFavorites');
-    this.resetNovelList();
+    this.updateNovelList();
   }
 
   updateNovelList(): Promise<any> {
+    this.loadingCtrl.presentLoadingMessage();
     return new Promise((resolve) => {
       this.favoritesService
         .getNovels()
         .then((novels: Array<Novel>) => {
-          this.novels = this.novels.concat(novels);
+          this.novels = novels;
+          this.loadingCtrl.hideLoadingMessage();
           resolve();
+        })
+        .catch(() => {
+          this.loadingCtrl.hideLoadingMessage();
         });
     });
-  }
-
-  resetNovelList() {
-    this.loadingCtrl.presentLoadingMessage();
-    this.novels = [];
-    this.updateNovelList()
-      .then(() => this.loadingCtrl.hideLoadingMessage());
-  }
-
-  searchTapped(event, item) {
-    this.navCtrl.push('LnSearchPage');
   }
 }
