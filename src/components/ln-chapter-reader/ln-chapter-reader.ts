@@ -202,7 +202,7 @@ export class LnChapterReader implements OnInit, OnChanges {
 
   goToChapter(number): Promise<any> {
     return new Promise((resolve) => {
-      this.loadingCtrl.presentLoadingMessage();
+      this.loadingCtrl.presentLoadingMessage("", true);
       this.novelsService.getNovelChapter(this.novelId.toString(), number)
         .then((chapter: Chapter) => {
           this.chapter = chapter;

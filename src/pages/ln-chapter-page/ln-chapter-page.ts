@@ -93,7 +93,7 @@ export class LnChapterPage {
   }
 
   goToChapter(novelId, chapterNumber) {
-    this.loadingCtrl.presentLoadingMessage();
+    this.loadingCtrl.presentLoadingMessage("", true);
     this.novelsService.getNovelChapter(novelId, chapterNumber)
       .then((chapter: Chapter) => {
         this.chapter = chapter;

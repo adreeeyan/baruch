@@ -12,11 +12,16 @@ export class LnLoadingController extends LoadingController {
         appRoot.appendChild(loadingContainer);
     }
 
-    presentLoadingMessage(message = "Loading your stuff...") {
+    presentLoadingMessage(message = "Loading your stuff...", isFull = false) {
+        let cssClass = "loading-ion";
+        if(isFull){
+            cssClass += " full";
+        }
+
         this.loader = this.create({
             spinner: "hide",
             content: `<img src="assets/loading.svg" />`,
-            cssClass: "loading-ion",
+            cssClass: cssClass,
             showBackdrop: false,
             dismissOnPageChange: true
         });
