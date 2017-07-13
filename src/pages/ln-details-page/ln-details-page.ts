@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import _ from "lodash";
 
 import { Novel } from '../../common/models/novel';
 import { NovelsService } from '../../providers/novels-service';
 import { FavoritesService } from '../../providers/favorites-service';
 import { LnLoadingController } from "../../common/ln-loading-controller";
 import { RecentNovelsService } from "../../providers/recent-novels-service";
+import { ChaptersService } from "../../providers/chapters-service";
 
 @IonicPage()
 @Component({
@@ -19,6 +21,7 @@ export class LnDetailsPage {
     public novelsService: NovelsService,
     private favoritesService: FavoritesService,
     private recentNovelsService: RecentNovelsService,
+    private chaptersService: ChaptersService,
     private loadingCtrl: LnLoadingController) {
   }
 
@@ -27,7 +30,7 @@ export class LnDetailsPage {
     this.loadingCtrl.presentLoadingMessage();
     let id = this.navParams.data;
     this.novelsService.getNovel(id).then((novel: Novel) => {
-      console.log("ionVIewDidLoad", novel);
+      console.log("ionViewDidLoad", novel);
       this.novel = novel;
       this.recentNovelsService.add(novel);
       this.loadingCtrl.hideLoadingMessage();
@@ -52,7 +55,11 @@ export class LnDetailsPage {
   }
 
   startReading() {
-    this.continueReading(1);
+    this.getLastReadChapter()
+      .then(chapter => {
+        let chapterNumber = chapter == null ? 1 : chapter.number;
+        this.continueReading(chapterNumber);
+      });
   }
 
   continueReading(chapter) {
@@ -79,5 +86,26 @@ export class LnDetailsPage {
     }
 
     return false;
+  }
+
+  getLastReadChapter(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      // get all chapters from novel
+      this.novelsService
+        .getNovelChapterList(this.novel.id.toString())
+        .then(chapters => {
+          // check chapter if isRead already starting from the top
+          // if its already read, then that chapter is the latest
+          chapters = chapters.reverse();
+          this.chaptersService
+            .getAllReadChapters()
+            .then(readChapters => {
+              let lastReadChapter = _.findLast(chapters, chapter => {
+                return _.includes(readChapters, chapter.id);
+              });
+              resolve(lastReadChapter);
+            });
+        });
+    });
   }
 }
