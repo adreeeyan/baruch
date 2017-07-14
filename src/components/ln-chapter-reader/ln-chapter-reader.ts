@@ -3,6 +3,7 @@ import { Chapter } from "../../common/models/chapter";
 import { NovelsService } from "../../providers/novels-service";
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { LnLoadingController } from "../../common/ln-loading-controller";
+import { ChaptersService } from "../../providers/chapters-service";
 
 @Component({
   selector: "ln-chapter-reader",
@@ -26,8 +27,9 @@ export class LnChapterReader implements OnInit, OnChanges {
   @Input() isFromNextChapter: boolean; // used to check if chapter navigated by swiping left
 
   constructor(public novelsService: NovelsService,
-              private screenOrientation: ScreenOrientation,
-              private loadingCtrl: LnLoadingController) {
+    private screenOrientation: ScreenOrientation,
+    private loadingCtrl: LnLoadingController,
+    private chaptersService: ChaptersService) {
   }
 
   @Input()
@@ -59,7 +61,7 @@ export class LnChapterReader implements OnInit, OnChanges {
   }
 
   resetPages() {
-    if (!this.chapter) return; 
+    if (!this.chapter) return;
     this.content = this.formatText(this.chapter.content);
     var scrollContent: any = document.querySelector("ln-chapter-page ion-content .scroll-content");
     if (this.horizontalScrolling) {
@@ -69,9 +71,9 @@ export class LnChapterReader implements OnInit, OnChanges {
         this.paginator();
         scrollContent.scrollTop = 0;
         scrollContent.style.overflow = "hidden";
-        if(this.isFromNextChapter){
+        if (this.isFromNextChapter) {
           this.slidesHolder.slideTo(this.contents.length - 1, 0);
-        }else{
+        } else {
           this.slidesHolder.slideTo(0, 0);
         }
       });
@@ -206,6 +208,7 @@ export class LnChapterReader implements OnInit, OnChanges {
       this.novelsService.getNovelChapter(this.novelId.toString(), number)
         .then((chapter: Chapter) => {
           this.chapter = chapter;
+          this.markChapterAsRead();
           resolve();
           this.loadingCtrl.hideLoadingMessage();
         });
@@ -213,7 +216,7 @@ export class LnChapterReader implements OnInit, OnChanges {
   }
 
   goToNextPage(evt) {
-    if(this.slidesHolder.isEnd()){
+    if (this.slidesHolder.isEnd()) {
       this.isFromNextChapter = false;
       this.goToChapter(this.chapter.number + 1);
       return;
@@ -222,11 +225,18 @@ export class LnChapterReader implements OnInit, OnChanges {
   }
 
   goToPrevPage(evt) {
-    if(this.slidesHolder.isBeginning()){
+    if (this.slidesHolder.isBeginning()) {
       this.isFromNextChapter = true;
       this.goToChapter(this.chapter.number - 1);
       return;
     }
     this.slidesHolder.slidePrev();
+  }
+
+  markChapterAsRead() {
+    this.chaptersService
+      .markAsRead(this.chapter.id)
+      .then(() => console.log("MARKED AS READ", this.chapter.id))
+      .catch((err) => console.log("UNABLE TO MARK AS READ", this.chapter.id));
   }
 }
