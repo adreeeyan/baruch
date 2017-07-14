@@ -30,6 +30,6 @@ export class LnLoadingController extends LoadingController {
     }
 
     hideLoadingMessage() {
-        this.loader.dismissAll();
+        this.loader.dismiss();
     }
 }
