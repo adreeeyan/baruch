@@ -1,5 +1,5 @@
 import { Component, ViewChild } from "@angular/core";
-import { Nav, Platform } from "ionic-angular";
+import { Nav, Platform, ToastController } from "ionic-angular";
 import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { ReaderSettingsService } from "../providers/reader-settings-service";
@@ -20,7 +20,8 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     private readerSettingsService: ReaderSettingsService,
-    private loadingController: LnLoadingController) {
+    private loadingController: LnLoadingController,
+    private toastCtrl: ToastController) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -47,6 +48,33 @@ export class MyApp {
       // initialize services here that needs to be initialized
       this.readerSettingsService.init();
       this.loadingController.init();
+
+      // Taken from https://stackoverflow.com/a/44365055
+      // Back button handle
+      // Registration of push in Android and Windows Phone
+      var lastTimeBackPress = 0;
+      var timePeriodToExit = 2000;
+
+      this.platform.registerBackButtonAction(() => {
+        // Check if view is currently root
+        if (!this.nav.canGoBack()) {
+          // Double check to exit app
+          if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
+            this.platform.exitApp(); // Exit from app
+          } else {
+            let toast = this.toastCtrl.create({
+              message: "Press back again to exit application.",
+              duration: 3000,
+              position: "bottom"
+            });
+            toast.present();
+            lastTimeBackPress = new Date().getTime();
+          }
+        } else {
+          // go to previous page
+          this.nav.pop({});
+        }
+      });
     });
   }
 
