@@ -47,5 +47,6 @@ export enum DownloadStatus {
 }
 
 export class DownloadChapterItem extends Chapter {
-  public status: DownloadStatus;
+  public status: DownloadStatus = DownloadStatus.Pending;
+  public checked: boolean = true;
 }

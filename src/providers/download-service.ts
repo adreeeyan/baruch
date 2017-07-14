@@ -54,12 +54,14 @@ export class DownloadService {
   private _getUniqueChapterList(chapters) {
     let onlineChapters = chapters[0];
     let offlineChapters = chapters[1];
+    console.log("online chapters", onlineChapters);
+    console.log("offline chapters", offlineChapters);
     return _.differenceBy(onlineChapters, offlineChapters, "id");
   }
 
   // duplicate function from novelsService (REFACTOR THIS!!)
   private _getNovelChapterList(id: string): Observable<Array<Chapter>> {
-    console.log("NovelsService::getNovelChapterList");
+    console.log("DownloadService::_getNovelChapterList");
     return this.http.get(`/api/novels/${id}/chapters`)
       .map((response: Response) => {
         let data: Array<object> = <any>response.json() || {};
@@ -77,14 +79,31 @@ export class DownloadService {
 
   // add to queue
   addToQueue(novel, chapters) {
-    // add to queue
-    let item = new DownloadItem({
-      novel: novel,
-      chapters: chapters
-    });
-    this.queue.push(item);
+
+    let item = this.getItemFromQueue(novel);
+
+    if (item) {
+      item.chapters = item.chapters.concat(chapters);
+    } else {
+      // add to queue
+      item = new DownloadItem({
+        novel: novel,
+        chapters: chapters
+      });
+      this.queue.push(item);
+    }
 
     this.download(item);
+  }
+
+  // remove from queue
+  removeFromQueue(item) {
+    _.pull(this.queue, item);
+  }
+
+  // checker if novel in queue
+  getItemFromQueue(novel) {
+    return _.find(this.queue, item => item.novel.id === novel.id);
   }
 
   download(downloadItem: DownloadItem) {
@@ -101,17 +120,27 @@ export class DownloadService {
           })
           .catch(err => {
             console.log("error creating directory", err);
+            // remove novel from queue
+            this.removeFromQueue(downloadItem);
           });
       })
       .catch(err => {
         console.log("error creating root directory", err);
+        // remove novel from queue
+        this.removeFromQueue(downloadItem);
       });
   }
 
   private retrieveChapters(downloadItem, url, novelDir) {
     // iterate all and download
     _.each(downloadItem.chapters, chapter => {
-      this.downloadChapter(chapter, url, novelDir)
+      // check if status is not pending
+      // meaning this chapter is already downloaded
+      // from previous download attempts for this novel
+      console.log("trying to download: ", chapter);
+      if (chapter.status == DownloadStatus.Pending) {
+        this.downloadChapter(chapter, url, novelDir)
+      }
     });
   }
 
@@ -153,8 +182,8 @@ export class DownloadService {
             .then(() => {
               resolve();
             })
-            .catch(() => {
-              reject();
+            .catch(err => {
+              reject(err);
             });
         });
     });
@@ -198,7 +227,7 @@ export class DownloadService {
 
   // retrieves the downloaded chapters
   getNovelChapterList(id: string): Promise<Array<Chapter>> {
-    console.log("NovelsLocalService::getNovelChapterList");
+    console.log("DownloadService::getNovelChapterList");
 
     return new Promise((resolve, reject) => {
       let chapters: Chapter[] = [];
@@ -206,6 +235,13 @@ export class DownloadService {
         .listDir(this.novelsDir, id.toString())
         .then(entries => {
           let chapterNumbers = _.map(entries, "name");
+          let unreadableChapters = 0;
+
+          // this means there are no downloaded chapters yet
+          if (chapterNumbers.length == 0) {
+            resolve([]);
+          }
+
           _.each(chapterNumbers, chapterNumber => {
             this.readNovelChapter(id, chapterNumber)
               .then(chapter => {
@@ -213,12 +249,17 @@ export class DownloadService {
 
                 // if all chapters are read
                 // resolve the chapters
-                if (chapters.length == chapterNumbers.length) {
+                if (chapters.length >= chapterNumbers.length - unreadableChapters) {
                   resolve(chapters);
                 }
               })
               .catch(err => {
+                unreadableChapters += 1;
                 console.log("error reading chapter", err);
+
+                if (chapters.length >= chapterNumbers.length - unreadableChapters) {
+                  resolve(chapters);
+                }
               });
           });
         })
@@ -244,7 +285,7 @@ export class DownloadService {
   }
 
   // get chapter list from queue
-  getNovelChaterListFromQueue(id: string): Array<Chapter> {
+  getNovelChapterListFromQueue(id: string): Array<Chapter> {
     let item = _.find(this.queue, item => item.novel.id == id);
     return item.chapters;
   }

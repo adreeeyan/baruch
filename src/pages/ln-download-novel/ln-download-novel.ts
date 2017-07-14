@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, PopoverController, App } from 'ionic-angular';
 import { Novel } from "../../common/models/novel";
 import { DownloadService } from "../../providers/download-service";
-import { Chapter } from "../../common/models/chapter";
 import { LnLoadingController } from "../../common/ln-loading-controller";
 import _ from "lodash";
+import { DownloadChapterItem, DownloadStatus } from "../../common/models/download-item";
 
 @IonicPage()
 @Component({
@@ -13,7 +13,7 @@ import _ from "lodash";
 })
 export class LnDownloadNovelPage {
   novel: Novel;
-  chapters: ChapterDownload[] = [];
+  chapters: DownloadChapterItem[] = [];
   chapterDetailsHeader: any;
   tabBarElement: any;
   isUpdated: boolean = false;
@@ -47,9 +47,16 @@ export class LnDownloadNovelPage {
     this.loadingCtrl.presentLoadingMessage();
     this.downloadService
       .getUndownloadedChapters(this.novel.id)
-      .then((chapters: ChapterDownload[]) => {
+      .then((chapters: DownloadChapterItem[]) => {
         // check if nothing is new
         this.isUpdated = chapters.length === 0;
+
+        // check all chapters and put it to pending state
+        _.each(chapters, chapter => {
+          chapter.checked = true;
+          chapter.status = DownloadStatus.Pending;
+        });
+
         this.chapters = chapters.reverse();
         this.loadingCtrl.hideLoadingMessage();
       });
@@ -63,7 +70,7 @@ export class LnDownloadNovelPage {
   }
 
   get selectedChapters() {
-    return _.filter(this.chapters, (chapter: ChapterDownload) => chapter.checked);
+    return _.filter(this.chapters, (chapter: DownloadChapterItem) => chapter.checked);
   }
 
   download() {
@@ -71,8 +78,4 @@ export class LnDownloadNovelPage {
     this.app.getRootNav().setRoot("LnDownloadsQueuePage");
   }
 
-}
-
-class ChapterDownload extends Chapter {
-  checked: boolean;
 }

@@ -26,7 +26,7 @@ export class LnDownloadNovelChaptersListPage {
 
   getChapters() {
     let novelId = this.navParams.data;
-    this.chapters = this.downloadService.getNovelChaterListFromQueue(novelId);
+    this.chapters = this.downloadService.getNovelChapterListFromQueue(novelId);
   }
 
   status(item: DownloadChapterItem) {
@@ -35,6 +35,7 @@ export class LnDownloadNovelChaptersListPage {
       case DownloadStatus.Ongoing: return "Ongoing";
       case DownloadStatus.Completed: return "Completed";
       case DownloadStatus.Error: return "Error";
+      default: return "Report to dev, something's wrong here";
     }
   }
 
@@ -44,6 +45,7 @@ export class LnDownloadNovelChaptersListPage {
       case DownloadStatus.Ongoing: return "secondary";
       case DownloadStatus.Completed: return "primary";
       case DownloadStatus.Error: return "danger";
+      default: return "danger";
     }
   }
 
