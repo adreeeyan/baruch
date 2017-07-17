@@ -64,8 +64,6 @@ env:
   - JAVA_HOME=/usr/lib/jvm/java-8-oracle
 deploy:
   provider: releases
-  api_key:
-    secure: YXJ5f5UHchoEm/MPHLrwPuXMwACMP3sMZ+mDfzrc+nNrodDjWjX2eQVKR9aLp/2XCS5AmdQZNaeL2pU7rAnhXoIskKLa8hglOXrzVx0gcgSvIm/+QVBm3/kGfCUrr/z0RBJ60kCVvCkY77ry6c5izo4EKqASGvE+KzeXd9B2l5zPWDqcHRwD26eke1x/TZO77883uxurooFEoiP2oH9x+FAyoY/uVdpwgmLT7s1+Z1l/GeWPbfkkWZnM2/CN6Vr7JxvbJZ+1A+4gqXF7/r9hQ0ZhGwHwlXrc0ePNiJWNkNrhLN6tlQTKH5snRz73GLv/7QH7L+1DDiIxXD/l/v9d9IrsGEa8rhUW3Bsq5wMbzwiuHOguY5bKB3vPQaRjvyA+VuRjisK+mfuo2sJdfhpa5aEKDUG3ky6kdky+X+MeByaFcp+Ef7nI8LidMQ5VMNIejcx02BQ6jE35Ao2HuHBohDry6ypC8zJgW9MJ3DewaxaYfzRKbp70JZbyxo2d69ampOWy627/yzJ0G7UOUimXSiUzqLJa5oN+WJuJ0JY7HkVzLBpm9pfxoNIjMxrwM3e5fRiW8zVoL9xsxQIQsMOkio5kBRklo32amG0uFIsmyWXAYZtWqq0swvkYuO22GjUYIsLYlQlfdVwS1JvWnh8xJAeM/p6aRCNrbtj239+05Zc=
   file_glob: true
   file: output/*
   skip_cleanup: true
