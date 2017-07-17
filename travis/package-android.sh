@@ -9,5 +9,5 @@ then
 fi
 
 mkdir -p output
-cp platforms/android/build/outputs/apk/android-release-unsigned.apk output/baruch-release-unsigned.apk
+cp platforms/android/build/outputs/apk/android-debug.apk output/baruch-debug.apk
 
