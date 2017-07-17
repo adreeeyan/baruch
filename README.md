@@ -31,7 +31,7 @@ It runs on android, ios, and windows phone.
 * [Contributors](https://github.com/adrianonrails/baruch/graphs/contributors)
 
 ## License 
-* see [LICENSE](https://github.com/adrianonrails/baruch/blob/master/LICENSE.md) file
+* see [LICENSE](https://github.com/adrianonrails/baruch/blob/master/LICENSE) file
 
 ## Version 
 * Version 0.5
