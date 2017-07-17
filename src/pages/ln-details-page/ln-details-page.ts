@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import _ from "lodash";
 
 import { Novel } from '../../common/models/novel';
@@ -16,9 +16,10 @@ import { ChaptersService } from "../../providers/chapters-service";
 })
 export class LnDetailsPage {
   novel: Novel;
-  constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public novelsService: NovelsService,
+  constructor(private app: App,
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private novelsService: NovelsService,
     private favoritesService: FavoritesService,
     private recentNovelsService: RecentNovelsService,
     private chaptersService: ChaptersService,
@@ -63,14 +64,14 @@ export class LnDetailsPage {
   }
 
   continueReading(chapter) {
-    this.navCtrl.push('LnChapterPage', {
+    this.app.getRootNav().push('LnChapterPage', {
       novelId: this.novel.id,
       chapterNumber: chapter
     });
   }
 
   download() {
-    this.navCtrl.push('LnDownloadNovelPage', this.novel);
+    this.app.getRootNav().push('LnDownloadNovelPage', this.novel);
   }
 
   toggleFavorite() {

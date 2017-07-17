@@ -15,7 +15,6 @@ import { LnLoadingController } from "../../common/ln-loading-controller";
 export class LnChapterPage {
   navDisplay: string = "none";
   chapterDetailsHeader: any;
-  tabBarElement: any;
   chapter: Chapter;
   novelId: number;
   settings: any;
@@ -30,24 +29,14 @@ export class LnChapterPage {
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
     private loadingCtrl: LnLoadingController) {
-    this.chapterDetailsHeader = document.querySelector("page-ln-details-tabs ion-header");
-    this.tabBarElement = document.querySelector(".tabbar.show-tabbar");
   }
 
   ionViewWillEnter() {
-    // hide the tabs and header    
-    if (this.chapterDetailsHeader) this.chapterDetailsHeader.style.display = "none";
-    if (this.tabBarElement) this.tabBarElement.style.display = "none";
-
     // hide status bar
     this.toggleStatusBar(false);
   }
 
   ionViewWillLeave() {
-    // show the tabs and header    
-    if (this.chapterDetailsHeader) this.chapterDetailsHeader.style.display = "flex";
-    if (this.tabBarElement) this.tabBarElement.style.display = "flex";
-
     // show status bar
     this.toggleStatusBar(true);
   }

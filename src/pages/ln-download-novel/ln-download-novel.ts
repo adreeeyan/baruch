@@ -15,7 +15,6 @@ export class LnDownloadNovelPage {
   novel: Novel;
   chapters: DownloadChapterItem[] = [];
   chapterDetailsHeader: any;
-  tabBarElement: any;
   isUpdated: boolean = false;
 
   constructor(private navCtrl: NavController,
@@ -24,20 +23,6 @@ export class LnDownloadNovelPage {
     private downloadService: DownloadService,
     private loadingCtrl: LnLoadingController,
     private app: App) {
-    this.chapterDetailsHeader = document.querySelector("page-ln-details-tabs ion-header");
-    this.tabBarElement = document.querySelector(".tabbar.show-tabbar");
-  }
-
-  ionViewWillEnter() {
-    // hide the tabs and header    
-    if (this.chapterDetailsHeader) this.chapterDetailsHeader.style.display = "none";
-    if (this.tabBarElement) this.tabBarElement.style.display = "none";
-  }
-
-  ionViewWillLeave() {
-    // show the tabs and header    
-    if (this.chapterDetailsHeader) this.chapterDetailsHeader.style.display = "flex";
-    if (this.tabBarElement) this.tabBarElement.style.display = "flex";
   }
 
   ionViewDidLoad() {

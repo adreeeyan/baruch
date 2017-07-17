@@ -18,7 +18,7 @@ export class LnDownloadsQueuePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LnDownloadsPage');
+    console.log('ionViewDidLoad LnDownloadsQueuePage');
 
     this.queue = this.downloadService.queue;
   }

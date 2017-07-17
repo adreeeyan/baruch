@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { IonicPage, NavController, NavParams, App } from "ionic-angular";
 import { NovelsService } from "../../providers/novels-service";
 import { Chapter } from "../../common/models/chapter";
 import { ChaptersService } from "../../providers/chapters-service";
@@ -14,10 +14,11 @@ import { DownloadService } from "../../providers/download-service";
 export class LnChapterListPage {
   chapters: Chapter[] = [];
   isFinishedLoading: boolean = false;
-  constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public novelService: NovelsService,
-    public chaptersService: ChaptersService,
+  constructor(private app: App,
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private novelService: NovelsService,
+    private chaptersService: ChaptersService,
     private downloadService: DownloadService,
     private loadingCtrl: LnLoadingController) {
   }
@@ -61,7 +62,7 @@ export class LnChapterListPage {
     setTimeout(() => {
       chapter.isRead = true;
     }, 500);
-    this.navCtrl.push('LnChapterPage', {
+    this.app.getRootNav().push('LnChapterPage', {
       novelId: this.navParams.data,
       chapterNumber: chapter.number
     });
