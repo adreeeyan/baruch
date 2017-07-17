@@ -90,6 +90,7 @@ export class LnDetailsPage {
 
   getLastReadChapter(): Promise<any> {
     return new Promise((resolve, reject) => {
+      this.loadingCtrl.presentLoadingMessage();
       // get all chapters from novel
       this.novelsService
         .getNovelChapterList(this.novel.id.toString())
@@ -104,6 +105,7 @@ export class LnDetailsPage {
                 return _.includes(readChapters, chapter.id);
               });
               resolve(lastReadChapter);
+              this.loadingCtrl.hideLoadingMessage();
             });
         });
     });
