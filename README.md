@@ -1,4 +1,5 @@
-Baruch
+Baruch  
+[![Build Status](https://travis-ci.org/adrianonrails/baruch.svg?branch=master)](https://travis-ci.org/adrianonrails/baruch)
 ======
 **Baruch** is a light novel reader and downloader.  
 It runs on android, ios, and windows phone.
@@ -22,7 +23,7 @@ It runs on android, ios, and windows phone.
 
 
 ## Download
-* This dude is not on google play yet or iStore yet, so android users just download the apk, and for iOS users, sorry for the meantime, got no cash to create an account on iStore, no iPhone or mac to test this one also
+* This dude is not on google play or iStore yet, so android users just download the apk, and for iOS users, sorry for the meantime, got no cash to create an account on iStore, no iPhone or mac to test this one also
 * [Version 0.5]()
 
 ## Contributors
