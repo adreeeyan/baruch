@@ -43,7 +43,7 @@ before_install:
 - export LANG=en_US.UTF-8
 - nvm install 8
 - npm install -g ionic cordova
-- find ./src -type f -exec sed -i -e 's#\/api#$sed#g' {} \;
+- find ./src -type f -exec sed -i -e "s#\/api#$sed#g" {} \;
 before_script: 
 script:
 - npm install
