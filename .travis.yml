@@ -1,7 +1,6 @@
 branches:
   only:
   - master
-  - develop
 matrix:
   include:
   - os: linux
@@ -29,9 +28,6 @@ matrix:
     - android-sdk-preview-license-.+
     - android-sdk-license-.+
     - google-gdk-license-.+
-  - os: osx
-    language: objective-c
-    osx_image: xcode8.3
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -f  $HOME/.gradle/caches/transforms-1/transforms-1.lock
@@ -44,19 +40,15 @@ cache:
   - node_modules
 before_install:
 - export LANG=en_US.UTF-8
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; brew install yarn ios-sim
-  jq ios-deploy cocoapods ; rvm use system ; pod setup ; fi
 - nvm install 8
 - npm install -g ionic cordova
+- find ./src -type f -exec sed -i -e 's#\/api#$SED#g' {} \;
 before_script:
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./travis/addkeys.sh ; fi
 script:
 - npm install
 - chmod a+x ./travis/build-ios.sh ./travis/package-ios.sh ./travis/build-android.sh
   ./travis/package-android.sh
 - mkdir ./www
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./travis/build-ios.sh && ./travis/package-ios.sh
-  ; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./travis/build-android.sh && ./travis/package-android.sh
   ; fi
 env:
@@ -71,4 +63,4 @@ deploy:
   skip_cleanup: true
   overwrite: true
   on:
-    repo: adrianonrails/baruch
+    tags: true
