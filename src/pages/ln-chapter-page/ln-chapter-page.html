@@ -29,4 +29,14 @@
     [invertColors]="settings?.invertColors"
     [isFromNextChapter]="isFromNextChapter"
   ></ln-chapter-reader>
+  <div class="bottom-nav" *ngIf="chapter">
+    <button class="prev" ion-button clear icon-right (tap)="prevChapter()">
+      <ion-icon name="ios-arrow-back"></ion-icon>
+      Back 
+    </button>
+    <button class="next" ion-button clear icon-left (tap)="nextChapter()">
+      Next 
+      <ion-icon name="ios-arrow-forward"></ion-icon>
+    </button>
+  </div>
 </ion-content>
