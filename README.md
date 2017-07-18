@@ -1,7 +1,6 @@
 Baruch  
 [![Build Status](https://travis-ci.org/adrianonrails/baruch.svg?branch=master)](https://travis-ci.org/adrianonrails/baruch)
-[![Beerpay](https://beerpay.io/adrianonrails/baruch/badge.svg?style=beer-square)](https://beerpay.io/adrianonrails/baruch)
-[![Beerpay](https://beerpay.io/adrianonrails/baruch/make-wish.svg?style=flat-square)](https://beerpay.io/adrianonrails/baruch?focus=wish)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ECAGVBSCCMJHG)
 ======
 **Baruch** is a light novel reader and downloader.  
 It runs on android, ios, and windows phone.
@@ -43,7 +42,6 @@ It runs on android, ios, and windows phone.
 #### Your dev
 * e-mail: adrian.onrails@gmail.com
 
-## Support on Beerpay
+## Support your dev
 Hey dude! Help me out for a couple of :beers:!  
-[![Beerpay](https://beerpay.io/adrianonrails/baruch/badge.svg?style=beer-square)](https://beerpay.io/adrianonrails/baruch)
-[![Beerpay](https://beerpay.io/adrianonrails/baruch/make-wish.svg?style=flat-square)](https://beerpay.io/adrianonrails/baruch?focus=wish)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ECAGVBSCCMJHG)
