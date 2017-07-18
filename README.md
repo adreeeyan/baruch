@@ -5,6 +5,21 @@ Baruch
 **Baruch** is a light novel reader and downloader.  
 It runs on android, ios, and windows phone.
 
+#### Features
+* Search novels
+* View novel details
+* Mark as favorite
+* Save recently viewed novels
+* Download novels offline
+* Read novels
+* Customize (a bit) reading settings (change font size, color, stuffs...)
+* No registration needed!
+##### Upcoming features
+* Download novel as ebook (epub, pdf format)
+* See notifications for updated novels
+#### Want to request a feature? [Submit a request.](https://github.com/adrianonrails/baruch/issues/new)
+#### Found some bugs? [Report it here.](https://github.com/adrianonrails/baruch/issues/new)
+
 #### Screenshot
 ![sidebar](https://user-images.githubusercontent.com/18593260/28258203-8332b372-6b02-11e7-8c01-1ff905cb0392.png "Sidebar")
 ![allnovels](https://user-images.githubusercontent.com/18593260/28258189-82aaeb40-6b02-11e7-8a22-b874cbb95a02.png "All novels list")
@@ -25,7 +40,7 @@ It runs on android, ios, and windows phone.
 
 ## Download
 * This dude is not on google play or iStore yet, so android users just download the apk, and for iOS users, sorry for the meantime, got no cash to create an account on iStore, no iPhone or mac to test this one also
-* [Version 0.5]()
+* [Version 0.5.0](https://github.com/adrianonrails/baruch/releases/download/v0.5.0/Baruch.apk)
 
 ## Contributors
 
@@ -36,7 +51,7 @@ It runs on android, ios, and windows phone.
 * see [LICENSE](https://github.com/adrianonrails/baruch/blob/master/LICENSE) file
 
 ## Version 
-* Version 0.5
+* [Version 0.5.0](https://github.com/adrianonrails/baruch/releases/download/v0.5.0/Baruch.apk)
 
 ## Contact
 #### Your dev
