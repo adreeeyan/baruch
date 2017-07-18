@@ -39,7 +39,10 @@ env:
   global:
   - JAVA_HOME=/usr/lib/jvm/java-8-oracle
   - secure: dwlpZ/D0WeupEHbNLu3RnYEuKOivZRmEBFe+cvFLHQPxRl0bYDblqySmwHha7hFC74fPKMv5BokFS+YFLzveTrAoECXXIp9UKNZ9ciMfTMWS+PJlm3aVA9O/AkQuHuMAsDMrZfmymHy/010IKKSxs7e3JG1RQfyGOM0KiVyiNWOLZL0kfstExIULif0YFawqpKMIlShj4a0EZJbeFd+sdHlgFwJWhQL7J6vMiAQt/WL3OIxUldWn8quTPrkNGSox13x2wXfdKKFr4Tv5z2/Rg95CWDKj/X9I9A5QfpRQnZTp5T7vg8a8YDEnAJIiEanwyTPUnDoFskO+ooic4KwiCOa7NZWucckpCM25KR2eehARvLN0eCzhuQPdqhAxiiToXVywgrV1eaU2HURIn6VGGLgGcrs5Zwf2BG8v1l3QPC5wyixe02SmuuYcqorPFH46dGwojRgUbUL9I38IN4gQvt+bojcNk2HeIcB6oAXJbHqn4WerxMf4TlLDxxvkoP0vAbTBbbJoXIlQwpvLs8BQhvY7IFlEA6sSTznwYU7OPPry6gbcnXOZcPaFB+qQXYT/4hn7Xc9z/naj8dqZd1N7zzMMziRtKziMt1peYegNs5ozrHpVsHCFt6pfbHdIbLorN/OeAcs9P+VwQXvJNfGm869QsFaZiX2tA0PE3qxd8N0=
+  - secure: R19PW7HDRVM6YN6U8Sd4BKNED72pRyi4ZwABUd0Ibpm9D5HfoF+36fFrH/ZS1xEt+VrAsZFKlAoPx4XD07LTBSpKW1+jtiq4pqH3SOClulbRawthWKvF22cAfIIhrHCOoXIlhJJ0g7iY8MaFFuJJ5FU9i4IOTRwK9HOrcs+5uqIWygtfpZUlPXg2O7KJCFOkiEls+L7rz5KrHCnNBXrcUE7qUtBEcRN6GYWpi0a+4ALwSN/CxywaoiPaiRPj2bKjyt2PsdBm9Kpr831khCtcmrOLZzH89oNm52GjD3j3QQt84SgvFPe7Foqglgdqzjwpj9N3DrtINwQEkzgaIuwgjqa85bB5EE2oAIvwY7ou5Yl3o+Dt5nI4fJKZB2TRljcJY6TnAYdPqUu/n1gGoMuOH+m9VtwdlwE9YD6NVQ7RG2Gib7JJ69GGKDh/84xJLCEbXfBoxpfRUAor4UvimInzTYrDoGxma1fCBX1S+RuBmhBkr8p7IlFoEMIHMnjO5lx3S5lDglQK6ZqmeyyIjAbnjLIxVBckWaDc8AE9OBtGyeYeagA6lFJQ7oosfNpLJEqH2egbWQRZvcONMviwS7ogtavVajICQ5SJvTaRnvRsgMo01fl3hRvBDLrLXFHjuIxcbZOfDvho06AM4pPW1fJU33Aln5C6fVjjMw51Z7p+wG8=
 before_install:
+- openssl aes-256-cbc -K $encrypted_405c6fa3ccd4_key -iv $encrypted_405c6fa3ccd4_iv
+  -in my-release-key.jks.enc -out my-release-key.jks -d
 - export LANG=en_US.UTF-8
 - nvm install 8
 - npm install -g ionic cordova
@@ -47,11 +50,9 @@ before_install:
 before_script: 
 script:
 - npm install
-- chmod a+x ./travis/build-ios.sh ./travis/package-ios.sh ./travis/build-android.sh
-  ./travis/package-android.sh
+- chmod a+x ./travis/build-ios.sh ./travis/package-ios.sh ./travis/build-android.sh ./travis/package-android.sh
 - mkdir ./www
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./travis/build-android.sh && ./travis/package-android.sh
-  ; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./travis/build-android.sh && ./travis/package-android.sh $storepass; fi
 deploy:
   provider: releases
   api_key:
