@@ -4,4 +4,19 @@ ln-chapter-page {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
     }
+    & .bottom-nav {
+        & .prev {
+            float: left;
+            & ion-icon {
+                margin-right: 10px;
+            }
+        }
+
+        & .next {
+            float: right;
+            & ion-icon {
+                margin-left: 10px;
+            }
+        }
+    }
 }
