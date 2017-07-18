@@ -61,4 +61,4 @@ Hey dude! Help me out for a couple of :beers:!
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ECAGVBSCCMJHG)
 
 ## Disclaimer
-The novel contents are not mine and are just crawled from other aggregators, this will be changed in the future when I finished the must have features and have the time to get the data from actual translator sites, in order to give them proper credit.
+The novel contents are not mine and are just crawled from other aggregators, this will be changed in the future when I finish the must have features. I will get the data from actual translation sites after that in order to give them proper credit.
