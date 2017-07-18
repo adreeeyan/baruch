@@ -44,7 +44,7 @@ export class LnChapterPage {
   ionViewDidLoad() {
     console.log("ionViewDidLoad LnChapterPage");
     let data = this.navParams.data;
-    this.goToChapter(data.novelId, data.chapterNumber);
+    this.goToChapter(data.novelId, data.chapterNumber, false);
     this.novelId = data.novelId;
     this.settings = this.readerSettingsService.settings;
   }
@@ -81,13 +81,17 @@ export class LnChapterPage {
     settingsModal.present();
   }
 
-  goToChapter(novelId, chapterNumber) {
-    this.loadingCtrl.presentLoadingMessage("", true);
+  goToChapter(novelId, chapterNumber, showLoading = true) {
+    if (showLoading) {
+      this.loadingCtrl.presentLoadingMessage("", true);
+    }
     this.novelsService.getNovelChapter(novelId, chapterNumber)
       .then((chapter: Chapter) => {
         this.chapter = chapter;
+        if (showLoading) {
+          this.loadingCtrl.hideLoadingMessage();
+        }
         this.markChapterAsRead();
-        this.loadingCtrl.hideLoadingMessage();
       });
   }
 
