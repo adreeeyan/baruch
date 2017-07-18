@@ -1,5 +1,7 @@
 Baruch  
 [![Build Status](https://travis-ci.org/adrianonrails/baruch.svg?branch=master)](https://travis-ci.org/adrianonrails/baruch)
+[![Beerpay](https://beerpay.io/adrianonrails/baruch/badge.svg?style=beer-square)](https://beerpay.io/adrianonrails/baruch)
+[![Beerpay](https://beerpay.io/adrianonrails/baruch/make-wish.svg?style=flat-square)](https://beerpay.io/adrianonrails/baruch?focus=wish)
 ======
 **Baruch** is a light novel reader and downloader.  
 It runs on android, ios, and windows phone.
@@ -43,5 +45,3 @@ It runs on android, ios, and windows phone.
 
 ## Support on Beerpay
 Hey dude! Help me out for a couple of :beers:!
-
-[![Beerpay](https://beerpay.io/adrianonrails/baruch/badge.svg?style=beer-square)](https://beerpay.io/adrianonrails/baruch)  [![Beerpay](https://beerpay.io/adrianonrails/baruch/make-wish.svg?style=flat-square)](https://beerpay.io/adrianonrails/baruch?focus=wish)
