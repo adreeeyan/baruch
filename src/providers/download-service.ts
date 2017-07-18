@@ -26,7 +26,9 @@ export class DownloadService {
     private transfer: Transfer,
     private novelsLocalService: NovelsLocalService) {
     console.log('Hello Downloads Service');
+  }
 
+  init() {
     this.fileTransfer = this.transfer.create();
     this.novelsDir = `${this.file.dataDirectory}${this.novelsDirName}/`;
   }
@@ -90,6 +92,7 @@ export class DownloadService {
         novel: novel,
         chapters: chapters
       });
+      console.log("adding item", item);
       this.queue.push(item);
     }
 
