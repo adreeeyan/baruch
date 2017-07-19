@@ -1,6 +1,6 @@
 <ion-grid no-padding *ngIf="!isEmptyNovels">
   <ion-row class="list-row" align-items-end justify-content-start>
-    <ion-col col-xl-2 col-lg-2 col-md-3 col-sm-4 col-4 *ngFor="let novel of novels" no-padding>
+    <ion-col col-xl-2 col-lg-2 col-md-2 col-sm-3 col-4 *ngFor="let novel of novels" no-padding>
       <ion-card (tap)="novelTapped($event, novel)">
         <div class="cover-holder">
           <img [ln-img-src]="novel.cover" alt="Cover">
