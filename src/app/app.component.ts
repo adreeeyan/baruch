@@ -1,5 +1,5 @@
 import { Component, ViewChild } from "@angular/core";
-import { Nav, Platform, ToastController } from "ionic-angular";
+import { Nav, Platform, ToastController, IonicApp, App } from "ionic-angular";
 import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { ReaderSettingsService } from "../providers/reader-settings-service";
@@ -20,6 +20,8 @@ export class MyApp {
   constructor(public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
+    private ionicApp: IonicApp,
+    private app: App,
     private readerSettingsService: ReaderSettingsService,
     private loadingController: LnLoadingController,
     private toastCtrl: ToastController,
@@ -52,32 +54,43 @@ export class MyApp {
       this.readerSettingsService.init();
       this.loadingController.init();
 
-      // Taken from https://stackoverflow.com/a/44365055
+      // Taken from https://stackoverflow.com/a/44365055 and https://github.com/ionic-team/ionic/issues/6982#issuecomment-295896544
       // Back button handle
       // Registration of push in Android and Windows Phone
       var lastTimeBackPress = 0;
       var timePeriodToExit = 2000;
 
       this.platform.registerBackButtonAction(() => {
-        // Check if view is currently root
-        if (!this.nav.canGoBack()) {
+        let activePortal = this.ionicApp._loadingPortal.getActive() ||
+          this.ionicApp._modalPortal.getActive() ||
+          this.ionicApp._overlayPortal.getActive();
+
+        //activePortal is the active overlay like a modal,toast,etc
+        if (activePortal) {
+          activePortal.dismiss();
+          return
+        }
+
+        let view = this.nav.getActive(); // As none of the above have occurred, its either a page pushed from menu or tab
+
+        if (this.nav.canGoBack() || view && view.isOverlay) {
+          this.nav.pop(); //pop if page can go back or if its an overlay over a menu page
+        }
+        else {
           // Double check to exit app
           if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
             this.platform.exitApp(); // Exit from app
           } else {
             let toast = this.toastCtrl.create({
-              message: "Press back again to exit application.",
-              duration: 3000,
+              message: "Press back again to exit the application.",
+              duration: timePeriodToExit,
               position: "bottom"
             });
             toast.present();
             lastTimeBackPress = new Date().getTime();
           }
-        } else {
-          // go to previous page
-          this.nav.pop({});
         }
-      });
+      }, 0);
     });
   }
 
