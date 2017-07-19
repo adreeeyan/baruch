@@ -245,7 +245,7 @@ export class LnChapterReader implements OnInit, OnChanges {
 
   goToPrevPage(evt) {
     // if first page, then dont do anything
-    if(this.chapter.number <= 1){
+    if(this.chapter.number <= 1 && this.slidesHolder.isBeginning()){
       return;
     }
     
