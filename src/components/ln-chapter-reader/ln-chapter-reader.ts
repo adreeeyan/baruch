@@ -184,6 +184,11 @@ export class LnChapterReader implements OnInit, OnChanges {
   }
 
   goToPreviousChapter(evt) {
+    // if first page, then dont do anything
+    if(this.chapter.number <= 1){
+      return;
+    }
+
     // ionic has no native way in checking if the user swipped more than the number of slides
     // so for this we need to check if the previous page is the first page before executing this
     // and also, ionSlidePrevStart doesn't fire when sliding at the beginning of the slide
@@ -238,6 +243,11 @@ export class LnChapterReader implements OnInit, OnChanges {
   }
 
   goToPrevPage(evt) {
+    // if first page, then dont do anything
+    if(this.chapter.number <= 1){
+      return;
+    }
+    
     if (this.slidesHolder.isBeginning()) {
       this.isFromNextChapter = true;
       this.goToChapter(this.chapter.number - 1);
