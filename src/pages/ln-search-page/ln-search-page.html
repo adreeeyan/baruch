@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar color="primary">
 
-        <ion-searchbar [(ngModel)]="searchValue" (ionInput)="searchNovels()" [debounce]="500">
+        <ion-searchbar [(ngModel)]="searchValue" (keypress)="searchNovels($event.keyCode)">
         </ion-searchbar>
 
 

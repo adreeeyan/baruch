@@ -44,8 +44,12 @@ export class LnSearchPage {
         });
     }
 
-    searchNovels(): any {
-        console.log("LnSearchPage.searchNovels");
+    searchNovels(keyCode): any {
+        console.log("LnSearchPage.searchNovels", keyCode);
+        // if "enter" key isn't pressed, do not search
+        if(keyCode != 13){
+            return;
+        }
         this.start = 0;
         return new Promise((resolve, reject) => {
             this.loadingController.presentLoadingMessage();
