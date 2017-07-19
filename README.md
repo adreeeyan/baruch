@@ -38,8 +38,8 @@ It runs on android, ios, and windows phone.
 
 
 ## Download
-* This dude is not on google play or iStore yet, so android users just download the apk, and for iOS users, sorry for the meantime, got no cash to create an account on iStore, no iPhone or mac to test this one also
-* [Version 0.5.0](https://github.com/adrianonrails/baruch/releases/download/v0.5.0/Baruch.apk)
+* This dude is not on google play or app store yet, so android users just download the apk, and for iOS users, sorry for the meantime, got no cash to create an account on app store, no iPhone or mac to test this one also
+* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.5.3/Baruch.apk)
 
 ## Contributors
 
@@ -50,6 +50,7 @@ It runs on android, ios, and windows phone.
 * see [LICENSE](https://github.com/adrianonrails/baruch/blob/master/LICENSE) file
 
 ## Version 
+* [Version 0.5.3 - Latest](https://github.com/adrianonrails/baruch/releases/download/v0.5.3/Baruch.apk)
 * [Version 0.5.0](https://github.com/adrianonrails/baruch/releases/download/v0.5.0/Baruch.apk)
 
 ## Contact
