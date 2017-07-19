@@ -87,6 +87,10 @@ ion-menu {
     &.full {
         top: 0 !important;
     }
+
+    &.dark .loading-wrapper {
+        background: black;
+    }
 }
 
 

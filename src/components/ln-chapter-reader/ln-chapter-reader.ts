@@ -21,7 +21,7 @@ export class LnChapterReader implements OnInit, OnChanges {
   @Input() fontSize: number;
   @Input() horizontalScrolling: boolean;
   @Input() brightness: number;
-  @Input() invertColors: number;
+  @Input() invertColors: boolean;
   chapterValue: Chapter;
 
   previousPage: number = 0; // used for keeping track pages
@@ -212,7 +212,7 @@ export class LnChapterReader implements OnInit, OnChanges {
 
   goToChapter(number): Promise<any> {
     return new Promise((resolve) => {
-      this.loadingCtrl.presentLoadingMessage("", true);
+      this.loadingCtrl.presentLoadingMessage("", true, this.invertColors);
       this.novelsService.getNovelChapter(this.novelId.toString(), number)
         .then((chapter: Chapter) => {
           this.chapter = chapter;

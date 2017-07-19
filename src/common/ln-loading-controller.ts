@@ -15,10 +15,14 @@ export class LnLoadingController extends LoadingController {
         appRoot.appendChild(loadingContainer);
     }
 
-    presentLoadingMessage(message = "Loading your stuff...", isFull = false) {
+    presentLoadingMessage(message = "Loading your stuff...", isFull = false, isDark = false) {
         let cssClass = "loading-ion";
         if (isFull) {
             cssClass += " full";
+        }
+
+        if (isDark) {
+            cssClass += " dark";
         }
 
         this.loader = this.create({
