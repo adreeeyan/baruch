@@ -22,10 +22,17 @@ export class LnImgSrcDirective implements OnInit, OnChanges {
 
   reset() {
     let self = this;
-    this.el.nativeElement.src = `${this.file.dataDirectory}covers/${this.imageSrc}`;
+
+    // check if image source is null
+    if(this.imageSrc == null){
+      return;
+    }
+
+    let apiSource = "/api";
+    this.el.nativeElement.src = this.file.dataDirectory ? `${this.file.dataDirectory}covers/${this.imageSrc}` : `${apiSource}/covers/${this.imageSrc}`;
     this.el.nativeElement.onerror = function () {
       this.onerror = null;
-      this.src = `/api/covers/${self.imageSrc}`;
+      this.src = `${apiSource}/covers/${self.imageSrc}`;
     };
   }
 

@@ -75,34 +75,42 @@ export class MyApp {
   private checkForUpdate() {
     // note - mostly error & completed methods of observable will not fire
     // as syncStatus will contain the current state of the update
-    this.codePush.sync().subscribe((syncStatus) => {
-      console.log("Syncing status: ", syncStatus);
-      if (syncStatus == SyncStatus.UPDATE_INSTALLED) {
-        let alert = this.alertCtrl.create({
-          title: "Update installed",
-          message: "Do you want me to restart the app in order for it to take effect?",
-          buttons: [
-            {
-              text: "No",
-              role: "cancel"
-            },
-            {
-              text: "Yes",
-              handler: () => {
-                this.codePush.restartApplication();
+    this.codePush.sync()
+      .catch((err) => {
+        return [];
+      })
+      .subscribe((syncStatus) => {
+        console.log("Syncing status: ", syncStatus);
+        if (syncStatus == SyncStatus.UPDATE_INSTALLED) {
+          let alert = this.alertCtrl.create({
+            title: "Update installed",
+            message: "Do you want me to restart the app in order for it to take effect?",
+            buttons: [
+              {
+                text: "No",
+                role: "cancel"
+              },
+              {
+                text: "Yes",
+                handler: () => {
+                  this.codePush.restartApplication();
+                }
               }
-            }
-          ]
-        });
-        alert.present();
-      }
-    });
+            ]
+          });
+          alert.present();
+        }
+      });
     const downloadProgress = (progress) => {
       console.log(`Downloaded ${progress.receivedBytes} of ${progress.totalBytes}`);
     }
-    this.codePush.sync({}, downloadProgress).subscribe((syncStatus) => {
-      console.log("Syncing status other: ", syncStatus);
-    });
+    this.codePush.sync({}, downloadProgress)
+      .catch((err) => {
+        return [];
+      })
+      .subscribe((syncStatus) => {
+        console.log("Syncing status other: ", syncStatus);
+      });
   }
 
   private registerBackButtonHandler() {

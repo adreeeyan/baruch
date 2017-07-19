@@ -1,9 +1,12 @@
-import { LoadingController, Loading } from "ionic-angular";
+import { LoadingController, Loading, Config, App } from "ionic-angular";
 import { Injectable } from "@angular/core";
 
 @Injectable()
 export class LnLoadingController extends LoadingController {
     loader: Loading;
+    constructor(private app: App, config: Config) {
+        super(app, config);
+    }
 
     init() {
         // move the loading container to app-root
@@ -14,7 +17,7 @@ export class LnLoadingController extends LoadingController {
 
     presentLoadingMessage(message = "Loading your stuff...", isFull = false) {
         let cssClass = "loading-ion";
-        if(isFull){
+        if (isFull) {
             cssClass += " full";
         }
 
@@ -30,6 +33,9 @@ export class LnLoadingController extends LoadingController {
     }
 
     hideLoadingMessage() {
-        this.loader.dismiss();
+        let activePortal = this.app._appRoot._loadingPortal.getActive();
+        if (activePortal) {
+            activePortal.dismiss();
+        }
     }
 }
