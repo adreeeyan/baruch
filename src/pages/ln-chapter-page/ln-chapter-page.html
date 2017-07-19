@@ -4,7 +4,7 @@
     <ion-title>Content #{{chapter?.number}}</ion-title>
 
     <ion-buttons end>
-      <button ion-button icon-only (tap)="prevChapter()">
+      <button ion-button icon-only (tap)="prevChapter()" *ngIf="chapter?.number > 1">
         <ion-icon name="rewind"></ion-icon>
       </button>
       <button ion-button icon-only (tap)="nextChapter()">

@@ -160,8 +160,13 @@ export class NovelsService {
                 content: data.content
               });
             })
+            .catch(error => {
+              return Observable.throw(error);
+            })
             .subscribe(chapter => {
               resolve(chapter);
+            }, err => {
+              reject();
             });
         });
     });

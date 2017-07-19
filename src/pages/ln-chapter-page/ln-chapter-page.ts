@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams, Platform, ModalController } from "ionic-angular";
+import { IonicPage, NavController, NavParams, Platform, ModalController, ToastController } from "ionic-angular";
 import { NovelsService } from "../../providers/novels-service";
 import { Chapter } from "../../common/models/chapter";
 import { StatusBar } from "@ionic-native/status-bar";
@@ -28,7 +28,8 @@ export class LnChapterPage {
     private platform: Platform,
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
-    private loadingCtrl: LnLoadingController) {
+    private loadingCtrl: LnLoadingController,
+    private toastCtrl: ToastController) {
   }
 
   ionViewWillEnter() {
@@ -92,6 +93,19 @@ export class LnChapterPage {
           this.loadingCtrl.hideLoadingMessage();
         }
         this.markChapterAsRead();
+      })
+      .catch(err => {
+        if (showLoading) {
+          this.loadingCtrl.hideLoadingMessage();
+        }
+        let toast = this.toastCtrl.create({
+          message: "No chapter to show.",
+          duration: 2000,
+          position: "bottom",
+          dismissOnPageChange: true,
+          showCloseButton: true
+        });
+        toast.present();
       });
   }
 

@@ -4,6 +4,7 @@ import { NovelsService } from "../../providers/novels-service";
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { LnLoadingController } from "../../common/ln-loading-controller";
 import { ChaptersService } from "../../providers/chapters-service";
+import { ToastController } from "ionic-angular";
 
 @Component({
   selector: "ln-chapter-reader",
@@ -29,7 +30,8 @@ export class LnChapterReader implements OnInit, OnChanges {
   constructor(public novelsService: NovelsService,
     private screenOrientation: ScreenOrientation,
     private loadingCtrl: LnLoadingController,
-    private chaptersService: ChaptersService) {
+    private chaptersService: ChaptersService,
+    private toastCtrl: ToastController) {
   }
 
   @Input()
@@ -211,6 +213,17 @@ export class LnChapterReader implements OnInit, OnChanges {
           this.markChapterAsRead();
           resolve();
           this.loadingCtrl.hideLoadingMessage();
+        })
+        .catch(err => {
+          this.loadingCtrl.hideLoadingMessage();
+          let toast = this.toastCtrl.create({
+            message: "No chapter to show.",
+            duration: 2000,
+            position: "bottom",
+            dismissOnPageChange: true,
+            showCloseButton: true
+          });
+          toast.present();
         });
     });
   }
