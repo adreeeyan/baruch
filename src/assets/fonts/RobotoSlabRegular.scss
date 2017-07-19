@@ -1,0 +1,11 @@
+$roboto-slab-font-path: $font-path !default;
+
+@font-face {
+    font-family: 'RobotoSlabRegular';
+    src: url('#{$roboto-slab-font-path}/RobotoSlabRegular.eot');
+    src: url('#{$roboto-slab-font-path}/RobotoSlabRegular.eot') format('embedded-opentype'),
+         url('#{$roboto-slab-font-path}/RobotoSlabRegular.woff2') format('woff2'),
+         url('#{$roboto-slab-font-path}/RobotoSlabRegular.woff') format('woff'),
+         url('#{$roboto-slab-font-path}/RobotoSlabRegular.ttf') format('truetype'),
+         url('#{$roboto-slab-font-path}/RobotoSlabRegular.svg#RobotoSlabRegular') format('svg');
+}

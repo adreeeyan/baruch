@@ -19,6 +19,7 @@ ln-chapter-reader {
         }
     }
     & ion-slides {
+        font-family: RobotoSlabRegular;
         & .swiper-pagination {
             top: auto !important;
             bottom: 0;
@@ -26,6 +27,7 @@ ln-chapter-reader {
     }
     & .vertical-content {
         line-height: 1.7;
+        font-family: RobotoSlabRegular;
     }
     & .navigation {
         position: fixed;
