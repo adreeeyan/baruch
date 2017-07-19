@@ -25,6 +25,7 @@ import { RecentNovelsService } from "../providers/recent-novels-service";
 import { DownloadService } from "../providers/download-service";
 import { Transfer } from "@ionic-native/transfer";
 import { File } from "@ionic-native/file";
+import { CodePush } from "@ionic-native/code-push";
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { File } from "@ionic-native/file";
     StatusBar,
     File,
     Transfer,
+    CodePush,
     NovelsService,
     FavoritesService,
     ReaderSettingsService,
