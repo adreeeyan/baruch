@@ -130,7 +130,8 @@ export class LnChapterReader implements OnInit, OnChanges {
     container.style.maxWidth = (parseInt(getComputedStyle(scrollContent).width.split("px")[0]) - paddingLeft - paddingRight) + "px";
     container.style.minHeight = (parseInt(getComputedStyle(scrollContent).height.split("px")[0]) - paddingTop - paddingBottom) + "px";
     container.style.maxHeight = (parseInt(getComputedStyle(scrollContent).height.split("px")[0]) - paddingTop - paddingBottom) + "px";
-    container.style.lineHeight = 2 + (this.fontSize <= 12 ? .5 : 0); // 12 below fonts needs higher line height
+    var excessLineHeight = (this.fontSize - 17) / 10;
+    container.style.lineHeight = 1.6 - excessLineHeight;
     container.innerHTML = inner;
 
     // Make a pages list
