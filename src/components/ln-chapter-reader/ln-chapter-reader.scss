@@ -5,6 +5,7 @@ ln-chapter-reader {
         display: block;
         white-space: normal;
         word-break: break-word;
+        font-family: RobotoSlabRegular;
     }
     .page {
         padding: 0;
@@ -14,7 +15,7 @@ ln-chapter-reader {
         .slide-zoom {
             text-align: start;
             & span {
-                line-height: 1.7;
+                line-height: 1;
             }
         }
     }
@@ -26,7 +27,7 @@ ln-chapter-reader {
         }
     }
     & .vertical-content {
-        line-height: 1.7;
+        line-height: 1.5;
         font-family: RobotoSlabRegular;
     }
     & .navigation {
@@ -41,8 +42,5 @@ ln-chapter-reader {
     }
     & .navigation-next {
         right: 0;
-    }
-    & br {
-        line-height: 2.5;
     }
 }
