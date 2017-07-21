@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, Input, OnChanges, EventEmitter, Output } from "@angular/core";
+import { Component, OnInit, ViewChild, Input, OnChanges, EventEmitter, Output, ElementRef } from '@angular/core';
 import { Chapter } from "../../common/models/chapter";
 import { NovelsService } from "../../providers/novels-service";
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { LnLoadingController } from "../../common/ln-loading-controller";
 import { ChaptersService } from "../../providers/chapters-service";
 import { ToastController } from "ionic-angular";
+import { LastReadChapterService } from '../../providers/last-read-chapter-service';
 
 @Component({
   selector: "ln-chapter-reader",
@@ -16,21 +17,24 @@ export class LnChapterReader implements OnInit, OnChanges {
   contents: string[]; // content for the ion-slides
   @ViewChild("slidesHolder") slidesHolder: any;
   @ViewChild("contentHolder") contentHolder: any;
-  @ViewChild("verticalContent") verticalContent: any;
+  @ViewChild("verticalContent") verticalContent: ElementRef;
   @Input() novelId: number;
   @Input() fontSize: number;
   @Input() horizontalScrolling: boolean;
   @Input() brightness: number;
   @Input() invertColors: boolean;
+
   chapterValue: Chapter;
 
   previousPage: number = 0; // used for keeping track pages
   @Input() isFromNextChapter: boolean; // used to check if chapter navigated by swiping left
+  @Input() isFromPreviousChapter: boolean;
 
   constructor(public novelsService: NovelsService,
     private screenOrientation: ScreenOrientation,
     private loadingCtrl: LnLoadingController,
     private chaptersService: ChaptersService,
+    private lastReadChapterService: LastReadChapterService,
     private toastCtrl: ToastController) {
   }
 
@@ -51,6 +55,17 @@ export class LnChapterReader implements OnInit, OnChanges {
       this.contents = [];
       this.ngOnChanges();
     });
+
+    var scrollContent: any = document.querySelector("ln-chapter-page ion-content .scroll-content");
+    if (!this.horizontalScrolling) {
+      scrollContent.addEventListener('scroll', ev => {
+        var percentageRead = scrollContent.scrollTop / scrollContent.scrollHeight;
+        this.lastReadChapterService.setLastReadChapter(this.novelId, this.chapterValue.number, percentageRead);
+      }, )
+
+    } else {
+      scrollContent.removeEventListener('scroll');
+    }
   }
 
   ngOnChanges() {
@@ -59,32 +74,48 @@ export class LnChapterReader implements OnInit, OnChanges {
       this.chapter == null) {
       return;
     }
+
     this.resetPages();
   }
 
   resetPages() {
     if (!this.chapter) return;
     this.content = this.formatText(this.chapter.content);
+
     var scrollContent: any = document.querySelector("ln-chapter-page ion-content .scroll-content");
-    if (this.horizontalScrolling) {
-      // update thingies for horizontal scrolling
-      scrollContent.style.fontSize = this.fontSize + "px";
-      setTimeout(() => {
-        this.paginator();
-        scrollContent.scrollTop = 0;
-        scrollContent.style.overflow = "hidden";
-        if (this.isFromNextChapter) {
-          this.slidesHolder.slideTo(this.contents.length - 1, 0);
-        } else {
-          this.slidesHolder.slideTo(0, 0);
-        }
-      });
-    } else {
-      // update thingies for vertical scrolling
-      this.verticalContent.nativeElement.style.fontSize = this.fontSize + "px";
-      scrollContent.style.overflow = "auto";
-      scrollContent.scrollTop = 0;
-    }
+    this.lastReadChapterService.getLastReadChapter(this.novelId).then((lastReadChapter) => {
+      console.log("LnChapterReader::resetPages", lastReadChapter);
+
+      if (!this.horizontalScrolling) {
+        // update thingies for vertical scrolling
+        this.verticalContent.nativeElement.style.fontSize = this.fontSize + "px";
+        scrollContent.style.overflow = "auto";
+        scrollContent.scrollTop = lastReadChapter.percentageRead * scrollContent.scrollHeight;
+
+      } else {
+        // update thingies for horizontal scrolling
+        scrollContent.style.fontSize = this.fontSize + "px";
+        setTimeout(() => {
+          this.paginator();
+          scrollContent.scrollTop = 0;
+          scrollContent.style.overflow = "hidden";
+          let page = 0;
+          if (this.isFromNextChapter) {
+            console.log("set page to last")
+            page = this.contents.length - 1;
+          } else if (this.isFromPreviousChapter) {
+            console.log("set page to start")
+            page = 0;
+          } else {
+
+            page = Math.floor(lastReadChapter.percentageRead * this.contents.length);
+            console.log("set page to saved", this.contents.length, lastReadChapter.percentageRead, page);
+          }
+
+          setTimeout(() => { this.slidesHolder.slideTo(page, 0) }, 100);
+        })
+      }
+    })
 
     // settings here should apply both in vertical and horizontal scrolling
     // update the brightness
@@ -180,13 +211,14 @@ export class LnChapterReader implements OnInit, OnChanges {
     // so for this we need to check if the previous page is the last page before executing this
     if (this.slidesHolder.isEnd() && this.previousPage == this.slidesHolder.length() - 1) {
       this.isFromNextChapter = false;
+      this.isFromPreviousChapter = true;
       this.goToChapter(this.chapter.number + 1);
     }
   }
 
   goToPreviousChapter(evt) {
     // if first page, then dont do anything
-    if(this.chapter.number <= 1){
+    if (this.chapter.number <= 1) {
       return;
     }
 
@@ -202,12 +234,15 @@ export class LnChapterReader implements OnInit, OnChanges {
     let transformX = parseInt(swiperWrapper.style.transform.substr(12).split(",")[0].replace("px", ""));
     if (transformX > 50) {
       this.isFromNextChapter = true;
+      this.isFromPreviousChapter = false;
       this.goToChapter(this.chapter.number - 1);
     }
   }
 
   savePageNumber() {
     this.previousPage = this.slidesHolder.getActiveIndex();
+
+    this.lastReadChapterService.setLastReadChapter(this.novelId, this.chapterValue.number, this.previousPage / this.slidesHolder.length());
   }
 
   goToChapter(number): Promise<any> {
@@ -237,23 +272,28 @@ export class LnChapterReader implements OnInit, OnChanges {
   goToNextPage(evt) {
     if (this.slidesHolder.isEnd()) {
       this.isFromNextChapter = false;
+      this.isFromPreviousChapter = true;
       this.goToChapter(this.chapter.number + 1);
       return;
     }
+    this.isFromPreviousChapter = false;
     this.slidesHolder.slideNext();
   }
 
   goToPrevPage(evt) {
     // if first page, then dont do anything
-    if(this.chapter.number <= 1 && this.slidesHolder.isBeginning()){
+    if (this.chapter.number <= 1 && this.slidesHolder.isBeginning()) {
       return;
     }
-    
+
     if (this.slidesHolder.isBeginning()) {
       this.isFromNextChapter = true;
+      this.isFromPreviousChapter = false;
       this.goToChapter(this.chapter.number - 1);
       return;
     }
+
+    this.isFromNextChapter = false;
     this.slidesHolder.slidePrev();
   }
 

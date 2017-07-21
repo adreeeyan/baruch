@@ -6,6 +6,7 @@ import { StatusBar } from "@ionic-native/status-bar";
 import { ReaderSettingsService } from "../../providers/reader-settings-service";
 import { ChaptersService } from "../../providers/chapters-service";
 import { LnLoadingController } from "../../common/ln-loading-controller";
+import { LastReadChapterService } from '../../providers/last-read-chapter-service';
 
 @IonicPage()
 @Component({
@@ -19,12 +20,14 @@ export class LnChapterPage {
   novelId: number;
   settings: any;
   isFromNextChapter: boolean;
+  isFromPreviousChapter: boolean;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public novelsService: NovelsService,
     private readerSettingsService: ReaderSettingsService,
     private chapterService: ChaptersService,
+    private lastReadChapterService: LastReadChapterService,
     private platform: Platform,
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
@@ -43,9 +46,9 @@ export class LnChapterPage {
   }
 
   ionViewDidLoad() {
-    console.log("ionViewDidLoad LnChapterPage");
+    console.log("ionViewDidLoad LnChapterPage", this.navParams.data);
     let data = this.navParams.data;
-    this.goToChapter(data.novelId, data.chapterNumber, false);
+    this.goToChapter(data.novelId, data.chapterNumber, false, data.percentageRead);
     this.novelId = data.novelId;
     this.settings = this.readerSettingsService.settings;
   }
@@ -82,7 +85,8 @@ export class LnChapterPage {
     settingsModal.present();
   }
 
-  goToChapter(novelId, chapterNumber, showLoading = true) {
+  goToChapter(novelId, chapterNumber, showLoading = true, percentage = 0) {
+
     if (showLoading) {
       this.loadingCtrl.presentLoadingMessage("", true, this.settings.invertColors);
     }
@@ -92,7 +96,9 @@ export class LnChapterPage {
         if (showLoading) {
           this.loadingCtrl.hideLoadingMessage();
         }
+        this.lastReadChapterService.setLastReadChapter(novelId, chapterNumber, percentage);
         this.markChapterAsRead();
+
       })
       .catch(err => {
         if (showLoading) {
@@ -112,13 +118,16 @@ export class LnChapterPage {
   nextChapter() {
     this.toggleNavBar();
     this.isFromNextChapter = false;
-    this.goToChapter(this.novelId, this.chapter.number + 1);
+    this.isFromPreviousChapter = true;
+    this.goToChapter(this.novelId, this.chapter.number + 1, null, this.navParams.data.percentageRead);
+
   }
 
   prevChapter() {
     this.toggleNavBar();
-    this.isFromNextChapter = false;
-    this.goToChapter(this.novelId, this.chapter.number - 1);
+    this.isFromNextChapter = true;
+    this.isFromPreviousChapter = false;
+    this.goToChapter(this.novelId, this.chapter.number - 1, null, this.navParams.data.percentageRead);
   }
 
   markChapterAsRead() {

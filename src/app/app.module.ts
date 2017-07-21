@@ -26,6 +26,7 @@ import { DownloadService } from "../providers/download-service";
 import { Transfer } from "@ionic-native/transfer";
 import { File } from "@ionic-native/file";
 import { CodePush } from "@ionic-native/code-push";
+import { LastReadChapterService } from '../providers/last-read-chapter-service';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { CodePush } from "@ionic-native/code-push";
     SafeHttpProvider,
     NovelsLocalService,
     RecentNovelsService,
-    DownloadService
+    DownloadService,
+    LastReadChapterService
   ]
 })
 export class AppModule { }

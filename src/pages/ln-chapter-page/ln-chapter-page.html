@@ -28,6 +28,7 @@
     [horizontalScrolling]="settings?.horizontalScrolling"
     [invertColors]="settings?.invertColors"
     [isFromNextChapter]="isFromNextChapter"
+    [isFromPreviousChapter]="isFromPreviousChapter"
   ></ln-chapter-reader>
   <div class="bottom-nav" *ngIf="chapter">
     <button class="prev" ion-button clear icon-right (tap)="prevChapter()">

@@ -8,6 +8,7 @@ import { FavoritesService } from '../../providers/favorites-service';
 import { LnLoadingController } from "../../common/ln-loading-controller";
 import { RecentNovelsService } from "../../providers/recent-novels-service";
 import { ChaptersService } from "../../providers/chapters-service";
+import { LastReadChapterService } from '../../providers/last-read-chapter-service';
 
 @IonicPage()
 @Component({
@@ -16,6 +17,7 @@ import { ChaptersService } from "../../providers/chapters-service";
 })
 export class LnDetailsPage {
   novel: Novel;
+  firstChapter: number;
   constructor(private app: App,
     private navCtrl: NavController,
     private navParams: NavParams,
@@ -23,6 +25,7 @@ export class LnDetailsPage {
     private favoritesService: FavoritesService,
     private recentNovelsService: RecentNovelsService,
     private chaptersService: ChaptersService,
+    private lastReadChapterService: LastReadChapterService,
     private loadingCtrl: LnLoadingController) {
   }
 
@@ -57,16 +60,17 @@ export class LnDetailsPage {
 
   startReading() {
     this.getLastReadChapter()
-      .then(chapter => {
-        let chapterNumber = chapter == null ? 1 : chapter.number;
-        this.continueReading(chapterNumber);
+      .then(lastReadChapter => {
+        this.continueReading(lastReadChapter);
       });
   }
 
-  continueReading(chapter) {
+  continueReading(lastReadChapter) {
+    console.log("continueReading", lastReadChapter)
     this.app.getRootNav().push('LnChapterPage', {
       novelId: this.novel.id,
-      chapterNumber: chapter
+      chapterNumber: lastReadChapter.chapterNumber,
+      percentageRead: lastReadChapter.percentageRead
     });
   }
 
@@ -89,26 +93,38 @@ export class LnDetailsPage {
     return false;
   }
 
+  getFirstChapter(novelId): Promise<any> {
+    return new Promise((resolve) => {
+      if (this.firstChapter) {
+        resolve(this.firstChapter)
+      } else {
+        this.novelsService.getNovelChapterList(novelId)
+          .then((chapters) => {
+            this.firstChapter = _(chapters).map('number').last();
+            resolve(this.firstChapter);
+          })
+      }
+    })
+  }
   getLastReadChapter(): Promise<any> {
+    console.log("LnDetailsPage::getLastReadChapter");
+
     return new Promise((resolve, reject) => {
       this.loadingCtrl.presentLoadingMessage();
-      // get all chapters from novel
-      this.novelsService
-        .getNovelChapterList(this.novel.id.toString())
-        .then(chapters => {
-          // check chapter if isRead already starting from the top
-          // if its already read, then that chapter is the latest
-          chapters = chapters.reverse();
-          this.chaptersService
-            .getAllReadChapters()
-            .then(readChapters => {
-              let lastReadChapter = _.findLast(chapters, chapter => {
-                return _.includes(readChapters, chapter.id);
-              });
-              resolve(lastReadChapter);
-              this.loadingCtrl.hideLoadingMessage();
-            });
-        });
+      var novelId = this.novel.id.toString();
+      this.getFirstChapter(novelId)
+        .then(() => {
+          return this.lastReadChapterService.getLastReadChapter(novelId)
+        })
+        .then((lastReadChapter) => {
+          lastReadChapter.chapterNumber = Math.max(this.firstChapter, lastReadChapter.chapterNumber);
+          resolve(lastReadChapter)
+          this.loadingCtrl.hideLoadingMessage();
+        })
+        .catch(() => {
+          this.loadingCtrl.hideLoadingMessage();
+        })
+
     });
   }
 }
