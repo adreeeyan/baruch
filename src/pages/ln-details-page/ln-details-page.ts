@@ -9,6 +9,7 @@ import { LnLoadingController } from "../../common/ln-loading-controller";
 import { RecentNovelsService } from "../../providers/recent-novels-service";
 import { ChaptersService } from "../../providers/chapters-service";
 import { LastReadChapterService } from '../../providers/last-read-chapter-service';
+import { EpubService } from "../../providers/epub-service";
 
 @IonicPage()
 @Component({
@@ -26,7 +27,8 @@ export class LnDetailsPage {
     private recentNovelsService: RecentNovelsService,
     private chaptersService: ChaptersService,
     private lastReadChapterService: LastReadChapterService,
-    private loadingCtrl: LnLoadingController) {
+    private loadingCtrl: LnLoadingController,
+    private epubService: EpubService) {
   }
 
   ionViewDidLoad() {
@@ -76,6 +78,11 @@ export class LnDetailsPage {
 
   download() {
     this.app.getRootNav().push('LnDownloadNovelPage', this.novel);
+  }
+
+  exportToEpub() {
+    this.epubService.addToQueue(this.novel);
+    this.app.getRootNav().setRoot('LnDownloadsQueuePage');
   }
 
   toggleFavorite() {

@@ -41,12 +41,24 @@
     </ion-col>
 
   </ion-row>
-  <ion-row>
-    <ion-col>
-      <button ion-button block color="secondary" (click)="download()">Download</button>
-    </ion-col>
-    <ion-col>
-      <button ion-button block color="light" (click)="startReading()">Read</button>
-    </ion-col>
-  </ion-row>
+
+  <ion-fab bottom right #fab>
+    <button ion-fab color="primary">
+      <ion-icon name="play"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="startReading(); fab.close()">
+        <ion-icon name="book"></ion-icon>
+        <ion-label>Read</ion-label>
+      </button>
+      <button ion-fab (click)="download(); fab.close()">
+        <ion-icon name="cloud-download"></ion-icon>
+        <ion-label>Download</ion-label>
+      </button>
+      <button ion-fab (click)="exportToEpub(); fab.close()">
+        <ion-icon name="document"></ion-icon>
+        <ion-label>Export to Epub</ion-label>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

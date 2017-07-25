@@ -1,5 +1,5 @@
 page-ln-details-page {
-    .genre{
+    .genre {
         margin-bottom: 5px;
     }
     ion-toolbar {
@@ -9,4 +9,28 @@ page-ln-details-page {
         color: lighten(map-get($colors, dark), 50%);
         padding: 0px 12px 0px 12px;
     }
+}
+
+.fab {
+    contain: layout;
+}
+
+button[ion-fab] {
+    overflow: visible;
+    position: relative;
+    ion-label {
+        position: absolute;
+        top: -8px;
+        right: 40px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.7);
+        line-height: 24px;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+}
+
+ion-fab-list button[ion-fab] {
+    background-color: map-get($colors, secondary);
+    color: white;
 }

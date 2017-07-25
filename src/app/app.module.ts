@@ -27,6 +27,7 @@ import { Transfer } from "@ionic-native/transfer";
 import { File } from "@ionic-native/file";
 import { CodePush } from "@ionic-native/code-push";
 import { LastReadChapterService } from '../providers/last-read-chapter-service';
+import { EpubService } from "../providers/epub-service";
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { LastReadChapterService } from '../providers/last-read-chapter-service';
     NovelsLocalService,
     RecentNovelsService,
     DownloadService,
+    EpubService,
     LastReadChapterService
   ]
 })

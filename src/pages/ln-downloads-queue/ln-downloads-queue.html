@@ -9,8 +9,23 @@
 
 
 <ion-content>
-  <ion-list>
+  <ion-list *ngIf="queue.length">
+    <ion-list-header>
+      Offline viewing
+    </ion-list-header>
     <button ion-item *ngFor="let item of queue" (click)="navigateToNovel(item.novel)">
+      <ion-thumbnail item-start>
+        <img [ln-img-src]="item.novel?.cover" alt="Cover">
+      </ion-thumbnail>
+      <h2>{{item.novel.title}}</h2>
+      <p>{{item.progress}}% Completed</p>
+    </button>
+  </ion-list>
+  <ion-list *ngIf="epubQueue.length">
+    <ion-list-header>
+      Export to Epub
+    </ion-list-header>
+    <button ion-item *ngFor="let item of epubQueue">
       <ion-thumbnail item-start>
         <img [ln-img-src]="item.novel?.cover" alt="Cover">
       </ion-thumbnail>

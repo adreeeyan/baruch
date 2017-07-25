@@ -2,4 +2,10 @@ page-ln-downloads-queue {
     & ion-label {
         white-space: normal !important;
     }
+    & ion-list-header {
+        margin-bottom: 0 !important;
+        & .input-wrapper .label {
+            margin-bottom: 0 !important;
+        }
+    }
 }

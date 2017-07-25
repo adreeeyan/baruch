@@ -2,6 +2,7 @@ import { Novel } from "./novel";
 import { Chapter } from "./chapter";
 import _ from "lodash";
 
+// for novel download
 export class DownloadItem {
   public novel: Novel;
   public chapters: DownloadChapterItem[];
@@ -36,6 +37,16 @@ export class DownloadItem {
 
   get downloadedChapters() {
     return _.filter(this.chapters, chapter => chapter.status === DownloadStatus.Completed);
+  }
+}
+
+// for epub download
+export class EpubDownloadItem {
+  public novel: Novel;
+  public progress: number = 0;
+
+  constructor(init?: Partial<EpubDownloadItem>) {
+    Object.assign(this, init);
   }
 }
 

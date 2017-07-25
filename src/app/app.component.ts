@@ -6,6 +6,7 @@ import { CodePush, SyncStatus } from "@ionic-native/code-push";
 import { ReaderSettingsService } from "../providers/reader-settings-service";
 import { LnLoadingController } from "../common/ln-loading-controller";
 import { DownloadService } from "../providers/download-service";
+import { EpubService } from "../providers/epub-service";
 
 @Component({
   templateUrl: "app.html"
@@ -28,7 +29,8 @@ export class MyApp {
     private loadingController: LnLoadingController,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
-    private downloadService: DownloadService) {
+    private downloadService: DownloadService,
+    private epubService: EpubService) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -60,6 +62,7 @@ export class MyApp {
       this.downloadService.init();
       this.readerSettingsService.init();
       this.loadingController.init();
+      this.epubService.init();
 
       // Register back button
       this.registerBackButtonHandler();
