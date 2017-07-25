@@ -8,11 +8,16 @@ then
     exit
 fi
 
+echo "Packaging your app..."
+
 mkdir -p output
 cp platforms/android/build/outputs/apk/android-release-unsigned.apk output/baruch-release-unsigned.apk
 
+echo "Signing the apk"
 #sign the apk
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.jks -storepass $1 output/baruch-release-unsigned.apk adrianonrails
-"${ANDROID_HOME}/build-tools/26.0.0/zipalign" -v 4 output/baruch-release-unsigned.apk output/Baruch.apk
+"${ANDROID_HOME}build-tools/26.0.0/zipalign" -v 4 output/baruch-release-unsigned.apk output/Baruch.apk
+
+echo "Deleting the unsigned apk"
 #remove the unsigned
 rm output/baruch-release-unsigned.apk
