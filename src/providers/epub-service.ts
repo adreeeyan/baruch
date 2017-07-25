@@ -98,12 +98,18 @@ export class EpubService {
         this.generateEpub(downloadItem.novel.id)
             .subscribe(() => {
                 // poll until generation is finished
-                this.epubGenerationProgress(downloadItem)
-                    .then(() => {
-                        console.log("trying to download epub");
-                        // then download epub
-                        this.downloadEpub(downloadItem);
-                    });
+                let poller = () => {
+                    this.epubGenerationProgress(downloadItem)
+                        .then(() => {
+                            console.log("trying to download epub");
+                            // then download epub
+                            this.downloadEpub(downloadItem);
+                        })
+                        .catch(() => {
+                            setTimeout(poller, 1000);
+                        });
+                };
+                poller();
             });
     }
 
@@ -116,10 +122,10 @@ export class EpubService {
                     // if not yet finished call this function again
                     // wait for 1 second
                     if (progress != 100) {
-                        setTimeout(() => {
-                            this.epubGenerationProgress(downloadItem);
-                        }, 1000);
+                        console.log("continue polling");
+                        reject();
                     } else {
+                        console.log("end polling");
                         resolve();
                     }
                 });
