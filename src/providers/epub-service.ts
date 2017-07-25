@@ -28,7 +28,7 @@ export class EpubService {
 
     init() {
         this.fileTransfer = this.transfer.create();
-        this.epubsDir = `${this.file.dataDirectory}${this.epubsDirName}/`;
+        this.epubsDir = `${this.file.externalRootDirectory}${this.epubsDirName}/`;
         this.createDir(this.epubsDirName, true);
     }
 
