@@ -25,7 +25,7 @@
     <ion-list-header>
       Export to Epub
     </ion-list-header>
-    <button ion-item *ngFor="let item of epubQueue">
+    <button ion-item *ngFor="let item of epubQueue" (click)="openEpub(item)">
       <ion-thumbnail item-start>
         <img [ln-img-src]="item.novel?.cover" alt="Cover">
       </ion-thumbnail>
