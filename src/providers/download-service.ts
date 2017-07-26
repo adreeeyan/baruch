@@ -12,6 +12,7 @@ import { Chapter } from "../common/models/chapter";
 import { Novel } from "../common/models/novel";
 import { NovelsLocalService } from "./novels-local-service";
 import { DownloadItem, DownloadStatus, DownloadChapterItem } from "../common/models/download-item";
+import { SettingsService } from "./settings-service";
 
 @Injectable()
 export class DownloadService {
@@ -24,13 +25,14 @@ export class DownloadService {
   constructor(private http: SafeHttpProvider,
     public file: File,
     private transfer: Transfer,
-    private novelsLocalService: NovelsLocalService) {
+    private novelsLocalService: NovelsLocalService,
+    private settingsService: SettingsService) {
     console.log('Hello Downloads Service');
   }
 
   init() {
     this.fileTransfer = this.transfer.create();
-    this.novelsDir = `${this.file.dataDirectory}${this.novelsDirName}/`;
+    this.novelsDir = `${this.settingsService.settings.appStorageLocation}${this.novelsDirName}/`;
   }
 
   // returns the list of all undowloaded chapters
@@ -170,7 +172,7 @@ export class DownloadService {
   }
 
   private createDir(novelId, isRoot = false): Promise<any> {
-    let rootDir = isRoot ? this.file.dataDirectory : this.novelsDir;
+    let rootDir = isRoot ? this.settingsService.settings.appStorageLocation : this.novelsDir;
     return new Promise((resolve, reject) => {
       this.file
         .checkDir(rootDir, novelId.toString())
@@ -214,7 +216,7 @@ export class DownloadService {
     return new Promise((resolve, reject) => {
       // list the directory
       this.file
-        .listDir(this.file.dataDirectory, this.novelsDirName)
+        .listDir(this.settingsService.settings.appStorageLocation, this.novelsDirName)
         .then(entries => {
           console.log("entries: ", entries);
           let ids = _.map(entries, "name");

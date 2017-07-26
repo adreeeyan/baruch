@@ -10,26 +10,24 @@ import _ from "lodash";
 import { SafeHttpProvider } from "./safe-http";
 import { NovelsLocalService } from "./novels-local-service";
 import { EpubDownloadItem } from "../common/models/download-item";
+import { SettingsService } from "./settings-service";
 
 @Injectable()
 export class EpubService {
 
     fileTransfer: TransferObject;
     queue: EpubDownloadItem[] = [];
-    epubsDir: string = "";
-    epubsDirName: string = "epubs";
 
     constructor(private http: SafeHttpProvider,
         public file: File,
         private transfer: Transfer,
-        private novelsLocalService: NovelsLocalService) {
+        private novelsLocalService: NovelsLocalService,
+        private settingsService: SettingsService) {
         console.log('Hello Epubs Service');
     }
 
     init() {
         this.fileTransfer = this.transfer.create();
-        this.epubsDir = `${this.file.externalRootDirectory}${this.epubsDirName}/`;
-        this.createDir(this.epubsDirName, true);
     }
 
     // add to queue
@@ -83,7 +81,7 @@ export class EpubService {
     downloadEpub(downloadItem: EpubDownloadItem) {
         this.fileTransfer
             .download(`/api/epub/${downloadItem.novel.id}/download`,
-            `${this.epubsDir}${downloadItem.novel.id}.epub`)
+            `${this.settingsService.settings.epubLocation}${downloadItem.novel.id}.epub`)
             .then(entry => {
                 console.log("epub download complete: ", entry.toURL());
                 downloadItem.progress = 100;
@@ -128,29 +126,6 @@ export class EpubService {
                         console.log("end polling");
                         resolve();
                     }
-                });
-        });
-    }
-
-    private createDir(novelId, isRoot = false): Promise<any> {
-        let rootDir = isRoot ? this.file.dataDirectory : this.epubsDir;
-        return new Promise((resolve, reject) => {
-            this.file
-                .checkDir(rootDir, novelId.toString())
-                .then(() => {
-                    // if directory exists, just do nothing
-                    resolve();
-                })
-                .catch(() => {
-                    // create the directory
-                    this.file
-                        .createDir(rootDir, novelId.toString(), false)
-                        .then(() => {
-                            resolve();
-                        })
-                        .catch(err => {
-                            reject(err);
-                        });
                 });
         });
     }

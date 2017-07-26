@@ -11,18 +11,19 @@ export class SettingsService {
 
     constructor(private storage: Storage, public file: File) {
         console.log("Hello Settings Service");
-        this.DEFAULTSETTINGS = new Settings({
-            startupScreen: "LnList",
-            appStorageLocation: file.dataDirectory,
-            epubLocation: file.externalRootDirectory
-        });
-        this.settings = this.DEFAULTSETTINGS;
     }
 
     init(): Promise<any> {
+        this.DEFAULTSETTINGS = new Settings({
+            startupScreen: "LnList",
+            appStorageLocation: this.file.dataDirectory,
+            epubLocation: this.file.externalRootDirectory
+        });
+        this.settings = this.DEFAULTSETTINGS;
         return new Promise((resolve, reject) => {
             this.storage.get(this.SETTINGS)
                 .then(settings => {
+                    console.trace("settings is", settings, this.DEFAULTSETTINGS);
                     let availableSettings = settings || this.DEFAULTSETTINGS;
                     this.settings = availableSettings;
                     resolve(availableSettings);

@@ -50,8 +50,9 @@ export class LnSettings {
           if (!data.length) {
             reject();
           }
-          console.log("Choosen directory: ", data[0]);
-          resolve(data[0]);
+          let dir = data[0] + "/";
+          console.log("Choosen directory: ", dir);
+          resolve(dir);
         },
         error: (err) => {
           console.log("Failure opening directory", err);

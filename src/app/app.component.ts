@@ -66,17 +66,21 @@ export class MyApp {
       this.splashScreen.hide();
 
       // initialize services here that needs to be initialized
-      this.downloadService.init();
-      this.readerSettingsService.init();
-      this.loadingController.init();
-      this.epubService.init();
       let settingsLoaded = this.settingsService.init();
+      let readerSettingsService = this.readerSettingsService.init();
+      let loadingController = this.loadingController.init();
+
 
       // Register back button
       this.registerBackButtonHandler();
 
-      // Show initial page
       settingsLoaded.then((settings) => {
+
+        // initialize download services
+        this.downloadService.init();
+        this.epubService.init();
+
+        // Show initial page
         this.rootPage = settings.startupScreen;
       });
     });
