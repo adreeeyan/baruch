@@ -10,11 +10,11 @@ It runs on android, ios, and windows phone.
 * Mark as favorite
 * Save recently viewed novels
 * Download novels offline
+* Download novel as epub (Currently saves at sdcard/epubs)
 * Read novels
 * Customize (a bit) reading settings (change font size, color, stuffs...)
 * No registration needed!
 ##### Upcoming features
-* Download novel as ebook (epub, pdf format)
 * See notifications for updated novels
 #### Want to request a feature? [Submit a request.](https://github.com/adrianonrails/baruch/issues/new)
 #### Found some bugs? [Report it here.](https://github.com/adrianonrails/baruch/issues/new)
@@ -39,7 +39,7 @@ It runs on android, ios, and windows phone.
 
 ## Download
 * This dude is not on google play or app store yet, so android users just download the apk, and for iOS users, sorry for the meantime, got no cash to create an account on app store, no iPhone or mac to test this one also
-* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.6.1/Baruch.apk)
+* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.7.1/Baruch.apk)
 
 ## Contributors
 
@@ -50,9 +50,9 @@ It runs on android, ios, and windows phone.
 * see [LICENSE](https://github.com/adrianonrails/baruch/blob/master/LICENSE) file
 
 ## Version 
-* [Version 0.6.1 - Latest](https://github.com/adrianonrails/baruch/releases/download/v0.6.1/Baruch.apk)
-* [Version 0.5.3](https://github.com/adrianonrails/baruch/releases/download/v0.5.3/Baruch.apk)
-* [Version 0.5.0](https://github.com/adrianonrails/baruch/releases/download/v0.5.0/Baruch.apk)
+* [Version 0.7.1 - Latest](https://github.com/adrianonrails/baruch/releases/download/v0.7.1/Baruch.apk)
+* [Version 0.7.0](https://github.com/adrianonrails/baruch/releases/download/v0.7.0/Baruch.apk)
+* [Version 0.6.1](https://github.com/adrianonrails/baruch/releases/download/v0.6.1/Baruch.apk)
 
 ## Contact
 #### Your dev
@@ -61,6 +61,8 @@ It runs on android, ios, and windows phone.
 ## Support your dev
 Hey dude! Help me out for a couple of :beers:!  
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ECAGVBSCCMJHG)
+[![Fund](https://img.shields.io/gratipay/user/adrianonrails.svg)](https://gratipay.com/Baruch/)
+
 
 ## Disclaimer
 The novel contents are not mine and are just crawled from other aggregators, this will be changed in the future when I finish the must have features. I will get the data from actual translation sites after that in order to give them proper credit.
