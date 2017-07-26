@@ -30,7 +30,8 @@ $colors: (
   light:      #6DCACA,
   dark:       #111,
   white:    #fff,
-  supplement : lighten(#111, 20%)
+  supplement : lighten(#111, 20%),
+  dirtywhite: lighten(#111, 85%)
 );
 
 

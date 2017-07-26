@@ -7,6 +7,7 @@ import { ReaderSettingsService } from "../providers/reader-settings-service";
 import { LnLoadingController } from "../common/ln-loading-controller";
 import { DownloadService } from "../providers/download-service";
 import { EpubService } from "../providers/epub-service";
+import { SettingsService } from "../providers/settings-service";
 
 @Component({
   templateUrl: "app.html"
@@ -14,10 +15,11 @@ import { EpubService } from "../providers/epub-service";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = "LnList";
+  rootPage: any = "LnSettings";
 
   overallPages: Array<any>;
   userPages: Array<any>;
+  miscPages: Array<any>;
 
   constructor(public platform: Platform,
     public statusBar: StatusBar,
@@ -30,7 +32,8 @@ export class MyApp {
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
     private downloadService: DownloadService,
-    private epubService: EpubService) {
+    private epubService: EpubService,
+    private settingsService: SettingsService) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -45,6 +48,10 @@ export class MyApp {
       { title: "Downloading queue", icon: "cloud-download", component: "LnDownloadsQueuePage" }
     ];
 
+    this.miscPages = [
+      { title: "Settings", icon: "settings", component: "LnSettings" },
+      { title: "About", icon: "body", component: "LnRecentNovelsPage" }
+    ];
   }
 
   initializeApp() {
@@ -63,10 +70,28 @@ export class MyApp {
       this.readerSettingsService.init();
       this.loadingController.init();
       this.epubService.init();
+      this.settingsService.init();
 
       // Register back button
       this.registerBackButtonHandler();
     });
+  }
+
+  get allPages() {
+    return [
+      {
+        header: "Catalog",
+        pages: this.overallPages
+      },
+      {
+        header: "My picks",
+        pages: this.userPages
+      },
+      {
+        header: "Miscellaneous",
+        pages: this.miscPages
+      }
+    ]
   }
 
   openPage(page) {

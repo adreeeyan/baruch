@@ -28,6 +28,7 @@ import { File } from "@ionic-native/file";
 import { CodePush } from "@ionic-native/code-push";
 import { LastReadChapterService } from '../providers/last-read-chapter-service';
 import { EpubService } from "../providers/epub-service";
+import { SettingsService } from "../providers/settings-service";
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { EpubService } from "../providers/epub-service";
     RecentNovelsService,
     DownloadService,
     EpubService,
-    LastReadChapterService
+    LastReadChapterService,
+    SettingsService
   ]
 })
 export class AppModule { }

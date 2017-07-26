@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Settings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-item-group *ngIf="settings">
+    <ion-item-divider color="dirtywhite">Personalization</ion-item-divider>
+    <ion-item>
+      <ion-label>Startup screen</ion-label>
+      <ion-select [(ngModel)]="settings.startupScreen" interface="action-sheet">
+        <ion-option value="LnList">All novels</ion-option>
+        <ion-option value="LnFavorites">Favorites</ion-option>
+        <ion-option value="LnRecentNovelsPage">Recently viewed</ion-option>
+        <ion-option value="LnDownloadsListPage">Downloaded</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item-divider color="dirtywhite">Storage</ion-item-divider>
+    <ion-item>
+      <ion-label color="primary" stacked>App storage location</ion-label>
+      <ion-textarea type="text" placeholder="{{settings?.appStorageLocation}}" readonly (focus)="changeAppStorageLocation()" (click)="changeAppStorageLocation()"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>Epub location</ion-label>
+      <ion-textarea type="text" placeholder="{{settings?.epubLocation}}" readonly (focus)="changeEpubLocation()" (click)="changeEpubLocation()"></ion-textarea>
+    </ion-item>
+  </ion-item-group>
+  <ion-fab right bottom>
+    <button ion-fab color="secondary" (click)="save()">
+      <ion-icon name="checkmark"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

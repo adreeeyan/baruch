@@ -82,6 +82,7 @@
     </platform>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <engine name="android" spec="^6.2.3" />
+    <plugin name="com.ourcodeworld.plugins.Filebrowser" spec="https://github.com/ourcodeworld/cordova-ourcodeworld-filebrowser.git" />
     <plugin name="cordova-plugin-code-push" spec="^1.9.5-beta" />
     <plugin name="cordova-plugin-console" spec="^1.0.5" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />

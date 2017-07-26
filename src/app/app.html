@@ -7,17 +7,9 @@
   </ion-header>
 
   <ion-content>
-    <ion-list>
-      <ion-list-header>Catalog</ion-list-header>
-      <button ion-item *ngFor="let p of overallPages" (click)="openPage(p)" menuClose>
-        <ion-icon name="{{p.icon}}" small item-start></ion-icon>
-        {{p.title}}
-      </button>
-    </ion-list>
-
-    <ion-list>
-      <ion-list-header>My picks</ion-list-header>
-      <button ion-item *ngFor="let p of userPages" (click)="openPage(p)" menuClose>
+    <ion-list *ngFor="let list of allPages">
+      <ion-list-header>{{ list.header }}</ion-list-header>
+      <button ion-item *ngFor="let p of list.pages" (click)="openPage(p)" menuClose>
         <ion-icon name="{{p.icon}}" small item-start></ion-icon>
         {{p.title}}
       </button>
