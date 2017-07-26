@@ -15,7 +15,7 @@ import { SettingsService } from "../providers/settings-service";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = "LnSettings";
+  rootPage: any;
 
   overallPages: Array<any>;
   userPages: Array<any>;
@@ -70,10 +70,15 @@ export class MyApp {
       this.readerSettingsService.init();
       this.loadingController.init();
       this.epubService.init();
-      this.settingsService.init();
+      let settingsLoaded = this.settingsService.init();
 
       // Register back button
       this.registerBackButtonHandler();
+
+      // Show initial page
+      settingsLoaded.then((settings) => {
+        this.rootPage = settings.startupScreen;
+      });
     });
   }
 

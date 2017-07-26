@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import { IonicPage, ToastController } from 'ionic-angular';
 import { SettingsService } from "../../providers/settings-service";
 import { Settings } from "../../common/models/settings";
 
@@ -13,7 +13,8 @@ export class LnSettings {
 
   settings: Settings;
 
-  constructor(private settingsService: SettingsService) {
+  constructor(private settingsService: SettingsService,
+    private toastCtrl: ToastController) {
   }
 
   ionViewDidLoad() {
@@ -64,5 +65,11 @@ export class LnSettings {
   save() {
     console.log("saving", this.settings);
     this.settingsService.set(this.settings);
+    this.toastCtrl.create({
+      message: "Your changes have been saved.",
+      position: "bottom",
+      duration: 3000,
+      showCloseButton: true
+    }).present();
   }
 }
