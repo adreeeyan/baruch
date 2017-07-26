@@ -79,15 +79,18 @@ export class EpubService {
     }
 
     downloadEpub(downloadItem: EpubDownloadItem) {
-        this.fileTransfer
-            .download(`/api/epub/${downloadItem.novel.id}/download`,
-            `${this.settingsService.settings.epubLocation}${downloadItem.novel.id}.epub`)
-            .then(entry => {
-                console.log("epub download complete: ", entry.toURL());
-                downloadItem.progress = 100;
-            })
-            .catch(err => {
-                console.log("error downloading epub", err);
+        this.novelsLocalService.getNovel(downloadItem.novel.id.toString())
+            .then((novel) => {
+                this.fileTransfer
+                    .download(`/api/epub/${downloadItem.novel.id}/download`,
+                    `${this.settingsService.settings.epubLocation}${novel.title}.epub`)
+                    .then(entry => {
+                        console.log("epub download complete: ", entry.toURL());
+                        downloadItem.progress = 100;
+                    })
+                    .catch(err => {
+                        console.log("error downloading epub", err);
+                    });
             });
     }
 
