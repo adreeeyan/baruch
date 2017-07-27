@@ -3,10 +3,34 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Downloaded novels</ion-title>
+    <ion-title>Downloaded stuffs</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content no-padding>
-  <ln-novel-list [novels]="novels"></ln-novel-list>
+<ion-content>
+  <ion-list *ngIf="novels.length">
+    <ion-list-header>
+      Novels
+    </ion-list-header>
+    <button ion-item *ngFor="let novel of novels" (click)="openNovel(novel)">
+      <ion-thumbnail item-start>
+        <img [ln-img-src]="novel.cover" alt="Cover">
+      </ion-thumbnail>
+      <h2>{{novel.title}}</h2>
+      <p>{{novel.author}}</p>
+    </button>
+  </ion-list>
+
+  <ion-list *ngIf="epubs.length">
+    <ion-list-header>
+      Exported to Epub
+    </ion-list-header>
+    <button ion-item *ngFor="let epub of epubs" (click)="openEpub(epub)">
+      <ion-thumbnail item-start>
+        <img [ln-img-src]="epub.cover" alt="Cover">
+      </ion-thumbnail>
+      <h2>{{epub.title}}</h2>
+      <p>{{epub.author}}</p>
+    </button>
+  </ion-list>
 </ion-content>

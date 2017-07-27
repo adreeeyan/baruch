@@ -11,6 +11,7 @@ import { SafeHttpProvider } from "./safe-http";
 import { NovelsLocalService } from "./novels-local-service";
 import { EpubDownloadItem } from "../common/models/download-item";
 import { SettingsService } from "./settings-service";
+import { Novel } from "../common/models/novel";
 
 @Injectable()
 export class EpubService {
@@ -151,22 +152,27 @@ export class EpubService {
                     let probableFiles = _.filter(entries, entry => {
                         return entry.isFile && /\.epub$/.test(entry.name);
                     });
-                    let ids = _.map(probableFiles, entry => parseInt(entry.name.replace(/\.epub$/, "")));
+                    let titles = _.map(probableFiles, entry => entry.name.replace(/\.epub$/, ""));
 
-                    // check if this epub is listed in the local service
-                    // get local novels first
+                    // get the ids from the titles
                     this.novelsLocalService
-                        .getNovels(ids)
+                        .get()
                         .then(novels => {
-                            console.log("this is it!!!", novels);
-                            resolve(novels);
+                            // map novels
+                            let filtered = _.filter(novels, (novel: Novel) => {
+                                return _.includes(titles, novel.title);
+                            });
+                            filtered = _.filter(filtered, novel => !!novel);
+                            let ids = _.map(filtered, "id");
+
+                            // check if this epub is listed in the local service
+                            // get local novels first
+                            this.novelsLocalService
+                                .getNovels(ids)
+                                .then(novels => {
+                                    resolve(novels);
+                                });
                         });
-
-
-                    // let ids = _.map(entries, "name");
-                    // convert ids to number
-                    // ids = _.map(ids, id => parseInt(id));
-                    // resolve(ids);
                 })
                 .catch(() => {
                     resolve([]);
