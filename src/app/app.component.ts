@@ -49,8 +49,7 @@ export class MyApp {
     ];
 
     this.miscPages = [
-      { title: "Settings", icon: "settings", component: "LnSettings" },
-      { title: "About", icon: "body", component: "LnRecentNovelsPage" }
+      { title: "Settings", icon: "settings", component: "LnSettings" }
     ];
   }
 
