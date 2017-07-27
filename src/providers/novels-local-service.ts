@@ -157,6 +157,8 @@ export class NovelsLocalService {
                         return _.includes(novelIds, novel.id);
                     });
                     filtered = this.sortByOriginal(novelIds, filtered);
+                    // remove the undefined
+                    filtered = _.filter(filtered, novel => !!novel);
                     resolve(filtered);
                 });
         });

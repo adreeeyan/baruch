@@ -4,6 +4,7 @@ import { Storage } from "@ionic/storage";
 import { LnLoadingController } from "../../common/ln-loading-controller";
 import { DownloadService } from "../../providers/download-service";
 import { Novel } from "../../common/models/novel";
+import { EpubService } from "../../providers/epub-service";
 
 @IonicPage()
 @Component({
@@ -15,6 +16,7 @@ export class LnDownloadsListPage {
 
   constructor(public navCtrl: NavController,
     public downloadService: DownloadService,
+    private epubService: EpubService,
     private loadingCtrl: LnLoadingController,
     private storage: Storage) {
   }
@@ -22,6 +24,8 @@ export class LnDownloadsListPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad LnDownloadsListPage');
     this.updateNovelList();
+
+    this.epubService.getDownloadedEpubs();
   }
 
   updateNovelList(): Promise<any> {

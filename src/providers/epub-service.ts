@@ -132,4 +132,45 @@ export class EpubService {
                 });
         });
     }
+
+    getDownloadedEpubs(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            // get the holder directory
+            let epubLocationDirHolder = this.settingsService.settings.epubLocation;
+            epubLocationDirHolder = epubLocationDirHolder.substr(0, epubLocationDirHolder.length - 1);
+            let tempDirSplit = epubLocationDirHolder.split("/");
+            let dirName = tempDirSplit[tempDirSplit.length - 1];
+            epubLocationDirHolder = epubLocationDirHolder.substr(0, epubLocationDirHolder.lastIndexOf("/") + 1);
+            // list the directory
+            this.file
+                .listDir(epubLocationDirHolder, dirName)
+                .then(entries => {
+                    console.log("entries: ", entries);
+
+                    // check if this is an epub
+                    let probableFiles = _.filter(entries, entry => {
+                        return entry.isFile && /\.epub$/.test(entry.name);
+                    });
+                    let ids = _.map(probableFiles, entry => parseInt(entry.name.replace(/\.epub$/, "")));
+
+                    // check if this epub is listed in the local service
+                    // get local novels first
+                    this.novelsLocalService
+                        .getNovels(ids)
+                        .then(novels => {
+                            console.log("this is it!!!", novels);
+                            resolve(novels);
+                        });
+
+
+                    // let ids = _.map(entries, "name");
+                    // convert ids to number
+                    // ids = _.map(ids, id => parseInt(id));
+                    // resolve(ids);
+                })
+                .catch(() => {
+                    resolve([]);
+                });
+        });
+    }
 }

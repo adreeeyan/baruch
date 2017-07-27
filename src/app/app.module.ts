@@ -26,7 +26,6 @@ import { DownloadService } from "../providers/download-service";
 import { Transfer } from "@ionic-native/transfer";
 import { File } from "@ionic-native/file";
 import { CodePush } from "@ionic-native/code-push";
-import { FileOpener } from '@ionic-native/file-opener';
 import { LastReadChapterService } from '../providers/last-read-chapter-service';
 import { EpubService } from "../providers/epub-service";
 import { SettingsService } from "../providers/settings-service";
@@ -57,7 +56,6 @@ import { SettingsService } from "../providers/settings-service";
     File,
     Transfer,
     CodePush,
-    FileOpener,
     NovelsService,
     FavoritesService,
     ReaderSettingsService,

@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { DownloadService } from "../../providers/download-service";
 import { DownloadItem, EpubDownloadItem } from "../../common/models/download-item";
 import { EpubService } from "../../providers/epub-service";
-import { FileOpener } from "@ionic-native/file-opener";
 import { SettingsService } from "../../providers/settings-service";
 import { NovelsLocalService } from "../../providers/novels-local-service";
 
@@ -23,7 +22,6 @@ export class LnDownloadsQueuePage {
     private epubService: EpubService,
     private settingsService: SettingsService,
     private novelsLocalService: NovelsLocalService,
-    private fileOpener: FileOpener,
     private toastCtrl: ToastController) {
   }
 
@@ -52,11 +50,12 @@ export class LnDownloadsQueuePage {
     this.novelsLocalService.getNovel(item.novel.id.toString())
       .then((novel) => {
         let location = this.settingsService.settings.epubLocation;
-        this.fileOpener.open(`${location}${novel.title}.epub`, "application/epub+zip")
-          .then(() => {
+        (<any>window).cordova.plugins.disusered.open(
+          `${location}${novel.title}.epub`,
+          () => {
             console.log("Successfully opened file.");
-          })
-          .catch((err) => {
+          },
+          (err) => {
             console.log("There was an issue opening the file.", err)
           });
       });
