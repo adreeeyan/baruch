@@ -1,6 +1,6 @@
 {
     "name": "Baruch",
-    "version": "0.8.1",
+    "version": "0.8.2",
     "author": "Adrian Q. Dela Piedra",
     "homepage": "http://ionicframework.com/",
     "private": true,
@@ -20,6 +20,7 @@
         "@angular/http": "4.1.3",
         "@angular/platform-browser": "4.1.3",
         "@angular/platform-browser-dynamic": "4.1.3",
+        "@ionic-native/app-version": "^4.1.0",
         "@ionic-native/code-push": "^4.0.1",
         "@ionic-native/core": "3.12.1",
         "@ionic-native/diagnostic": "^3.12.1",
@@ -36,6 +37,7 @@
         "cordova-android": "^6.2.3",
         "cordova-open": "^1.0.12",
         "cordova-ourcodeworld-filebrowser": "git+https://github.com/ourcodeworld/cordova-ourcodeworld-filebrowser.git",
+        "cordova-plugin-app-version": "^0.1.9",
         "cordova-plugin-code-push": "^1.9.5-beta",
         "cordova-plugin-compat": "^1.0.0",
         "cordova-plugin-console": "^1.0.5",
@@ -61,8 +63,9 @@
     },
     "devDependencies": {
         "@ionic/app-scripts": "1.3.7",
-        "@ionic/cli-plugin-cordova": "1.4.1",
-        "@ionic/cli-plugin-ionic-angular": "1.3.2",
+        "@ionic/cli-plugin-cordova": "1.5.0",
+        "@ionic/cli-plugin-ionic-angular": "1.4.0",
+        "ionic": "3.6.0",
         "typescript": "2.3.4"
     },
     "cordovaPlugins": [
@@ -74,7 +77,7 @@
         "ionic-plugin-keyboard"
     ],
     "cordovaPlatforms": [],
-    "description": "Baruch: A Light Novel reader with downloader",
+    "description": "Baruch: A Light Novel reader with downloader mobile app",
     "cordova": {
         "plugins": {
             "cordova-plugin-console": {},
@@ -90,7 +93,8 @@
             "cordova-plugin-file-transfer": {},
             "cordova-plugin-code-push": {},
             "com.ourcodeworld.plugins.Filebrowser": {},
-            "cordova-open": {}
+            "cordova-open": {},
+            "cordova-plugin-app-version": {}
         },
         "platforms": [
             "android"

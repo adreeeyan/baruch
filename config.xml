@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.baruchempire.lnreader" version="0.8.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.baruchempire.lnreader" version="0.8.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Baruch</name>
-    <description>A Light Novel reader with downloader</description>
+    <description>A Light Novel reader with downloader mobile app</description>
     <author email="adrian.onrails@gmail.com" href="http://ionicframework.com/">Adrian Q. Dela Piedra</author>
     <content src="index.html" />
     <access origin="*" />
@@ -84,6 +84,7 @@
     <engine name="android" spec="^6.2.3" />
     <plugin name="com.ourcodeworld.plugins.Filebrowser" spec="https://github.com/ourcodeworld/cordova-ourcodeworld-filebrowser.git" />
     <plugin name="cordova-open" spec="^1.0.12" />
+    <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
     <plugin name="cordova-plugin-code-push" spec="^1.9.5-beta" />
     <plugin name="cordova-plugin-console" spec="^1.0.5" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />

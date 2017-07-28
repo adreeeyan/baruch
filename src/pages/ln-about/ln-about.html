@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>About</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h3 class="apptitle">Baruch</h3>
+  <p class="version">Version {{version}}</p>
+  <div class="content">
+    <p>All novels and translations here belongs to their respective authors and translators. Baruch does not own any of the
+      content shown in the app.</p>
+    <p>Please continue supporting the authors and translators of the novels for we will not be able to enjoy these novels if
+      not for them.</p>
+    <div class="question">
+      <p>Want something? Request a feature <a href="#" (click)="openInBrowser($event, 'https://github.com/adrianonrails/baruch/issues/new')">here</a>.</p>
+      <p>Found a bug? Report it <a href="#" (click)="openInBrowser($event, 'https://github.com/adrianonrails/baruch/issues/new')">here</a>.</p>
+      <p>Any other concern? Email me at <a href="mailto:adrian.onrails@gmail.com?subject=Baruch feedback&body=Anything?">adrian.onrails@gmail.com</a></p>
+    </div>
+    <div class="donation">
+      <p>Keep the servers alive by donating!</p>
+      <a href="#" (click)="openInBrowser($event, 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ECAGVBSCCMJHG')"><img src="https://img.shields.io/badge/Donate-PayPal-green.svg" alt="Paypal" /></a>
+      <a href="#" (click)="openInBrowser($event, 'https://gratipay.com/Baruch/')"><img src="https://img.shields.io/gratipay/user/adrianonrails.svg" alt="Gratipay"></a>
+    </div>
+  </div>
+</ion-content>
