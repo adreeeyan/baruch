@@ -54,16 +54,12 @@
   </ion-list>
 
   <ion-list no-lines>
+    <ion-list-header no-lines>
+      Auto scroll
+      <ion-badge item-right>{{autoScrollSpeed}}</ion-badge>
+    </ion-list-header>
     <ion-item>
-      <ion-label>
-        <ion-icon item-start name="code-download"></ion-icon>
-        <span>Auto scroll</span>
-        <ion-badge item-right>{{autoScrollSpeed}} ms</ion-badge>
-      </ion-label>
-      <ion-toggle item-content [(ngModel)]="autoScrollEnabled"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-range min="50" max="5000" step="50" item-content [(ngModel)]="autoScrollSpeed" [class.disabled]="!autoScrollEnabled">
+      <ion-range min="50" max="5000" step="50" item-content [(ngModel)]="autoScrollSpeed">
         <ion-icon small range-left name="speedometer"></ion-icon>
         <ion-icon range-right name="speedometer"></ion-icon>
       </ion-range>

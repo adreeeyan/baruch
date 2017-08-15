@@ -20,7 +20,6 @@ export class LnChapterPage {
   novelId: number;
   settings: any;
   autoScrollEnabled: boolean;
-  autoScrollSpeed: number;
   isFromNextChapter: boolean;
   isFromPreviousChapter: boolean;
 
@@ -77,12 +76,27 @@ export class LnChapterPage {
       show ? this.statusBar.show() : this.statusBar.hide();
     }
   }
+  
+  get autoScrollShown() {
+    return this.navDisplay != "none" && this.settings && !this.settings.horizontalScrolling;
+  }
+
+  get autoScrollIcon(){
+    return this.autoScrollEnabled ? "hand" : "arrow-down";
+  }
+
+  toggleAutoScroll() {
+    this.autoScrollEnabled = !this.autoScrollEnabled;
+    this.toggleNavBar();
+  }
 
   openSettingsModal() {
     this.toggleNavBar();
     let settingsModal = this.modalCtrl.create('LnReaderSettingsModal');
+    let previousAutoScroll = this.autoScrollEnabled;
     settingsModal.onDidDismiss((settings) => {
       this.settings = settings ? settings : this.settings;
+      this.autoScrollEnabled = previousAutoScroll;
     });
     settingsModal.present();
 

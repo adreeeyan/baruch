@@ -33,7 +33,6 @@ export class LnReaderSettingsModal {
     this._brightness = settings.brightness * 100;
     this.invertColors = settings.invertColors;
     this.horizontalScrolling = settings.horizontalScrolling;
-    this.autoScrollEnabled = settings.autoScrollEnabled;
     this.autoScrollSpeed = settings.autoScrollSpeed || 100;
     this.setFontSize(this.fontSize);
     this.setBrightness(this.brightness);
@@ -64,7 +63,6 @@ export class LnReaderSettingsModal {
       brightness: this.brightness,
       invertColors: this.invertColors,
       horizontalScrolling: this.horizontalScrolling,
-      autoScrollEnabled: this.autoScrollEnabled,
       autoScrollSpeed: this.autoScrollSpeed
     });
 
