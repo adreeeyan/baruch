@@ -19,6 +19,8 @@ export class LnChapterPage {
   chapter: Chapter;
   novelId: number;
   settings: any;
+  autoScrollEnabled: boolean;
+  autoScrollSpeed: number;
   isFromNextChapter: boolean;
   isFromPreviousChapter: boolean;
 
@@ -83,6 +85,9 @@ export class LnChapterPage {
       this.settings = settings ? settings : this.settings;
     });
     settingsModal.present();
+
+    // disable the autoscroll
+    this.autoScrollEnabled = false;
   }
 
   goToChapter(novelId, chapterNumber, showLoading = true, percentage = 0) {

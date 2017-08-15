@@ -95,3 +95,12 @@ ion-menu {
 
 
 /* end Loading controller */
+
+/* Ionic components additional styles */
+
+ion-range.disabled {
+    opacity: 0.25;
+    pointer-events: none;
+}
+
+/* end Ionic components additional styles */

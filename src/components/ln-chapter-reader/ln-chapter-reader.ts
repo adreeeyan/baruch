@@ -23,6 +23,9 @@ export class LnChapterReader implements OnInit, OnChanges {
   @Input() horizontalScrolling: boolean;
   @Input() brightness: number;
   @Input() invertColors: boolean;
+  @Input() autoScrollEnabled: boolean;
+  @Input() autoScrollSpeed: number;
+  autoScrollIntervalHolder: any;
 
   chapterValue: Chapter;
 
@@ -76,6 +79,15 @@ export class LnChapterReader implements OnInit, OnChanges {
     }
 
     this.resetPages();
+
+    // enable auto scrolling
+    if (!this.horizontalScrolling &&
+      this.autoScrollEnabled &&
+      this.autoScrollSpeed) {
+      this.enableAutoScroll();
+    } else {
+      this.disableAutoScroll();
+    }
   }
 
   resetPages() {
@@ -302,5 +314,20 @@ export class LnChapterReader implements OnInit, OnChanges {
       .markAsRead(this.chapter.id)
       .then(() => console.log("MARKED AS READ", this.chapter.id))
       .catch((err) => console.log("UNABLE TO MARK AS READ", this.chapter.id));
+  }
+
+  enableAutoScroll() {
+
+    // remove existing autoscroll
+    this.disableAutoScroll();
+
+    var scrollContent: any = document.querySelector("ln-chapter-page ion-content .scroll-content");
+    this.autoScrollIntervalHolder = setInterval(() => {
+      scrollContent.scrollTop += 1;
+    }, this.autoScrollSpeed);
+  }
+
+  disableAutoScroll() {
+    clearInterval(this.autoScrollIntervalHolder);
   }
 }
