@@ -7,6 +7,7 @@ import { ReaderSettingsService } from "../../providers/reader-settings-service";
 import { ChaptersService } from "../../providers/chapters-service";
 import { LnLoadingController } from "../../common/ln-loading-controller";
 import { LastReadChapterService } from '../../providers/last-read-chapter-service';
+import { Insomnia } from "@ionic-native/insomnia";
 
 @IonicPage()
 @Component({
@@ -33,7 +34,8 @@ export class LnChapterPage {
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
     private loadingCtrl: LnLoadingController,
-    private toastCtrl: ToastController) {
+    private toastCtrl: ToastController,
+    private insomnia: Insomnia) {
   }
 
   ionViewWillEnter() {
@@ -88,6 +90,11 @@ export class LnChapterPage {
   toggleAutoScroll() {
     this.autoScrollEnabled = !this.autoScrollEnabled;
     this.toggleNavBar();
+    if(this.autoScrollEnabled){
+      this.insomnia.keepAwake();
+    }else{
+      this.insomnia.allowSleepAgain();
+    }
   }
 
   openSettingsModal() {

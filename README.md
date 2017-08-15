@@ -12,6 +12,7 @@ Baruch
 * **Download novel as epub**
 * Read novels
 * Customize (a bit) reading settings (change font size, color, reading direction, stuffs...)
+* Auto scrolling
 * **No ADS!** (let's hope server cost will not spike to keep this one)
 * No registration needed!
 ##### Upcoming features
@@ -41,7 +42,7 @@ Baruch
 
 ## Download
 * This dude is not on google play or app store yet, so android users just download the apk, and for iOS users, sorry for the meantime, got no cash to create an account on app store.
-* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.8.2/Baruch.apk)
+* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.8.3/Baruch.apk)
 
 ## Contributors
 
@@ -52,9 +53,9 @@ Baruch
 * see [LICENSE](https://github.com/adrianonrails/baruch/blob/master/LICENSE) file
 
 ## Version 
-* [Version 0.8.2 - Latest](https://github.com/adrianonrails/baruch/releases/download/v0.8.2/Baruch.apk)
+* [Version 0.8.3 - Latest](https://github.com/adrianonrails/baruch/releases/download/v0.8.3/Baruch.apk)
+* [Version 0.8.2](https://github.com/adrianonrails/baruch/releases/download/v0.8.2/Baruch.apk)
 * [Version 0.8.1](https://github.com/adrianonrails/baruch/releases/download/v0.8.1/Baruch.apk)
-* [Version 0.7.1](https://github.com/adrianonrails/baruch/releases/download/v0.7.1/Baruch.apk)
 
 ## Contact
 #### Your dev

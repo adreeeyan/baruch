@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.baruchempire.lnreader" version="0.8.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.baruchempire.lnreader" version="0.8.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Baruch</name>
     <description>A Light Novel reader with downloader mobile app</description>
     <author email="adrian.onrails@gmail.com" href="http://ionicframework.com/">Adrian Q. Dela Piedra</author>
@@ -97,4 +97,5 @@
     <plugin name="cordova-sqlite-storage" spec="^2.0.4" />
     <plugin name="cordova.plugins.diagnostic" spec="^3.6.5" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
+    <plugin name="cordova-plugin-insomnia" spec="~4.3.0" />
 </widget>

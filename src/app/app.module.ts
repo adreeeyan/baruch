@@ -27,6 +27,7 @@ import { Transfer } from "@ionic-native/transfer";
 import { File } from "@ionic-native/file";
 import { CodePush } from "@ionic-native/code-push";
 import { AppVersion } from '@ionic-native/app-version';
+import { Insomnia } from '@ionic-native/insomnia';
 import { LastReadChapterService } from '../providers/last-read-chapter-service';
 import { EpubService } from "../providers/epub-service";
 import { SettingsService } from "../providers/settings-service";
@@ -58,6 +59,7 @@ import { SettingsService } from "../providers/settings-service";
     Transfer,
     CodePush,
     AppVersion,
+    Insomnia,
     NovelsService,
     FavoritesService,
     ReaderSettingsService,
