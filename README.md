@@ -61,7 +61,7 @@ Baruch
 * e-mail: adrian.onrails@gmail.com
 
 ## Support your dev
-Keep the server alive!! My AWS free tier will expire soon, so I might get a problem with the hosting costs.
+Keep the server alive!! My AWS free tier will expire soon, so I might get a problem with the hosting costs.  
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ECAGVBSCCMJHG)
 [![Fund](https://img.shields.io/gratipay/user/adrianonrails.svg)](https://gratipay.com/Baruch/)
 
