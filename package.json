@@ -35,7 +35,7 @@
         "@ionic/storage": "2.0.1",
         "code-push": "^2.0.1-beta",
         "com.ourcodeworld.plugins.Filebrowser": "https://github.com/ourcodeworld/cordova-ourcodeworld-filebrowser.git",
-        "cordova-android": "^6.2.3",
+        "cordova-android": "6.2.3",
         "cordova-open": "^1.0.12",
         "cordova-ourcodeworld-filebrowser": "git+https://github.com/ourcodeworld/cordova-ourcodeworld-filebrowser.git",
         "cordova-plugin-app-version": "^0.1.9",
