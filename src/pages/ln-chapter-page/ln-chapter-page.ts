@@ -7,6 +7,7 @@ import { ReaderSettingsService } from "../../providers/reader-settings-service";
 import { ChaptersService } from "../../providers/chapters-service";
 import { LnLoadingController } from "../../common/ln-loading-controller";
 import { LastReadChapterService } from '../../providers/last-read-chapter-service';
+import { Insomnia } from "@ionic-native/insomnia";
 
 @IonicPage()
 @Component({
@@ -19,6 +20,7 @@ export class LnChapterPage {
   chapter: Chapter;
   novelId: number;
   settings: any;
+  autoScrollEnabled: boolean;
   isFromNextChapter: boolean;
   isFromPreviousChapter: boolean;
 
@@ -32,7 +34,8 @@ export class LnChapterPage {
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
     private loadingCtrl: LnLoadingController,
-    private toastCtrl: ToastController) {
+    private toastCtrl: ToastController,
+    private insomnia: Insomnia) {
   }
 
   ionViewWillEnter() {
@@ -75,14 +78,37 @@ export class LnChapterPage {
       show ? this.statusBar.show() : this.statusBar.hide();
     }
   }
+  
+  get autoScrollShown() {
+    return this.navDisplay != "none" && this.settings && !this.settings.horizontalScrolling;
+  }
+
+  get autoScrollIcon(){
+    return this.autoScrollEnabled ? "hand" : "arrow-down";
+  }
+
+  toggleAutoScroll() {
+    this.autoScrollEnabled = !this.autoScrollEnabled;
+    this.toggleNavBar();
+    if(this.autoScrollEnabled){
+      this.insomnia.keepAwake();
+    }else{
+      this.insomnia.allowSleepAgain();
+    }
+  }
 
   openSettingsModal() {
     this.toggleNavBar();
     let settingsModal = this.modalCtrl.create('LnReaderSettingsModal');
+    let previousAutoScroll = this.autoScrollEnabled;
     settingsModal.onDidDismiss((settings) => {
       this.settings = settings ? settings : this.settings;
+      this.autoScrollEnabled = previousAutoScroll;
     });
     settingsModal.present();
+
+    // disable the autoscroll
+    this.autoScrollEnabled = false;
   }
 
   goToChapter(novelId, chapterNumber, showLoading = true, percentage = 0) {

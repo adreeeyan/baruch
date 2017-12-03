@@ -27,6 +27,8 @@
     [brightness]="settings?.brightness"
     [horizontalScrolling]="settings?.horizontalScrolling"
     [invertColors]="settings?.invertColors"
+    [autoScrollEnabled]="autoScrollEnabled"
+    [autoScrollSpeed]="settings?.autoScrollSpeed"
     [isFromNextChapter]="isFromNextChapter"
     [isFromPreviousChapter]="isFromPreviousChapter"
   ></ln-chapter-reader>
@@ -41,3 +43,9 @@
     </button>
   </div>
 </ion-content>
+
+<ion-fab bottom right [style.visibility]="autoScrollShown ? 'visible' : 'hidden'">
+  <button ion-fab color="secondary" (click)="toggleAutoScroll()">
+    <ion-icon [name]="autoScrollIcon"></ion-icon>
+  </button>
+</ion-fab>

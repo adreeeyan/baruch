@@ -14,6 +14,8 @@ export class LnReaderSettingsModal {
   _brightness: number;
   invertColors: boolean;
   horizontalScrolling: boolean;
+  autoScrollEnabled: boolean;
+  autoScrollSpeed: number;
   @ViewChild("result") result: ElementRef;
   @ViewChild("resultIonItem") resultIonItem: any; // some css cannot affect "result" viewChild
 
@@ -31,6 +33,7 @@ export class LnReaderSettingsModal {
     this._brightness = settings.brightness * 100;
     this.invertColors = settings.invertColors;
     this.horizontalScrolling = settings.horizontalScrolling;
+    this.autoScrollSpeed = settings.autoScrollSpeed || 100;
     this.setFontSize(this.fontSize);
     this.setBrightness(this.brightness);
   }
@@ -59,7 +62,8 @@ export class LnReaderSettingsModal {
       fontSize: this.fontSize,
       brightness: this.brightness,
       invertColors: this.invertColors,
-      horizontalScrolling: this.horizontalScrolling
+      horizontalScrolling: this.horizontalScrolling,
+      autoScrollSpeed: this.autoScrollSpeed
     });
 
     // save values to storage

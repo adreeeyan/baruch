@@ -53,6 +53,19 @@
     </ion-item>
   </ion-list>
 
+  <ion-list no-lines>
+    <ion-list-header no-lines>
+      Auto scroll
+      <ion-badge item-right>{{autoScrollSpeed}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="10" max="1000" step="10" item-content [(ngModel)]="autoScrollSpeed">
+        <ion-icon small range-left name="speedometer"></ion-icon>
+        <ion-icon range-right name="speedometer"></ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+
   <ion-list no-lines padding-top>
     <ion-list-header no-lines no-margin>
       Sample output
