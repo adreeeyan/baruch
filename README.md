@@ -42,7 +42,7 @@ Baruch
 
 ## Download
 * This dude is not on google play or app store yet, so android users just download the apk.
-* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.8.7/Baruch.apk)
+* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.8.5/Baruch.apk)
 
 ## Contributors
 
@@ -53,7 +53,7 @@ Baruch
 * see [LICENSE](https://github.com/adrianonrails/baruch/blob/master/LICENSE) file
 
 ## Version 
-* [Version 0.8.7 - Latest](https://github.com/adrianonrails/baruch/releases/download/v0.8.7/Baruch.apk)
+* [Version 0.8.5 - Latest](https://github.com/adrianonrails/baruch/releases/download/v0.8.5/Baruch.apk)
 * [Version 0.8.3](https://github.com/adrianonrails/baruch/releases/download/v0.8.3/Baruch.apk)
 * [Version 0.8.2](https://github.com/adrianonrails/baruch/releases/download/v0.8.2/Baruch.apk)
 
