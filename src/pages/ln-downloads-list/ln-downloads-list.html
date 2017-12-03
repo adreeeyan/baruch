@@ -4,6 +4,14 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Downloaded stuffs</ion-title>
+    <ion-buttons end *ngIf="selectionEnabled">
+      <button ion-button icon-only (click)="disableSelection()">
+        <ion-icon name="undo"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="delete()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -12,7 +20,8 @@
     <ion-list-header>
       Novels
     </ion-list-header>
-    <button ion-item *ngFor="let novel of novels" (click)="openNovel(novel)">
+    <button ion-item *ngFor="let novel of novels" (click)="openNovel(novel)" [class.selected]="isInList(novel, selectedNovels)"
+      (press)="enableSelection(); openNovel(novel);">
       <ion-thumbnail item-start>
         <img [ln-img-src]="novel.cover" alt="Cover">
       </ion-thumbnail>
@@ -25,7 +34,7 @@
     <ion-list-header>
       Exported to Epub
     </ion-list-header>
-    <button ion-item *ngFor="let epub of epubs" (click)="openEpub(epub)">
+    <button ion-item *ngFor="let epub of epubs" (click)="openEpub(epub)" [class.selected]="isInList(epub, selectedEpubs)" (press)="enableSelection(); openEpub(epub);">
       <ion-thumbnail item-start>
         <img [ln-img-src]="epub.cover" alt="Cover">
       </ion-thumbnail>

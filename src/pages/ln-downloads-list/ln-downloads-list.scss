@@ -8,4 +8,7 @@ page-ln-downloads-list {
             margin-bottom: 0 !important;
         }
     }
+    & .selected {
+        background-color: map-get($colors, secondary);
+    }
 }

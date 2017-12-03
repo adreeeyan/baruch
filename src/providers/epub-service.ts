@@ -179,4 +179,15 @@ export class EpubService {
                 });
         });
     }
+
+    async deleteEpubs(epubs: Array<Novel>): Promise<any> {
+        return new Promise((resolve, reject) => {
+            let epubLocationDirHolder = this.settingsService.settings.epubLocation;
+            epubLocationDirHolder = epubLocationDirHolder.substr(0, epubLocationDirHolder.length - 1);
+            _.each(epubs, async epub => {
+                await this.file.removeFile(epubLocationDirHolder, `${epub.title}.epub`);        
+            });
+            resolve();
+        });
+    }
 }

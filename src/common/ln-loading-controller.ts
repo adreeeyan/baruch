@@ -33,12 +33,13 @@ export class LnLoadingController extends LoadingController {
             dismissOnPageChange: true
         });
 
-        this.loader.present();
+        return this.loader.present();
     }
 
     hideLoadingMessage() {
         let activePortal = this.app._appRoot._loadingPortal.getActive();
         if (activePortal) {
+            this.loader.dismissAll();
             activePortal.dismiss();
         }
     }

@@ -66,8 +66,8 @@ export class MyApp {
 
       // initialize services here that needs to be initialized
       let settingsLoaded = this.settingsService.init();
-      let readerSettingsService = this.readerSettingsService.init();
-      let loadingController = this.loadingController.init();
+      this.readerSettingsService.init();
+      this.loadingController.init();
 
 
       // Register back button

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { AlertController, IonicPage, NavController } from 'ionic-angular';
 import { Storage } from "@ionic/storage";
 import { LnLoadingController } from "../../common/ln-loading-controller";
 import { DownloadService } from "../../providers/download-service";
@@ -7,6 +7,7 @@ import { Novel } from "../../common/models/novel";
 import { EpubService } from "../../providers/epub-service";
 import { NovelsLocalService } from "../../providers/novels-local-service";
 import { SettingsService } from "../../providers/settings-service";
+import _ from "lodash";
 
 @IonicPage()
 @Component({
@@ -16,6 +17,9 @@ import { SettingsService } from "../../providers/settings-service";
 export class LnDownloadsListPage {
   novels: Array<Novel> = [];
   epubs: Array<Novel> = [];
+  selectedNovels: Array<Novel> = [];
+  selectedEpubs: Array<Novel> = [];
+  selectionEnabled = false;
 
   constructor(public navCtrl: NavController,
     public downloadService: DownloadService,
@@ -23,7 +27,8 @@ export class LnDownloadsListPage {
     private loadingCtrl: LnLoadingController,
     private storage: Storage,
     private novelsLocalService: NovelsLocalService,
-    private settingsService: SettingsService) {
+    private settingsService: SettingsService,
+    private alertCtrl: AlertController) {
   }
 
   ionViewDidLoad() {
@@ -32,18 +37,21 @@ export class LnDownloadsListPage {
   }
 
   updateNovelList(): Promise<any> {
-    this.loadingCtrl.presentLoadingMessage();
-    return new Promise((resolve) => {
-      let downloadNovels = this.getDownloadedNovels();
-      let downloadEpubs = this.getDownloadedEpubs();
+    return new Promise((resolve, reject) => {
+      this.loadingCtrl.presentLoadingMessage().then(() => {
+        let downloadNovels = this.getDownloadedNovels();
+        let downloadEpubs = this.getDownloadedEpubs();
 
-      Promise.all([downloadNovels, downloadEpubs])
-        .then(() => {
-          this.loadingCtrl.hideLoadingMessage();
-        })
-        .catch(() => {
-          this.loadingCtrl.hideLoadingMessage();
-        });
+        Promise.all([downloadNovels, downloadEpubs])
+          .then(() => {
+            this.loadingCtrl.hideLoadingMessage();
+            resolve();
+          })
+          .catch(() => {
+            this.loadingCtrl.hideLoadingMessage();
+            reject();
+          });
+      });
     });
   }
 
@@ -70,10 +78,20 @@ export class LnDownloadsListPage {
   }
 
   openNovel(novel: Novel) {
+    if (this.selectionEnabled) {
+      this.toggleSelection(novel, this.selectedNovels);
+      return;
+    }
+
     this.navCtrl.push('LnDetailsTabs', novel.id);
   }
 
   openEpub(epub: Novel) {
+    if (this.selectionEnabled) {
+      this.toggleSelection(epub, this.selectedEpubs);
+      return;
+    }
+
     this.novelsLocalService.getNovel(epub.id.toString())
       .then((novel) => {
         let location = this.settingsService.settings.epubLocation;
@@ -86,6 +104,68 @@ export class LnDownloadsListPage {
             console.log("There was an issue opening the file.", err)
           });
       });
+  }
+
+  toggleSelection(novel: Novel, list: Array<Novel>) {
+    // check if novel if list
+    // if in list then remove it
+    const hasItem = this.isInList(novel, list);
+    if (hasItem) {
+      _.pull(list, novel);
+    } else {
+      list.push(novel);
+    }
+  }
+
+  isInList(novel: Novel, list: Array<Novel>) {
+    return _.includes(list, novel);
+  }
+
+  delete() {
+    let deleteAlert = this.alertCtrl.create({
+      title: "Delete",
+      message: "Are you sure you want to delete the selected items?",
+      buttons: [
+        {
+          text: "Cancel",
+          handler: () => { }
+        },
+        {
+          text: "YES!",
+          handler: () => {
+            deleteAlert.dismiss().then(() => {
+              this.disableSelection();
+              this.loadingCtrl.presentLoadingMessage().then(() => {
+                let deleteEpubs = this.epubService.deleteEpubs(this.selectedEpubs);
+                let deleteNovels = this.downloadService.deleteNovels(this.selectedNovels);
+
+                Promise.all([deleteEpubs, deleteNovels])
+                  .then(() => {
+                    this.updateNovelList().then(() => {
+                      this.loadingCtrl.hideLoadingMessage();
+                    });
+                  })
+              });
+            });
+          }
+        }
+      ]
+    });
+    deleteAlert.present();
+  }
+
+  enableSelection() {
+    this.selectionEnabled = true;
+  }
+
+  disableSelection() {
+    this.selectionEnabled = false;
+    this.selectedEpubs = [];
+    this.selectedNovels = [];
+  }
+
+  noneSelected() {
+    this.selectedEpubs.length == 0 && this.selectedNovels.length == 0;
   }
 
 }

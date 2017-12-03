@@ -294,4 +294,13 @@ export class DownloadService {
     let item = _.find(this.queue, item => item.novel.id == id);
     return item.chapters;
   }
+
+  async deleteNovels(novels: Array<Novel>): Promise<any> {
+    return new Promise((resolve, reject) => {
+      _.each(novels, async novel => {
+        await this.file.removeRecursively(this.novelsDir, novel.id.toString());
+      });
+      resolve();
+    });
+  }
 }
