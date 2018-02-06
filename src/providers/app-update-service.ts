@@ -55,6 +55,8 @@ export class AppUpdateService {
             notificationObject["progressBar"] = { value: 100 };
             this.localNotifications.update(notificationObject);
             break;
+          case SyncStatus.UP_TO_DATE:
+          case SyncStatus.ERROR:
           case SyncStatus.UPDATE_IGNORED:
           case SyncStatus.UPDATE_INSTALLED:
             this.localNotifications.cancel(notificationObject.id);

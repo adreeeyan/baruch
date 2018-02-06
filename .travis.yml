@@ -44,7 +44,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_62f3167d5387_key -iv $encrypted_62f3167d5387_iv -in my-release-key.jks.enc -out my-release-key.jks -d
 - export LANG=en_US.UTF-8
 - nvm install 8
-- npm install -g ionic cordova
+- npm install -g ionic cordova@6.5.0
 - find ./src -type f -exec sed -i -e "s#\/api#$sed#g" {} \;
 before_script: 
 script:
