@@ -4,7 +4,7 @@ import _ from "lodash";
 
 @Injectable()
 export class ChaptersService {
-    private _readChapters: Array<number> = [];
+    private _readChapters: Array<number> = null;
     private READCHAPTERS: string = "readChapters";
 
     constructor(private storage: Storage) {
@@ -13,6 +13,10 @@ export class ChaptersService {
 
     getAllReadChapters() {
         return new Promise((resolve, reject) => {
+            if(!_.isNull(this._readChapters)){
+                resolve(this._readChapters);
+                return;
+            }
             this.storage.get(this.READCHAPTERS)
                 .then(chapters => {
                     this._readChapters = chapters || [];

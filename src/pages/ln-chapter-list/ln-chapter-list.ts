@@ -5,6 +5,7 @@ import { Chapter } from "../../common/models/chapter";
 import { ChaptersService } from "../../providers/chapters-service";
 import { LnLoadingController } from "../../common/ln-loading-controller";
 import { DownloadService } from "../../providers/download-service";
+import _ from "lodash";
 
 @IonicPage()
 @Component({
@@ -37,24 +38,16 @@ export class LnChapterListPage {
       });
   }
 
-  private toggleRead() {
+  private async toggleRead() {
     if (!this.isFinishedLoading) {
       return;
     }
+    const readChapters = await this.chaptersService.getAllReadChapters();
     this.chapters.forEach(chapter => {
-      this.checkIfChapterIsRead(chapter);
-    });
-  }
-
-  checkIfChapterIsRead(chapter) {
-    this.chaptersService
-      .isRead(chapter.id)
-      .then(() => {
+      if(_.includes(readChapters, chapter.id)){
         chapter.isRead = true;
-      })
-      .catch(() => {
-        chapter.isRead = false;
-      });
+      }
+    });
   }
 
   openChapter(chapter) {
