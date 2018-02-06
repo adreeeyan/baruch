@@ -51,6 +51,7 @@ script:
 - npm install
 - chmod a+x ./travis/build-ios.sh ./travis/package-ios.sh ./travis/build-android.sh ./travis/package-android.sh
 - mkdir ./www
+- $ANDROID_HOME/tools/bin/sdkmanager --licenses
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./travis/build-android.sh && ./travis/package-android.sh $storepass; fi
 deploy:
   provider: releases
