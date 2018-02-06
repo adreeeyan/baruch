@@ -99,4 +99,7 @@
     <plugin name="ionic-plugin-keyboard" spec="2.2.1" />
     <engine name="android" spec="6.3.0" />
     <plugin name="cordova-plugin-local-notification" spec="0.9-beta" />
+    <plugin name="cordova-android-support-gradle-release" spec="~1.2.0">
+        <variable name="ANDROID_SUPPORT_VERSION" value="25.+" />
+    </plugin>
 </widget>
