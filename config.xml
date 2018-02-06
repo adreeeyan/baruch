@@ -81,7 +81,6 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
-    <engine name="android" spec="6.2.3" />
     <plugin name="com.ourcodeworld.plugins.Filebrowser" spec="https://github.com/ourcodeworld/cordova-ourcodeworld-filebrowser.git" />
     <plugin name="cordova-open" spec="1.0.12" />
     <plugin name="cordova-plugin-app-version" spec="0.1.9" />
@@ -98,4 +97,6 @@
     <plugin name="cordova-sqlite-storage" spec="2.0.4" />
     <plugin name="cordova.plugins.diagnostic" spec="3.6.5" />
     <plugin name="ionic-plugin-keyboard" spec="2.2.1" />
+    <engine name="android" spec="6.3.0" />
+    <plugin name="cordova-plugin-local-notification" spec="0.9-beta" />
 </widget>

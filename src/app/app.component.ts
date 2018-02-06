@@ -1,13 +1,14 @@
-import { Component, ViewChild } from "@angular/core";
-import { Nav, Platform, ToastController, IonicApp, App, AlertController } from "ionic-angular";
-import { StatusBar } from "@ionic-native/status-bar";
-import { SplashScreen } from "@ionic-native/splash-screen";
-import { CodePush, SyncStatus } from "@ionic-native/code-push";
-import { ReaderSettingsService } from "../providers/reader-settings-service";
-import { LnLoadingController } from "../common/ln-loading-controller";
-import { DownloadService } from "../providers/download-service";
-import { EpubService } from "../providers/epub-service";
-import { SettingsService } from "../providers/settings-service";
+import { Component, ViewChild } from '@angular/core';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { App, IonicApp, Nav, Platform, ToastController } from 'ionic-angular';
+
+import { LnLoadingController } from '../common/ln-loading-controller';
+import { AppUpdateService } from '../providers/app-update-service';
+import { DownloadService } from '../providers/download-service';
+import { EpubService } from '../providers/epub-service';
+import { ReaderSettingsService } from '../providers/reader-settings-service';
+import { SettingsService } from '../providers/settings-service';
 
 @Component({
   templateUrl: "app.html"
@@ -25,15 +26,14 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     private ionicApp: IonicApp,
-    private codePush: CodePush,
     private app: App,
     private readerSettingsService: ReaderSettingsService,
     private loadingController: LnLoadingController,
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController,
     private downloadService: DownloadService,
     private epubService: EpubService,
-    private settingsService: SettingsService) {
+    private settingsService: SettingsService,
+    private appUpdateService: AppUpdateService) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -59,7 +59,7 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
 
       // Try to check if there are codepushes available
-      this.checkForUpdate();
+      this.appUpdateService.checkForUpdate();
 
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
@@ -109,46 +109,6 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
-  private checkForUpdate() {
-    // note - mostly error & completed methods of observable will not fire
-    // as syncStatus will contain the current state of the update
-    this.codePush.sync()
-      .catch((err) => {
-        return [];
-      })
-      .subscribe((syncStatus) => {
-        console.log("Syncing status: ", syncStatus);
-        if (syncStatus == SyncStatus.UPDATE_INSTALLED) {
-          let alert = this.alertCtrl.create({
-            title: "Update installed",
-            message: "Do you want me to restart the app in order for it to take effect?",
-            buttons: [
-              {
-                text: "No",
-                role: "cancel"
-              },
-              {
-                text: "Yes",
-                handler: () => {
-                  this.codePush.restartApplication();
-                }
-              }
-            ]
-          });
-          alert.present();
-        }
-      });
-    const downloadProgress = (progress) => {
-      console.log(`Downloaded ${progress.receivedBytes} of ${progress.totalBytes}`);
-    }
-    this.codePush.sync({}, downloadProgress)
-      .catch((err) => {
-        return [];
-      })
-      .subscribe((syncStatus) => {
-        console.log("Syncing status other: ", syncStatus);
-      });
-  }
 
   private registerBackButtonHandler() {
     // Taken from https://stackoverflow.com/a/44365055 and https://github.com/ionic-team/ionic/issues/6982#issuecomment-295896544

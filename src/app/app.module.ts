@@ -31,6 +31,8 @@ import { Insomnia } from '@ionic-native/insomnia';
 import { LastReadChapterService } from '../providers/last-read-chapter-service';
 import { EpubService } from "../providers/epub-service";
 import { SettingsService } from "../providers/settings-service";
+import { AppUpdateService } from '../providers/app-update-service';
+import { LocalNotifications } from "@ionic-native/local-notifications";
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { SettingsService } from "../providers/settings-service";
     CodePush,
     AppVersion,
     Insomnia,
+    LocalNotifications,
     NovelsService,
     FavoritesService,
     ReaderSettingsService,
@@ -75,7 +78,8 @@ import { SettingsService } from "../providers/settings-service";
     DownloadService,
     EpubService,
     LastReadChapterService,
-    SettingsService
+    SettingsService,
+    AppUpdateService
   ]
 })
 export class AppModule { }
