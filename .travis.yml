@@ -9,8 +9,8 @@ matrix:
       - tools
       - platform-tools
       - tools
-      - build-tools-27.0.0
-      - android-27
+      - build-tools-26.0.0
+      - android-26
       - extra-google-google_play_services
       - extra-google-m2repository
       - extra-android-m2repository
