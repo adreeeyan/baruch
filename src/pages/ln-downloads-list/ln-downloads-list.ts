@@ -160,12 +160,10 @@ export class LnDownloadsListPage {
 
   disableSelection() {
     this.selectionEnabled = false;
-    this.selectedEpubs = [];
-    this.selectedNovels = [];
   }
 
-  noneSelected() {
-    this.selectedEpubs.length == 0 && this.selectedNovels.length == 0;
+  get noneSelected() {
+    return this.selectedEpubs.length == 0 && this.selectedNovels.length == 0;
   }
 
 }

@@ -1,6 +1,9 @@
 page-ln-downloads-list {
     & ion-label {
         white-space: normal !important;
+        span {
+            font-size: small;
+        }
     }
     & ion-list-header {
         margin-bottom: 0 !important;
@@ -10,5 +13,18 @@ page-ln-downloads-list {
     }
     & .selected {
         background-color: map-get($colors, secondary);
+    }
+}
+
+ion-checkbox {
+    margin-right: 18px !important;
+    .checkbox-icon {
+        width: 24px !important;
+        height: 24px !important;
+    
+        .checkbox-inner {
+            width: 10px !important;
+            height: 16px !important;
+        }
     }
 }

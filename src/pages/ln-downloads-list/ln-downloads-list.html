@@ -4,11 +4,16 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Downloaded stuffs</ion-title>
+    <ion-buttons end *ngIf="!selectionEnabled">
+      <button ion-button icon-only (click)="enableSelection()">
+        <ion-icon name="done-all"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-buttons end *ngIf="selectionEnabled">
       <button ion-button icon-only (click)="disableSelection()">
         <ion-icon name="undo"></ion-icon>
       </button>
-      <button ion-button icon-only (click)="delete()">
+      <button ion-button icon-only (click)="delete()" [disabled]="noneSelected">
         <ion-icon name="trash"></ion-icon>
       </button>
     </ion-buttons>
@@ -20,13 +25,15 @@
     <ion-list-header>
       Novels
     </ion-list-header>
-    <button ion-item *ngFor="let novel of novels" (click)="openNovel(novel)" [class.selected]="isInList(novel, selectedNovels)"
-      (press)="enableSelection(); openNovel(novel);">
+    <button ion-item *ngFor="let novel of novels" (click)="openNovel(novel)">
+      <ion-checkbox [checked]="isInList(novel, selectedNovels)" (click)="openNovel(novel)" *ngIf="selectionEnabled"></ion-checkbox>      
       <ion-thumbnail item-start>
         <img [ln-img-src]="novel.cover" alt="Cover">
       </ion-thumbnail>
-      <h2>{{novel.title}}</h2>
-      <p>{{novel.author}}</p>
+      <ion-label>
+        <h2>{{novel.title}}</h2>
+        <span>{{novel.author}}</span>
+      </ion-label>
     </button>
   </ion-list>
 
@@ -34,12 +41,15 @@
     <ion-list-header>
       Exported to Epub
     </ion-list-header>
-    <button ion-item *ngFor="let epub of epubs" (click)="openEpub(epub)" [class.selected]="isInList(epub, selectedEpubs)" (press)="enableSelection(); openEpub(epub);">
+    <button ion-item *ngFor="let epub of epubs" (click)="openEpub(epub)">
+      <ion-checkbox [checked]="isInList(epub, selectedEpubs)" (click)="openEpub(epub)" *ngIf="selectionEnabled"></ion-checkbox>
       <ion-thumbnail item-start>
         <img [ln-img-src]="epub.cover" alt="Cover">
       </ion-thumbnail>
-      <h2>{{epub.title}}</h2>
-      <p>{{epub.author}}</p>
+      <ion-label>
+        <h2>{{epub.title}}</h2>
+        <span>{{epub.author}}</span>
+      </ion-label>
     </button>
   </ion-list>
 </ion-content>
