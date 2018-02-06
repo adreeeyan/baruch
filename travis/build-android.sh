@@ -3,7 +3,7 @@
 set -e
 
 # Build Ionic App for Android
-cordova platform add android@6.3.0
+cordova platform add android
 
 echo "Building apk..."
 if [[ "$TRAVIS_BRANCH" == "develop" ]]

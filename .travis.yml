@@ -24,6 +24,8 @@ matrix:
     licenses:
     - android-sdk-preview-license-.+
     - android-sdk-license-.+
+    - android-sdk-license
+    - Android SDK Platform 26
     - google-gdk-license-.+
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
