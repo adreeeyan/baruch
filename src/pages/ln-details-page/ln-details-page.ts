@@ -18,7 +18,7 @@ import { EpubService } from "../../providers/epub-service";
 })
 export class LnDetailsPage {
   novel: Novel;
-  firstChapter: number;
+  firstChapter: number = 1;
   constructor(private app: App,
     private navCtrl: NavController,
     private navParams: NavParams,
@@ -100,29 +100,13 @@ export class LnDetailsPage {
     return false;
   }
 
-  getFirstChapter(novelId): Promise<any> {
-    return new Promise((resolve) => {
-      if (this.firstChapter) {
-        resolve(this.firstChapter)
-      } else {
-        this.novelsService.getNovelChapterList(novelId)
-          .then((chapters) => {
-            this.firstChapter = _(chapters).map('number').last();
-            resolve(this.firstChapter);
-          })
-      }
-    })
-  }
   getLastReadChapter(): Promise<any> {
     console.log("LnDetailsPage::getLastReadChapter");
 
     return new Promise((resolve, reject) => {
       this.loadingCtrl.presentLoadingMessage();
       var novelId = this.novel.id.toString();
-      this.getFirstChapter(novelId)
-        .then(() => {
-          return this.lastReadChapterService.getLastReadChapter(novelId)
-        })
+      this.lastReadChapterService.getLastReadChapter(this.firstChapter)
         .then((lastReadChapter) => {
           lastReadChapter.chapterNumber = Math.max(this.firstChapter, lastReadChapter.chapterNumber);
           resolve(lastReadChapter)
@@ -131,7 +115,6 @@ export class LnDetailsPage {
         .catch(() => {
           this.loadingCtrl.hideLoadingMessage();
         })
-
     });
   }
 }

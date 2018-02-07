@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
+import { Response, Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import "rxjs/Rx";
 import 'rxjs/add/operator/map';
@@ -16,6 +16,7 @@ import { NetworkServiceProvider } from "./network-service";
 export class NovelsService {
 
   constructor(private http: SafeHttpProvider,
+    private http2: Http,
     private downloadService: DownloadService,
     private novelsLocalService: NovelsLocalService,
     private networkService: NetworkServiceProvider) {
@@ -150,7 +151,7 @@ export class NovelsService {
         .catch(error => {
           // get it online
           console.log("getting from online", error);
-          this.http.get(`/api/novels/${novelId}/chapters/${chapterNumber}`)
+          this.http2.get(`/api/novels/${novelId}/chapters/${chapterNumber}`)
             .map((response: Response) => {
               let data = response.json() || {};
               return new Chapter({

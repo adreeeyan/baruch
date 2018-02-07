@@ -23,6 +23,7 @@ export class LnChapterPage {
   autoScrollEnabled: boolean;
   isFromNextChapter: boolean;
   isFromPreviousChapter: boolean;
+  retryNavigateCount: number = 0;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -124,20 +125,28 @@ export class LnChapterPage {
         }
         this.lastReadChapterService.setLastReadChapter(novelId, chapterNumber, percentage);
         this.markChapterAsRead();
-
+        this.retryNavigateCount = 0;
       })
       .catch(err => {
         if (showLoading) {
           this.loadingCtrl.hideLoadingMessage();
         }
-        let toast = this.toastCtrl.create({
-          message: "No chapter to show.",
-          duration: 2000,
-          position: "bottom",
-          dismissOnPageChange: true,
-          showCloseButton: true
-        });
-        toast.present();
+        // Try navigating the next chapter
+        // There are times when the novel jumps a chapter
+        // Crawler issues
+        if(this.retryNavigateCount < 5){
+          this.retryNavigateCount++;
+          this.goToChapter(novelId, chapterNumber + 1);
+        }else{
+          let toast = this.toastCtrl.create({
+            message: "No chapter to show.",
+            duration: 2000,
+            position: "bottom",
+            dismissOnPageChange: true,
+            showCloseButton: true
+          });
+          toast.present();
+        }
       });
   }
 
@@ -146,7 +155,6 @@ export class LnChapterPage {
     this.isFromNextChapter = false;
     this.isFromPreviousChapter = true;
     this.goToChapter(this.novelId, this.chapter.number + 1, null, this.navParams.data.percentageRead);
-
   }
 
   prevChapter() {

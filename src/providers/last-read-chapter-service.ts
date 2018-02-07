@@ -43,7 +43,7 @@ export class LastReadChapterService {
         console.log("LastReadChapterService::getLastReadChapter", novelId)
         return this.initialize().then(() => {
             return this._lastReadChapters[novelId] || {
-                chapterNumber: 0,
+                chapterNumber: 1,
                 percentageRead: 0
             }
         }).catch(function () {
