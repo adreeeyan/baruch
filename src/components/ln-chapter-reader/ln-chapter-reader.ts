@@ -135,7 +135,7 @@ export class LnChapterReader implements OnInit, OnChanges {
     var ionContent: any = document.querySelector("ln-chapter-page ion-content");
     ionContent.style["-webkit-filter"] = `brightness(${this.brightness})`;
     if (this.invertColors) {
-      ionContent.style["-webkit-filter"] = `brightness(${this.brightness}) invert()`;
+      ionContent.style["-webkit-filter"] = `brightness(${this.brightness}) invert(1)`;
     }
   }
 
