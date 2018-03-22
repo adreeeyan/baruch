@@ -42,7 +42,7 @@ Baruch
 
 ## Download
 * This dude is not on google play or app store yet, so android users just download the apk.
-* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.8.5/Baruch.apk)
+* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.8.9/Baruch.apk)
 
 ## Contributors
 
@@ -53,7 +53,7 @@ Baruch
 * see [LICENSE](https://github.com/adrianonrails/baruch/blob/master/LICENSE) file
 
 ## Version 
-* [Version 0.8.5 - Latest](https://github.com/adrianonrails/baruch/releases/download/v0.8.5/Baruch.apk)
+* [Version 0.8.9 - Latest](https://github.com/adrianonrails/baruch/releases/download/v0.8.9/Baruch.apk)
 * [Version 0.8.3](https://github.com/adrianonrails/baruch/releases/download/v0.8.3/Baruch.apk)
 * [Version 0.8.2](https://github.com/adrianonrails/baruch/releases/download/v0.8.2/Baruch.apk)
 
@@ -64,7 +64,6 @@ Baruch
 ## Support your dev
 Keep the server alive!! My AWS free tier will expire soon, so I might get a problem with the hosting costs.  
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ECAGVBSCCMJHG)
-[![Fund](https://img.shields.io/gratipay/user/adrianonrails.svg)](https://gratipay.com/Baruch/)
 
 
 ## Disclaimer
