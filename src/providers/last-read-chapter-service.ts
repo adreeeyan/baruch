@@ -11,7 +11,7 @@ export class LastReadChapterService {
 
     }
 
-    initialize() {
+    init() {
 
         return new Promise((resolve, reject) => {
             if (!this._lastReadChapters) {
@@ -40,15 +40,12 @@ export class LastReadChapterService {
     }
 
     getLastReadChapter(novelId): Promise<any> {
-        console.log("LastReadChapterService::getLastReadChapter", novelId)
-        return this.initialize().then(() => {
-            return this._lastReadChapters[novelId] || {
+        console.log("LastReadChapterService::getLastReadChapter", novelId);
+        return new Promise(resolve => {
+            resolve(this._lastReadChapters[novelId] || {
                 chapterNumber: 1,
                 percentageRead: 0
-            }
-        }).catch(function () {
-            console.log("failed");
-        })
-
+            });
+        });
     }
 }

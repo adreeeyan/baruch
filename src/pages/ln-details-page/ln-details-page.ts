@@ -106,7 +106,7 @@ export class LnDetailsPage {
     return new Promise((resolve, reject) => {
       this.loadingCtrl.presentLoadingMessage();
       var novelId = this.novel.id.toString();
-      this.lastReadChapterService.getLastReadChapter(this.firstChapter)
+      this.lastReadChapterService.getLastReadChapter(novelId)
         .then((lastReadChapter) => {
           lastReadChapter.chapterNumber = Math.max(this.firstChapter, lastReadChapter.chapterNumber);
           resolve(lastReadChapter)

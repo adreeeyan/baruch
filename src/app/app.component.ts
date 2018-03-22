@@ -9,6 +9,7 @@ import { DownloadService } from '../providers/download-service';
 import { EpubService } from '../providers/epub-service';
 import { ReaderSettingsService } from '../providers/reader-settings-service';
 import { SettingsService } from '../providers/settings-service';
+import { LastReadChapterService } from '../providers/last-read-chapter-service';
 
 @Component({
   templateUrl: "app.html"
@@ -33,6 +34,7 @@ export class MyApp {
     private downloadService: DownloadService,
     private epubService: EpubService,
     private settingsService: SettingsService,
+    private lastReadChapterService: LastReadChapterService,
     private appUpdateService: AppUpdateService) {
     this.initializeApp();
 
@@ -69,6 +71,7 @@ export class MyApp {
       let settingsLoaded = this.settingsService.init();
       this.readerSettingsService.init();
       this.loadingController.init();
+      this.lastReadChapterService.init();
 
 
       // Register back button
