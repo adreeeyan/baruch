@@ -1,7 +1,12 @@
 Baruch  
 [![Build Status](https://travis-ci.org/adrianonrails/baruch.svg?branch=master)](https://travis-ci.org/adrianonrails/baruch)
 ======
-**Baruch** is a light novel reader and downloader mobile app. Currently it runs in android only but with a little tweak, it can run on iOS and windows phone.
+**Baruch** is a light novel reader and downloader mobile app. Currently it runs in android only but with some tweaks, it can run on iOS and windows phone.
+
+## Download
+* Not on google play, so just download the apk here.
+* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.8.9b/Baruch.apk)
+* [Latest release with crosswalk](https://github.com/adrianonrails/baruch/releases/download/v0.8.9b/Baruch_crosswalk.apk): Use this if your android version is 4.1 ~ 4.4
 
 #### Features
 * Search novels
@@ -39,11 +44,6 @@ Baruch
 ![reader_vertical_white](https://user-images.githubusercontent.com/18593260/28713452-afa85962-73c1-11e7-8175-7ebe6478142c.PNG "Reader vertical reading")
 ![settings](https://user-images.githubusercontent.com/18593260/28713460-aff07f26-73c1-11e7-9fa5-fdc571b3e6af.PNG "Settings")
 
-
-## Download
-* This dude is not on google play or app store yet, so android users just download the apk.
-* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.8.9b/Baruch.apk)
-* [Latest release with crosswalk](https://github.com/adrianonrails/baruch/releases/download/v0.8.9b/Baruch_crosswalk.apk)
 
 ## Contributors
 
