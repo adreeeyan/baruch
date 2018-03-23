@@ -9,10 +9,9 @@ then
     mv config_crosswalk.xml config.xml
 else
     echo "Building apk..."
+    ionic cordova platforms add android@6.3.0 --save
 fi
 
-# Build Ionic App for Android
-ionic cordova platforms add android@6.3.0 --save
 if [[ "$TRAVIS_BRANCH" == "develop" ]]
 then
     ionic cordova build android
