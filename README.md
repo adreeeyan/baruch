@@ -1,3 +1,4 @@
+![logo](resources/android/icon/drawable-xxxhdpi-icon.png "logo")  
 Baruch  
 [![Build Status](https://travis-ci.org/adrianonrails/baruch.svg?branch=master)](https://travis-ci.org/adrianonrails/baruch)
 ======
@@ -5,8 +6,8 @@ Baruch
 
 ## Download
 * Not on google play, so just download the apk here.
-* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.8.9b/Baruch.apk)
-* [Latest release with crosswalk](https://github.com/adrianonrails/baruch/releases/download/v0.8.9b/Baruch_crosswalk.apk): Use this if your android version is 4.1 ~ 4.4
+* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.9.1/Baruch.apk)
+* [Latest release with crosswalk](https://github.com/adrianonrails/baruch/releases/download/v0.9.1/Baruch_crosswalk.apk): Use this if your android version is 4.1 ~ 4.4
 
 #### Features
 * Search novels
@@ -53,20 +54,12 @@ Baruch
 ## License 
 * see [LICENSE](https://github.com/adrianonrails/baruch/blob/master/LICENSE) file
 
-## Version 
-* [Version 0.8.9 - Latest](https://github.com/adrianonrails/baruch/releases/download/v0.8.9b/Baruch.apk)
-* [Version 0.8.9 w/ crosswalk - Latest](https://github.com/adrianonrails/baruch/releases/download/v0.8.9b/Baruch_crosswalk.apk)
-* [Version 0.8.3](https://github.com/adrianonrails/baruch/releases/download/v0.8.3/Baruch.apk)
-* [Version 0.8.2](https://github.com/adrianonrails/baruch/releases/download/v0.8.2/Baruch.apk)
-
 ## Contact
 #### Your dev
 * e-mail: adrian.onrails@gmail.com
 
 ## Support your dev
-Keep the server alive!! My AWS free tier will expire soon, so I might get a problem with the hosting costs.  
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ECAGVBSCCMJHG)
-
+[![Buy me a coffee](https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0)](https://ko-fi.com/S6S6EEF0)
 
 ## Disclaimer
 The novel and translations are not mine and are just crawled from other aggregators, this will be changed in the future when I finish the must have features. I will get the data from actual translation sites after I'm done with some pending tasks in order to give them proper credits.
