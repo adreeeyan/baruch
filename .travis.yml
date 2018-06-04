@@ -63,5 +63,4 @@ deploy:
   file: output/*
   skip_cleanup: true
   overwrite: true
-  on:
-    tags: true
+  
