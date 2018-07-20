@@ -108,7 +108,8 @@ export class NovelsService {
           id: c.id,
           number: c.number,
           title: c.title,
-          content: ""
+          content: "",
+          lastUpdated: c.lastUpdated
         })).sort((a, b) => b.number - a.number);
       }).catch(error => {
         return Observable.throw(error);

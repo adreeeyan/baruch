@@ -5,6 +5,7 @@ import { Chapter } from "../../common/models/chapter";
 import { ChaptersService } from "../../providers/chapters-service";
 import { LnLoadingController } from "../../common/ln-loading-controller";
 import { DownloadService } from "../../providers/download-service";
+
 import _ from "lodash";
 
 @IonicPage()

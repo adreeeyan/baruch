@@ -8,6 +8,10 @@ ln-chapter-list {
             margin-left: 8px !important;
         }
 
+        & ion-badge {
+            min-width: 50px;
+        }
+
         & ion-badge.read {
             background-color: map-get($colors, danger);
         }

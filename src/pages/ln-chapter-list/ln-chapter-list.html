@@ -10,8 +10,9 @@
 <ion-content>
   <ion-list [virtualScroll]="chapters">
     <button ion-item *virtualItem="let chapter" (tap)="openChapter(chapter)">
-      <ion-badge [class.read]="chapter.isRead">Content #{{chapter.number}}</ion-badge>
-      <span>{{ chapter.title }}</span>
+      <h2>Content #{{chapter.number}}</h2>
+      <p>{{ chapter.title }}</p>
+      <ion-note item-end>{{ chapter.lastUpdated | amTimeAgo }}</ion-note>
     </button>
   </ion-list>
   <div *ngIf="!chapters.length && isFinishedLoading" class="no-content">

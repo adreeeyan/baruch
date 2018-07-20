@@ -101,5 +101,5 @@
         <variable name="ANDROID_SUPPORT_VERSION" value="26+" />
     </plugin>
     <plugin name="cordova-plugin-local-notification" spec="https://github.com/katzer/cordova-plugin-local-notifications.git" />
-    <engine name="android" spec="~6.3.0" />
+    <engine name="android" spec="6.3.0" />
 </widget>
