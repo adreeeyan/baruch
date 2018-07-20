@@ -7,6 +7,7 @@ import { AlertController } from "ionic-angular";
 export class NetworkServiceProvider {
 
   private _isConnected: boolean = true;
+  private _isOpen: boolean = false;
 
   constructor(public alertCtrl: AlertController,
     private network: Network,
@@ -37,17 +38,23 @@ export class NetworkServiceProvider {
   }
 
   showNetworkAlert() {
+    if(this._isOpen){
+      return;
+    }
     let networkAlert = this.alertCtrl.create({
       title: "No Internet Connection",
       message: "Please check your internet connection.",
       buttons: [
         {
           text: "Cancel",
-          handler: () => { }
+          handler: () => {
+            this._isOpen = false;
+          }
         },
         {
           text: "Open Settings",
           handler: () => {
+            this._isOpen = false;
             networkAlert.dismiss().then(() => {
               this.showSettings();
             })
@@ -56,6 +63,7 @@ export class NetworkServiceProvider {
       ]
     });
     networkAlert.present();
+    this._isOpen = true;
   }
 
 }
