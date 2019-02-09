@@ -1,3 +1,5 @@
+# Announcement: Unusable for now. The server needs to be relocated (free tier already ended).
+
 ![logo](resources/android/icon/drawable-xxxhdpi-icon.png "logo")  
 Baruch  
 [![Build Status](https://travis-ci.org/adrianonrails/baruch.svg?branch=master)](https://travis-ci.org/adrianonrails/baruch)
