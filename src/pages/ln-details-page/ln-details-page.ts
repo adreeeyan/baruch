@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
-import _ from "lodash";
 
 import { Novel } from '../../common/models/novel';
 import { NovelsService } from '../../providers/novels-service';
