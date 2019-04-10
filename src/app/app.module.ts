@@ -3,7 +3,6 @@ import { HttpModule } from "@angular/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
 import { IonicStorageModule } from "@ionic/storage";
-import { MomentModule } from "ngx-moment";
 
 import { MyApp } from "./app.component";
 
@@ -46,7 +45,6 @@ import { LocalNotifications } from "@ionic-native/local-notifications";
     }),
     IonicStorageModule.forRoot(),
     HttpModule,
-    MomentModule,
     LnChapterReaderModule,
     LnNovelListModule
   ],

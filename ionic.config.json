@@ -1,14 +1,13 @@
 {
   "name": "Baruch",
-  "app_id": "",
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular",
   "proxies": [
     {
       "path": "/api",
       "proxyUrl": "http://localhost:5050/api"
     }
-  ],
-  "integrations": {
-    "cordova": {}
-  }
+  ]
 }

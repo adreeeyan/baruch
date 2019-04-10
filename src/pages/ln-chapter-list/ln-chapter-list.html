@@ -12,7 +12,7 @@
     <button ion-item *virtualItem="let chapter" (tap)="openChapter(chapter)">
       <h2>Content #{{chapter.number}}</h2>
       <p>{{ chapter.title }}</p>
-      <ion-note item-end>{{ chapter.lastUpdated | amTimeAgo }}</ion-note>
+      <ion-note item-end>{{ chapter.lastUpdatedText }}</ion-note>
     </button>
   </ion-list>
   <div *ngIf="!chapters.length && isFinishedLoading" class="no-content">
