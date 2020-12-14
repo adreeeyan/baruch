@@ -8,8 +8,8 @@ Baruch
 
 ## Download
 * Not on google play, so just download the apk here.
-* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.9.3/Baruch.apk)
-* [Latest release with crosswalk](https://github.com/adrianonrails/baruch/releases/download/v0.9.3/Baruch_crosswalk.apk): Use this if your android version is 4.1 ~ 4.4
+* [Latest release](https://github.com/adrianonrails/baruch/releases/download/v0.9.4/Baruch.apk)
+* [Latest release with crosswalk](https://github.com/adrianonrails/baruch/releases/download/v0.9.4/Baruch_crosswalk.apk): Use this if your android version is 4.1 ~ 4.4
 
 #### Features
 * Search novels

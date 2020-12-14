@@ -1,6 +1,6 @@
 {
     "name": "Baruch",
-    "version": "0.9.3",
+    "version": "0.9.4",
     "author": "Adrian Q. Dela Piedra",
     "homepage": "http://ionicframework.com/",
     "private": true,
@@ -9,7 +9,9 @@
         "build": "ionic-app-scripts build",
         "lint": "ionic-app-scripts lint",
         "ionic:build": "ionic-app-scripts build",
-        "ionic:serve": "ionic-app-scripts serve"
+        "ionic:serve": "ionic-app-scripts serve",
+        "release-update": "code-push release baruch ./platforms/android/assets/www '>=0.9.3' --deploymentName Production --des 'New server location! Update app to continue using the app.'",
+        "remove-updates": "code-push deployment clear baruch Production"
     },
     "dependencies": {
         "@angular/common": "4.1.3",
