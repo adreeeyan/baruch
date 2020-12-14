@@ -1,5 +1,3 @@
-# NOTICE: The server is currently dead, AWS free tier expired. I will update once it is migrated.
-======  
 ![logo](resources/android/icon/drawable-xxxhdpi-icon.png "logo")  
 Baruch  
 [![Build Status](https://travis-ci.org/adrianonrails/baruch.svg?branch=master)](https://travis-ci.org/adrianonrails/baruch)
