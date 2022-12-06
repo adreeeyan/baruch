@@ -36,7 +36,7 @@
         "@ionic-native/transfer": "~3.13.0",
         "@ionic/storage": "2.0.1",
         "android-versions": "~1.3.0",
-        "code-push": "2.0.1-beta",
+        "code-push": "2.0.7",
         "com.ourcodeworld.plugins.Filebrowser": "https://github.com/ourcodeworld/cordova-ourcodeworld-filebrowser.git",
         "cordova-android": "6.3.0",
         "cordova-android-support-gradle-release": "~1.2.0",
@@ -71,7 +71,7 @@
         "zone.js": "0.8.12"
     },
     "devDependencies": {
-        "@ionic/app-scripts": "1.3.7",
+        "@ionic/app-scripts": "1.3.12",
         "ionic": "3.6.0",
         "typescript": "2.4.2"
     },
